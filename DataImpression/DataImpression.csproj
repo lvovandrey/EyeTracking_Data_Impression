@@ -69,6 +69,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Column.cs" />
+    <Compile Include="Model\FAOI.cs" />
+    <Compile Include="Model\Model.cs" />
+    <Compile Include="Model\ProcessingTaskSourceData.cs" />
+    <Compile Include="Model\TimeInterval.cs" />
+    <Compile Include="Model\TOI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -93,6 +99,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewModel\" />
+    <Folder Include="View\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
