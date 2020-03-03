@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 namespace DataImpression.Model
 {
     //Проверка
+    //Предлагаю удалить эту проверку. Тест code-review в ветке Prototype1_tests
+
     /// <summary>
     /// Столбец
     /// </summary>
