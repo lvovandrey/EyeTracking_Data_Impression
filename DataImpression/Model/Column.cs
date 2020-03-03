@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataImpression.Model
 {
+    //Проверка
     /// <summary>
     /// Столбец
     /// </summary>
