@@ -9,7 +9,7 @@ namespace DataImpression.ViewModel
         #region ctor
         public MainWindowViewModel(Model model)
         {
-            Model = model;
+            _model = model;
         }
         #endregion
 
@@ -17,7 +17,7 @@ namespace DataImpression.ViewModel
         /// <summary>
         /// Модель данных
         /// </summary>
-        Model Model;
+        Model _model;
         #endregion
 
 
