@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataImpression.Model
+namespace DataImpression.Models
 {
     /// <summary>
     /// Временная зона - отрезок времени из полного временного интервала.
     /// Под этим можно понимать например часть времени, которая анализируется из всей записи.
     /// </summary>
-    class TOI
+    public class TOI
     {
         #region ctor
         public TOI(TimeInterval workingTimeInterval, TimeInterval fullTimeInterval)

@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataImpression.Model
+namespace DataImpression.Models
 {
     /// <summary>
     /// Основной класс модели.
     /// </summary>
-    class Model
+    public class Model
     {
         #region ctor
         public Model()

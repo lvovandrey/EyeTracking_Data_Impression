@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataImpression.Model
+namespace DataImpression.Models
 {
     /// <summary>
     /// Функциональная зона досягаемости (Functional Area of Interests)
     /// </summary>
-    class FAOI
+    public class FAOI
     {
         #region ctor
         public FAOI(int orderedNumber, string name)
