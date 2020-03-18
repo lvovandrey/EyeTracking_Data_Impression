@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataImpression.Model
+namespace DataImpression.Models
 {
     /// <summary>
     /// Инкапсулирует все исходные данные для решения одной 
     /// задачи по обработке.
     /// </summary>
-    class ProcessingTaskSourceData
+    public class ProcessingTaskSourceData
     {
         #region ctor
         public ProcessingTaskSourceData()
@@ -75,7 +75,7 @@ namespace DataImpression.Model
         /// Метод вызывается при использовании экземпляра класса. 
         /// В нем осуществляется проверка полноты всех данных, необходимых для корректной дальнейшей работы класса.
         /// </summary>
-        void ValidateDataCompleteness()
+        public void ValidateDataCompleteness()
         {
             throw new NotImplementedException("ProcessingTaskSourceData.ValidateDataCompleteness");
             throw new Exception("ProcessingTaskSourceData.ValidateDataCompleteness: data is not complete for use this instance. Hash:" + this.GetHashCode());

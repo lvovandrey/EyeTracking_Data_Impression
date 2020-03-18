@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataImpression.Model
+namespace DataImpression.Models
 {
     //Проверка
     //Предлагаю удалить эту проверку. Тест code-review в ветке Prototype1_tests
@@ -12,7 +12,7 @@ namespace DataImpression.Model
     /// <summary>
     /// Столбец
     /// </summary>
-    class Column
+    public class Column
     {
         #region ctor
         public Column(int orderedNumber, string name)

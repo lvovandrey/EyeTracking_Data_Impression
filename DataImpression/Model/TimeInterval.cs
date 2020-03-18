@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataImpression.Model
+namespace DataImpression.Models
 {
     /// <summary>
     /// Временной интервал.
     /// </summary>
-    class TimeInterval
+    public class TimeInterval
     {
         #region ctor
         public TimeInterval(TimeSpan timeBegin, TimeSpan timeEnd)
