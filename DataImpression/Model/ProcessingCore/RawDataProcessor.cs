@@ -41,7 +41,7 @@ namespace DataImpression.Models
             if (SourceData.CSVTimeColumn == null) throw new Exception("Incomplete data: SourceData.CSVTimeColumn");
             if (SourceData.CSVRawData == null) throw new Exception("Incomplete data: SourceData.CSVRawData");
 
-
+            //TODO: тут должна быть обработка
         }
         #endregion
 
