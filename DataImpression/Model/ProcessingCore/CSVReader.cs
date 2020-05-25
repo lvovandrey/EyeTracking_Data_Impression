@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,103 +9,53 @@ namespace DataImpression.Models
 {
     class CSVReader
     {
-        public void TobiiCSVRead(string filename, List<TobiiRecord> tobiiList, int ZoneColCount)
+
+        public List<string> TobiiCSVReadStrings(string filename, long countStringsForReading = 1, char separator = '\n', char delimiter = '\t', long bufferStringsSize = 10000)
+        //Функция низкопроизводительная, хоть и использует буфер. На самом деле она сильно забивает память. 
+        //Для нормального считывания нужно несколько изменить алгоритм и на лету обрабатывать поступающие строки а не хранить их.
         {
-
-            char separator = '\n';
-            char delimiter = '\t';
-
-            int N_timestampCol = 0, N_firstZoneCol = 0;
             long i = 0;
+            List<string> strings = new List<string>();
             using (StreamReader rd = new StreamReader(new FileStream(filename, FileMode.Open)))
             {
-                string[] first_string_arr = { "" };
-                first_string_arr = rd.ReadLine().Split(delimiter);
-                N_timestampCol = SearchColFirst(first_string_arr, "Recording timestamp");
-                N_firstZoneCol = SearchColFirst(first_string_arr, "AOI hit [");
-
                 bool EndOfFile = false;
-                while (!EndOfFile)
+                long CountReadedStrings = 0;
+                if (bufferStringsSize > countStringsForReading) bufferStringsSize = countStringsForReading;
+                while ((!EndOfFile) && (!(CountReadedStrings >= countStringsForReading)))
                 {
-                    string[] str_arr = { "" };
+
+                    if (bufferStringsSize > (countStringsForReading - CountReadedStrings)) bufferStringsSize = (countStringsForReading - CountReadedStrings);//TODO:ПРоверить - тут может быть на 1 больше или меньше надо
+                    string[] str_arr_tmp = { "" };
                     string big_str = "";
-                    EndOfFile = ReadPartOfFile(rd, out big_str);
-
-                    str_arr = big_str.Split(separator);
-                    foreach (string s in str_arr)
-                    {
-                        string[] tmp = { "" };
-                        i++;
-                        tmp = s.Split(delimiter);
-                        if (tmp.Count() < 3) continue;
-                        TobiiRecord TR = new TobiiRecord();
-                        if (!long.TryParse(tmp[N_timestampCol], out TR.time_ms))
-                            throw new Exception("Не могу преобразовать в timestamp строку  " + tmp[N_timestampCol]);
-
-                        string[] Hits = new string[tmp.Count()];
-                        try
-                        {
-                            Array.Copy(tmp, N_firstZoneCol, Hits, 0, ZoneColCount);
-                        }
-                        catch
-                        { Console.WriteLine("!!!"); }
-                        TR.zones = SearchCol(Hits, "1");
-                        tobiiList.Add(TR);
-                    }
-
+                    EndOfFile = ReadPartOfFile(rd, out big_str, bufferStringsSize);
+                    str_arr_tmp = big_str.Split(separator);
+                    strings.AddRange(str_arr_tmp);
+                    CountReadedStrings += bufferStringsSize;
                 }
-
-                FiltredTobiiList = CompactTobiiRecords(tobiiList);
             }
+            return strings;
         }
-        public void TobiiCSVRead(string filename, List<TobiiRecord> tobiiList, int ZoneColCount)
+
+        /// <summary>
+        /// Чтение части файла
+        /// </summary>
+        /// <param name="rd"></param>
+        /// <param name="str"></param>
+        /// <param name="bufferSize"></param>
+        /// <returns></returns>
+        public static bool ReadPartOfFile(StreamReader rd, out string str, long bufferSize = 10000)
         {
-
-            char separator = '\n';
-            char delimiter = '\t';
-
-            int N_timestampCol = 0, N_firstZoneCol = 0;
-            long i = 0;
-            using (StreamReader rd = new StreamReader(new FileStream(filename, FileMode.Open)))
+            bool endOfFile = false;
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < bufferSize; i++)
             {
-                string[] first_string_arr = { "" };
-                first_string_arr = rd.ReadLine().Split(delimiter);
-                N_timestampCol = SearchColFirst(first_string_arr, "Recording timestamp");
-                N_firstZoneCol = SearchColFirst(first_string_arr, "AOI hit [");
-
-                bool EndOfFile = false;
-                while (!EndOfFile)
-                {
-                    string[] str_arr = { "" };
-                    string big_str = "";
-                    EndOfFile = ReadPartOfFile(rd, out big_str);
-
-                    str_arr = big_str.Split(separator);
-                    foreach (string s in str_arr)
-                    {
-                        string[] tmp = { "" };
-                        i++;
-                        tmp = s.Split(delimiter);
-                        if (tmp.Count() < 3) continue;
-                        TobiiRecord TR = new TobiiRecord();
-                        if (!long.TryParse(tmp[N_timestampCol], out TR.time_ms))
-                            throw new Exception("Не могу преобразовать в timestamp строку  " + tmp[N_timestampCol]);
-
-                        string[] Hits = new string[tmp.Count()];
-                        try
-                        {
-                            Array.Copy(tmp, N_firstZoneCol, Hits, 0, ZoneColCount);
-                        }
-                        catch
-                        { Console.WriteLine("!!!"); }
-                        TR.zones = SearchCol(Hits, "1");
-                        tobiiList.Add(TR);
-                    }
-
-                }
-
-                FiltredTobiiList = CompactTobiiRecords(tobiiList);
+                string s = rd.ReadLine();
+                if (s == null) { endOfFile = true; break; }
+                sb.Append(s);
+                sb.Append("\n");
             }
+            str = sb.ToString();
+            return endOfFile;
         }
     }
 }

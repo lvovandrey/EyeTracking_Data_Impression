@@ -22,10 +22,22 @@ namespace DataImpression.Models
         #endregion
 
         #region Properties
-        public ProcessingTaskSourceData SourceData { get; }
+        /// <summary>
+        /// Источник данных вычислительной задачи.... в общем он в себя вмещает все данные которые нужны для выполнения данной задачи.
+        /// </summary>
+        public ProcessingTaskSourceData SourceData { get; private set; }
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Создает новую задачу обработки - это нужно когда мы например в новым файлом начинаем работать. 
+        /// </summary>
+        /// <returns>Возваращает true если создать задачу удалось, false - если не удалось</returns>
+        public bool CreateNewProcessingTask()
+        {
+            SourceData = new ProcessingTaskSourceData();
+            return true;
+        }
         #endregion
     }
 }
