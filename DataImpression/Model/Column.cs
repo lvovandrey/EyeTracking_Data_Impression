@@ -27,7 +27,7 @@ namespace DataImpression.Models
 
         #region Properties
         /// <summary>
-        /// Порядковый номер столбца
+        /// Порядковый номер столбца. Номера начинаются с 0
         /// </summary>
         int OrderedNumber { get; set; }
 
@@ -38,6 +38,14 @@ namespace DataImpression.Models
         #endregion
 
         #region Methods
+        public static List<Column> ToColumns(List<string> strings)
+        {
+            List<Column> columns = new List<Column>();
+            for( int i = 0; i<strings.Count(); i++) 
+                columns.Add(new Column(i, strings[i]));
+
+            return columns;
+        }
         #endregion
     }
 }
