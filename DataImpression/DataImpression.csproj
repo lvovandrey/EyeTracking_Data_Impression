@@ -57,7 +57,8 @@
     </ApplicationDefinition>
     <Compile Include="AbstractMVVM\INPCBase.cs" />
     <Compile Include="Model\FAOIHitsOnTimeInterval.cs" />
-    <Compile Include="Model\RawDataProcessor\RawDataProcessor.cs" />
+    <Compile Include="Model\ProcessingCore\CSVReader.cs" />
+    <Compile Include="Model\ProcessingCore\RawDataProcessor.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -106,7 +107,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="NewFolder1\" />
-    <Folder Include="View\" />
+    <Folder Include="View\Temp\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

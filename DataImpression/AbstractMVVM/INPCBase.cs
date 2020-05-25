@@ -21,7 +21,7 @@ namespace DataImpression.AbstractMVVM
     /// <summary>
     /// Класс реализующий паттерн Команда.
     /// </summary>
-    public class DelegateCommand : ICommand
+    public class RelayCommand : ICommand
     {
         #region Fields
         readonly Action<object> _execute;
@@ -31,9 +31,9 @@ namespace DataImpression.AbstractMVVM
 
         #region Constructors
 
-        public DelegateCommand(Action<object> execute) : this(execute, null) { }
+        public RelayCommand(Action<object> execute) : this(execute, null) { }
 
-        public DelegateCommand(Action<object> execute, Predicate<object> canExecute)
+        public RelayCommand(Action<object> execute, Predicate<object> canExecute)
         {
             if (execute == null)
                 throw new ArgumentNullException("execute");

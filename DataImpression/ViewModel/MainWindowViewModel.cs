@@ -1,9 +1,10 @@
-﻿using DataImpression.Models;
-
+﻿using DataImpression.AbstractMVVM;
+using DataImpression.Models;
+using Microsoft.Win32;
 
 namespace DataImpression.ViewModel
 {
-    public class MainWindowViewModel
+    public class MainWindowViewModel:INPCBase
     {
 
         #region ctor
@@ -25,7 +26,31 @@ namespace DataImpression.ViewModel
         #endregion
 
         #region Methods
+        public void OpenCSVFile()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog()==false) return;
+            _model.SourceData.CSVFileName = openFileDialog.FileName;
+
+        }
         #endregion
 
+        #region Commands
+
+
+        private RelayCommand openCSVFileCommand;
+        public RelayCommand OpenCSVFileCommand
+        {
+            get
+            {
+                return openCSVFileCommand ?? (openCSVFileCommand = new RelayCommand(obj =>
+                {
+                    OpenCSVFile();
+                }));
+            }
+        }
+
+
+        #endregion
     }
 }

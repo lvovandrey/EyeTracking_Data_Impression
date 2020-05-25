@@ -8,6 +8,11 @@
         Title="MainWindow" Height="450" Width="800" 
         Loaded="Window_Loaded">
     <Grid>
-        
+        <Menu HorizontalAlignment="Stretch"  VerticalAlignment="Top" Height="20" >
+            <MenuItem Header="Файл">
+                <MenuItem Header="Открыть csv-файл" Command="{Binding OpenCSVFileCommand}"/>
+            </MenuItem>
+        </Menu>
+
     </Grid>
 </Window>
