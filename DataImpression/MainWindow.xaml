@@ -3,16 +3,22 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:DataImpression.View"
         xmlns:local="clr-namespace:DataImpression"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" 
         Loaded="Window_Loaded">
     <Grid>
-        <Menu HorizontalAlignment="Stretch"  VerticalAlignment="Top" Height="20" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Menu HorizontalAlignment="Stretch"   >
             <MenuItem Header="Файл">
                 <MenuItem Header="Открыть csv-файл" Command="{Binding OpenCSVFileCommand}"/>
             </MenuItem>
         </Menu>
+        <views:TimeColumnChoiceView Grid.Row="1" DataContext="{Binding TimeColumnChoiceVM}"/>
 
     </Grid>
 </Window>

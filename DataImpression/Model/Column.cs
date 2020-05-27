@@ -29,12 +29,12 @@ namespace DataImpression.Models
         /// <summary>
         /// Порядковый номер столбца. Номера начинаются с 0
         /// </summary>
-        int OrderedNumber { get; set; }
+        public int OrderedNumber { get; set; }
 
         /// <summary>
         /// Название столбца
         /// </summary>
-        string Name { get; set; }
+        public string Name { get; set; }
         #endregion
 
         #region Methods

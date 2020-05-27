@@ -25,6 +25,8 @@ namespace DataImpression.ViewModel
 
 
         #region Properties
+        TimeColumnChoiceVM timeColumnChoiceVM;
+        public TimeColumnChoiceVM TimeColumnChoiceVM { get { return timeColumnChoiceVM; } set { timeColumnChoiceVM = value; OnPropertyChanged("TimeColumnChoiceVM"); } }
         #endregion
 
         #region Methods
@@ -63,6 +65,8 @@ namespace DataImpression.ViewModel
                 return openCSVFileCommand ?? (openCSVFileCommand = new RelayCommand(obj =>
                 {
                     OpenCSVFile();
+
+                    TimeColumnChoiceVM = new TimeColumnChoiceVM(_model);
                 }));
             }
         }
