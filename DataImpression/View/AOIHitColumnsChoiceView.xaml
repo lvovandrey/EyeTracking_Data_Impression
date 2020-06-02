@@ -1,13 +1,13 @@
-﻿<UserControl x:Class="DataImpression.View.TimeColumnChoiceView"
+﻿<UserControl x:Class="DataImpression.View.AOIHitColumnsChoiceView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DataImpression.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" >
-    <Grid >
-        <ListView ItemsSource="{Binding ColumnsVM}" >
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <ListView ItemsSource="{Binding ColumnsVM}"  Background="Aqua">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Отметка">

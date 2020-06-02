@@ -17,6 +17,14 @@ namespace DataImpression.Models
         {
             //может создаваться без данных и постепенно ими наполняться
             //TODO: продумать механизм предотвращающий использование незаполненного класса. ValidateDataCompleteness - так себе решение.
+            CSVCaption = new List<Column>();
+            CSVTimeColumn = new Column(0, null);
+            CSVAOIHitsColumns = new List<Column>();
+            CSVFullTimeInterval = new TimeInterval(TimeSpan.Zero, TimeSpan.Zero);
+            WorkingTOI = new TOI(CSVFullTimeInterval, CSVFullTimeInterval);
+            FAOIs = new List<FAOI>();
+            CSVColumnsToFAOIsConversionTable = new Dictionary<Column, FAOI>();
+            FAOIHitsOnTimeIntervalList = new List<FAOIHitsOnTimeInterval>();
         }
         #endregion
 

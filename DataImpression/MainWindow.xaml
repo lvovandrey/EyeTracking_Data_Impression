@@ -12,13 +12,33 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
             <RowDefinition />
+            <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         <Menu HorizontalAlignment="Stretch"   >
             <MenuItem Header="Файл">
                 <MenuItem Header="Открыть csv-файл" Command="{Binding OpenCSVFileCommand}"/>
             </MenuItem>
         </Menu>
-        <views:TimeColumnChoiceView Grid.Row="1" DataContext="{Binding TimeColumnChoiceVM}"/>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition/>
+                <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+            <TextBlock Text="{Binding InputPageTitle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <views:TimeColumnChoiceView  Grid.Row="1"
+                                         DataContext="{Binding TimeColumnChoiceVM}"
+                                         Visibility="{Binding Visibility, UpdateSourceTrigger=PropertyChanged}"
+                                         />
+            <views:AOIHitColumnsChoiceView Grid.Row="1" 
+                                            DataContext="{Binding AOIHitColumnsChoiceVM}"
+                                            Visibility="{Binding Visibility}"
+                                           />
+            <Button Grid.Row="2" Content="Далее" HorizontalAlignment="Right"  Width="60" Margin="7"
+                    Command="{Binding NextInputCommand}"/>
 
+        </Grid>
+ 
+        <StatusBar Grid.Row="2"/>
     </Grid>
 </Window>

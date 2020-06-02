@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace DataImpression.ViewModel
 {
@@ -47,6 +48,7 @@ namespace DataImpression.ViewModel
                     var cc = new ColumnAndCheckVM(_column, _isChecked, OnCheckColumn);
                     columnstmp.Add(cc);
                 }
+                _model.SourceData.CSVTimeColumn = GetCSVTimeColumn();
                 return columnstmp;
             }
             //set { }
@@ -61,7 +63,7 @@ namespace DataImpression.ViewModel
                 if (c == newColumnAndCheckVM)
                     c.Check(true);
 
-
+            _model.SourceData.CSVTimeColumn = GetCSVTimeColumn();
         }
 
         public ObservableCollection<ColumnAndCheckVM> ColumnsVM
@@ -69,9 +71,35 @@ namespace DataImpression.ViewModel
             get { return columnsVM; }
             //set { columnsVM = value; }
         }
+
+        Visibility visibility;
+        public Visibility Visibility
+        {
+            get
+            {
+                return visibility;
+            }
+            set
+            {
+                visibility = value;
+                OnPropertyChanged("Visibility");
+            }
+        }
         #endregion  
         #region Methods
+        Column GetCSVTimeColumn()
+        {
+            Column column = null;
+            foreach (var c in ColumnsVM)
+                if(c.IsChecked) { column = c.Column; break; }
+            return column;
+        }
 
+
+        public bool CanExecuteNextInputStage()
+        {   
+            if (GetCSVTimeColumn()?.Name != null) return true; else return false; //Не хочу я тернарный оператор
+        }
         #endregion
 
         #region Commands
@@ -83,7 +111,7 @@ namespace DataImpression.ViewModel
     {
         public ColumnAndCheckVM(Column _column, bool _isChecked, AcitonColumnAndCheckVMArgument _checkColumn)
         {
-            column = _column;
+            Column = _column;
             IsChecked = _isChecked;
             checkColumn = _checkColumn;
         }
@@ -101,14 +129,14 @@ namespace DataImpression.ViewModel
             OnPropertyChanged("IsChecked");
         }
 
-        Column column;
+        public Column Column;
         public string Name
         {
-            get { return column.Name; }
+            get { return Column.Name; }
         }
         public int OrderedNumber
         {
-            get { return column.OrderedNumber; }
+            get { return Column.OrderedNumber; }
         }
     }
 }

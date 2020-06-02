@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,11 +16,11 @@ using System.Windows.Shapes;
 namespace DataImpression.View
 {
     /// <summary>
-    /// Логика взаимодействия для ListOneChoiсe.xaml
+    /// Логика взаимодействия для AOIHitColumnsChoiceView.xaml
     /// </summary>
-    public partial class TimeColumnChoiceView : UserControl
+    public partial class AOIHitColumnsChoiceView : UserControl
     {
-        public TimeColumnChoiceView()
+        public AOIHitColumnsChoiceView()
         {
             InitializeComponent();
         }
