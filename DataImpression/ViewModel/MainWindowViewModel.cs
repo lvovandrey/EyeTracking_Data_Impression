@@ -52,6 +52,7 @@ namespace DataImpression.ViewModel
             {
                 inputStage = value;
                 OnPropertyChanged("InputStage");
+                OnPropertyChanged("InputPageTitle");
                 RefreshInputElementsVisibility();
             }
         }
@@ -81,6 +82,36 @@ namespace DataImpression.ViewModel
                     default:
                         {
                             return false;
+                            break;
+                        }
+                }
+            }
+        }
+
+        public string InputPageTitle
+        {
+            get
+            {
+                switch (inputStage)
+                {
+                    case InputStage.None:
+                        {
+                            return "";
+                            break;
+                        }
+                    case InputStage.TimeColumnChoice:
+                        {
+                            return "Выбор колонки csv-файла с временем";
+                            break;
+                        }
+                    case InputStage.AOIHitColumnsChoice:
+                        {
+                            return "Выбор колонки csv-файла с попаданиями маркера взгляда в размеченные зоны (AOI Hit)";
+                            break;
+                        }
+                    default:
+                        {
+                            return "";
                             break;
                         }
                 }
@@ -122,22 +153,22 @@ namespace DataImpression.ViewModel
             {
                 case InputStage.None:
                     {
-                        inputStage = InputStage.TimeColumnChoice;
+                        InputStage = InputStage.TimeColumnChoice;
                         break;
                     }
                 case InputStage.TimeColumnChoice:
                     {
-                        inputStage = InputStage.AOIHitColumnsChoice;
+                        InputStage = InputStage.AOIHitColumnsChoice;
                         break;
                     }
                 case InputStage.AOIHitColumnsChoice:
                     {
-                        inputStage = InputStage.None;
+                        InputStage = InputStage.None;
                         break;
                     }
                 default:
                     {
-                        inputStage = InputStage.None;
+                        InputStage = InputStage.None;
                         break;
                     }
             }
