@@ -159,6 +159,7 @@ namespace DataImpression.ViewModel
                 case InputStage.TimeColumnChoice:
                     {
                         InputStage = InputStage.AOIHitColumnsChoice;
+                        AOIHitColumnsChoiceVM = new AOIHitColumnsChoiceVM(_model);
                         break;
                     }
                 case InputStage.AOIHitColumnsChoice:

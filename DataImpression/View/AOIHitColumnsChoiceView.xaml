@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ListView ItemsSource="{Binding ColumnsVM}"  Background="Aqua">
+        <ListView ItemsSource="{Binding ColumnsVM}"  Background="Aqua" SelectionMode="Multiple">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Отметка">
