@@ -10,7 +10,8 @@ namespace DataImpression.ViewModel
     {
         None,
         TimeColumnChoice,
-        AOIHitColumnsChoice
+        AOIHitColumnsChoice,
+        FAOIsInput
     }
     public class MainWindowViewModel:INPCBase
     {
@@ -21,6 +22,7 @@ namespace DataImpression.ViewModel
             _model = model;
             TimeColumnChoiceVM = new TimeColumnChoiceVM(_model);
             AOIHitColumnsChoiceVM = new AOIHitColumnsChoiceVM(_model);
+            FAOIsInputVM = new FAOIsInputVM(_model);
             InputStage = InputStage.None;
             OnPropertyChanged("TimeColumnChoiceOpacity");
         }
@@ -42,6 +44,9 @@ namespace DataImpression.ViewModel
 
         AOIHitColumnsChoiceVM aOIHitColumnsChoiceVM;
         public AOIHitColumnsChoiceVM AOIHitColumnsChoiceVM { get { return aOIHitColumnsChoiceVM; } set { aOIHitColumnsChoiceVM = value; OnPropertyChanged("AOIHitColumnsChoiceVM"); } }
+
+        FAOIsInputVM fAOIsInputVM;
+        public FAOIsInputVM FAOIsInputVM { get { return fAOIsInputVM; } set { fAOIsInputVM = value; OnPropertyChanged("FAOIsInputVM"); } }
 
 
         public InputStage inputStage;
@@ -79,6 +84,11 @@ namespace DataImpression.ViewModel
                             return AOIHitColumnsChoiceVM.CanExecuteNextInputStage();
                             break;
                         }
+                    case InputStage.FAOIsInput:
+                        {
+                            return AOIHitColumnsChoiceVM.CanExecuteNextInputStage();
+                            break;
+                        }
                     default:
                         {
                             return false;
@@ -107,6 +117,11 @@ namespace DataImpression.ViewModel
                     case InputStage.AOIHitColumnsChoice:
                         {
                             return "Выбор колонки csv-файла с попаданиями маркера взгляда в размеченные зоны (AOI Hit)";
+                            break;
+                        }
+                    case InputStage.FAOIsInput:
+                        {
+                            return "Ввод перечня функциональных зон (FAOI)";
                             break;
                         }
                     default:
@@ -164,6 +179,12 @@ namespace DataImpression.ViewModel
                     }
                 case InputStage.AOIHitColumnsChoice:
                     {
+                        InputStage = InputStage.FAOIsInput;
+                        FAOIsInputVM = new FAOIsInputVM(_model);
+                        break;
+                    }
+                case InputStage.FAOIsInput:
+                    {
                         InputStage = InputStage.None;
                         break;
                     }
@@ -186,6 +207,10 @@ namespace DataImpression.ViewModel
             if (AOIHitColumnsChoiceVM != null)
                 if (inputStage == InputStage.AOIHitColumnsChoice) AOIHitColumnsChoiceVM.Visibility = Visibility.Visible;
                 else AOIHitColumnsChoiceVM.Visibility = Visibility.Collapsed;
+
+            if (FAOIsInputVM != null)
+                if (inputStage == InputStage.FAOIsInput) FAOIsInputVM.Visibility = Visibility.Visible;
+                else FAOIsInputVM.Visibility = Visibility.Collapsed;
         }
         #endregion
 

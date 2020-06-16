@@ -60,10 +60,17 @@
     <Compile Include="Model\ProcessingCore\CSVReader.cs" />
     <Compile Include="Model\ProcessingCore\RawDataProcessor.cs" />
     <Compile Include="ViewModel\AOIHitColumnsChoiceVM.cs" />
+    <Compile Include="ViewModel\FAOIsInputVM.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\TimeColumnChoiceVM.cs" />
     <Compile Include="View\AOIHitColumnsChoiceView.xaml.cs">
       <DependentUpon>AOIHitColumnsChoiceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Elements\PropertyViewer.xaml.cs">
+      <DependentUpon>PropertyViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FAOIsInputView.xaml.cs">
+      <DependentUpon>FAOIsInputView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\TimeColumnChoiceView.xaml.cs">
       <DependentUpon>TimeColumnChoiceView.xaml</DependentUpon>
@@ -81,6 +88,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\AOIHitColumnsChoiceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Elements\PropertyViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FAOIsInputView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -121,8 +136,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="View\Temp\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

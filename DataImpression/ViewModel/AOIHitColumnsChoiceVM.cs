@@ -86,8 +86,8 @@ namespace DataImpression.ViewModel
         #region Methods
         public bool CanExecuteNextInputStage()
         {
-            return false;
-           // if (GetCSVTimeColumn()?.Name != null) return true; else return false; //Не хочу я тернарный оператор
+           // return false;
+           if (GetCSVAOIHitsColumns()?.Count>0) return true; else return false; //Не хочу я тернарный оператор
         }
         #endregion
 
