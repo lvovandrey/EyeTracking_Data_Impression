@@ -37,6 +37,16 @@ namespace DataImpression.ViewModel
 
         #region Properties
         ObservableCollection<FAOIVM> FAOIstmp;
+        //{
+        //    get 
+        //    {
+        //        return new ObservableCollection<FAOIVM>(from f in _model.SourceData.FAOIs select new FAOIVM(f));
+        //    }
+        //    set 
+        //    { 
+                
+        //    }
+        //}
         public ObservableCollection<FAOIVM> FAOIsVM
         {
             get
@@ -76,8 +86,7 @@ namespace DataImpression.ViewModel
         #region Methods
         public bool CanExecuteNextInputStage()
         {
-            return false;
-            // if (GetCSVTimeColumn()?.Name != null) return true; else return false; //Не хочу я тернарный оператор
+            if (FAOIsVM?.Count > 0) return true; else return false; 
         }
         void Add()
         {
@@ -170,7 +179,7 @@ namespace DataImpression.ViewModel
         }
         private void LoadFromAOIHitsColumns()
         {
-            if (_model.SourceData.CSVAOIHitsColumns.Count < 0) 
+            if (_model.SourceData.CSVAOIHitsColumns.Count < 0)
             {
                 MessageBox.Show("Не выбрано ни одной колонки AOI hits на предыдущем шаге");
                 return;
@@ -178,7 +187,7 @@ namespace DataImpression.ViewModel
             FAOIstmp.Clear();
             foreach (var c in _model.SourceData.CSVAOIHitsColumns)
             {
-                FAOIstmp.Add(new FAOIVM(new FAOI(c.OrderedNumber, c.Name.Replace("AOI hit [","").Replace("]",""))));
+                FAOIstmp.Add(new FAOIVM(new FAOI(c.OrderedNumber, c.Name.Replace("AOI hit [", "").Replace("]", ""))));
             }
             RegularizeOrderedNumbers();
             OnPropertyChanged("FAOIsVM");
@@ -190,6 +199,42 @@ namespace DataImpression.ViewModel
             foreach (var f in FAOIsVM)
                 f.OrderedNumber = i++;
             OnPropertyChanged("FAOIsVM");
+        }
+
+        bool ValidateResults()
+        {
+            if (FAOIsVM.Count < 1)
+            {
+                MessageBox.Show("Введите хотя бы одну функциональную зону");
+                return false;
+            }
+            if (HaveRepeatedElements(FAOIsVM))
+            {
+                MessageBox.Show("Найдены одно или более одинаковых имен в перечне функциональных зон. Функциональные зоны должны иметь уникальные названия");
+                return false;
+            }
+            return true;
+        }
+
+        public bool RecordResultsToModel()
+        {
+            if (!ValidateResults()) return false;
+            _model.SourceData.FAOIs.Clear();
+            foreach (var fAOIVM in FAOIsVM)
+                _model.SourceData.FAOIs.Add(new FAOI(fAOIVM.OrderedNumber, fAOIVM.Name));
+            return true;
+        }
+
+        public bool HaveRepeatedElements(IEnumerable<FAOIVM> fAOIVMs)
+        {
+            foreach (var f in fAOIVMs)
+            {
+                foreach (var f2 in fAOIVMs)
+                {
+                    if (f!=f2 && f.Name == f2.Name) return true;
+                }
+            }
+            return false;
         }
         #endregion
 
@@ -220,6 +265,7 @@ namespace DataImpression.ViewModel
         }
 
         private RelayCommand upCommand;
+
         public RelayCommand UpCommand
         {
             get
@@ -304,13 +350,13 @@ namespace DataImpression.ViewModel
 
         [NonSerialized]
         public FAOI fAOI;
- 
+
         public string Name
         {
             get { return fAOI.Name; }
             set { fAOI.Name = value; OnPropertyChanged("Name"); }
         }
-        
+
         public int OrderedNumber
         {
             get { return fAOI.OrderedNumber; }

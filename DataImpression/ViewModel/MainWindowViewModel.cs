@@ -87,7 +87,7 @@ namespace DataImpression.ViewModel
                         }
                     case InputStage.FAOIsInput:
                         {
-                            return AOIHitColumnsChoiceVM.CanExecuteNextInputStage();
+                            return FAOIsInputVM.CanExecuteNextInputStage();
                             break;
                         }
                     default:
@@ -186,6 +186,7 @@ namespace DataImpression.ViewModel
                     }
                 case InputStage.FAOIsInput:
                     {
+                        if (!FAOIsInputVM.RecordResultsToModel()) return; //TODO: вот это тоже плохо - тут он нужен этот метод, а в других местах его нет. А если забуду?
                         InputStage = InputStage.None;
                         break;
                     }
