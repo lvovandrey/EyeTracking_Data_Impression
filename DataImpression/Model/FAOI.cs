@@ -9,6 +9,7 @@ namespace DataImpression.Models
     /// <summary>
     /// Функциональная зона досягаемости (Functional Area of Interests)
     /// </summary>
+    [Serializable]
     public class FAOI
     {
         #region ctor
@@ -16,6 +17,11 @@ namespace DataImpression.Models
         {
             OrderedNumber = orderedNumber;
             Name = name;
+        }
+        public FAOI()
+        {
+            OrderedNumber = 0;
+            Name = "";
         }
         #endregion
 
@@ -26,12 +32,12 @@ namespace DataImpression.Models
         /// <summary>
         /// Порядковый номер зоны
         /// </summary>
-        int OrderedNumber { get; set; }
+        public int OrderedNumber { get; set; }
 
         /// <summary>
         /// Название зоны
         /// </summary>
-        string Name { get; set; }
+        public string Name { get; set; }
         #endregion
 
         #region Methods

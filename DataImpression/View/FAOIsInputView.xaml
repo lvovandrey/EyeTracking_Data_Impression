@@ -17,7 +17,7 @@
             <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
 
-        <ListView ItemsSource="{Binding FAOIsVM}" SelectedItem="{Binding Path=SelectedFAOIVM}" Grid.Row="0" Grid.Column="0" IsSynchronizedWithCurrentItem="True" >
+        <ListView x:Name="FAOIsInputListView" ItemsSource="{Binding FAOIsVM}" SelectedItem="{Binding Path=SelectedFAOIVM}" Grid.Row="0" Grid.Column="0" IsSynchronizedWithCurrentItem="True" >
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="№" Width="50">
@@ -39,7 +39,7 @@
         </ListView>
         
         <GroupBox x:Name="SelectedGroup" Header="Функциональная зона" HorizontalAlignment="Stretch" Grid.Column="1"  VerticalAlignment="Stretch" 
-                  DataContext="{Binding Path=SelectedSceneVM, UpdateSourceTrigger=PropertyChanged,Mode=OneWay}">
+                  DataContext="{Binding Path=SelectedFAOIVM}">
             <StackPanel Orientation="Vertical" Height="373" VerticalAlignment="Top">
                 <elements:PropertyViewer DataContext="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Tag="Название зоны"/>
             </StackPanel>
@@ -51,6 +51,7 @@
             <Button Width="40" Content="Up" Margin="5" Command="{Binding UpCommand}" />
             <Button Width="40" Content="Down" Margin="5" Command="{Binding DownCommand}"/>
             <Button Content="Загрузить из xml" Margin="5" Command="{Binding LoadFromXMLCommand}"/>
+            <Button Content="Сохранить в xml" Margin="5" Command="{Binding SaveToXMLCommand}"/>
             <Button Content="Создать из зон AOI hits из csv" Margin="5" Command="{Binding LoadFromAOIHitsColumnsCommand}"/>
         </WrapPanel>
 

@@ -34,7 +34,7 @@
                                             DataContext="{Binding AOIHitColumnsChoiceVM}"
                                             Visibility="{Binding Visibility}"
                                            />
-            <views:FAOIsInputView Grid.Row="1"
+            <views:FAOIsInputView x:Name="FAOIsInput" Grid.Row="1"
                                             DataContext="{Binding FAOIsInputVM}"
                                             Visibility="{Binding Visibility}"
                                            />

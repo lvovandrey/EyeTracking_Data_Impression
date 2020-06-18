@@ -17,12 +17,13 @@ namespace DataImpression.ViewModel
     {
 
         #region ctor
-        public MainWindowViewModel(Model model)
+        public MainWindowViewModel(Model model, MainWindow mainWindow)
         {
             _model = model;
+            MainWindow = mainWindow;
             TimeColumnChoiceVM = new TimeColumnChoiceVM(_model);
             AOIHitColumnsChoiceVM = new AOIHitColumnsChoiceVM(_model);
-            FAOIsInputVM = new FAOIsInputVM(_model);
+            FAOIsInputVM = new FAOIsInputVM(_model, MainWindow.FAOIsInput.FAOIsInputListView);
             InputStage = InputStage.None;
             OnPropertyChanged("TimeColumnChoiceOpacity");
         }
@@ -34,7 +35,7 @@ namespace DataImpression.ViewModel
         /// </summary>
         Model _model;
 
-        
+        MainWindow MainWindow;
         #endregion
 
 
@@ -180,7 +181,7 @@ namespace DataImpression.ViewModel
                 case InputStage.AOIHitColumnsChoice:
                     {
                         InputStage = InputStage.FAOIsInput;
-                        FAOIsInputVM = new FAOIsInputVM(_model);
+                        FAOIsInputVM = new FAOIsInputVM(_model, MainWindow.FAOIsInput.FAOIsInputListView);
                         break;
                     }
                 case InputStage.FAOIsInput:

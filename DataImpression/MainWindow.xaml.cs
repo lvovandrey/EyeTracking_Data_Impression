@@ -16,7 +16,7 @@ namespace DataImpression
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            DataContext = new MainWindowViewModel(new Model());
+            DataContext = new MainWindowViewModel(new Model(), this);
         }
     }
 }
