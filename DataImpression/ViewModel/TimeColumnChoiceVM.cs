@@ -116,6 +116,13 @@ namespace DataImpression.ViewModel
             IsChecked = _isChecked;
             checkColumn = _checkColumn;
         }
+
+        public ColumnAndCheckVM()
+        {
+            Column = new Column();
+            IsChecked = false;
+            checkColumn = null;
+        }
         bool isChecked;
         AcitonColumnAndCheckVMArgument checkColumn;
         public bool IsChecked

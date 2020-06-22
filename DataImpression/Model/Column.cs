@@ -21,6 +21,11 @@ namespace DataImpression.Models
             OrderedNumber = orderedNumber;
             Name = name;
         }
+        public Column()
+        {
+            OrderedNumber = 0;
+            Name = "";
+        }
         #endregion
 
         #region Fields
