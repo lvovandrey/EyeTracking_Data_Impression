@@ -1,5 +1,7 @@
 ﻿using DataImpression.AbstractMVVM;
 using DataImpression.Models;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 
@@ -11,7 +13,7 @@ namespace DataImpression.ViewModel
         public AOIHitColumnsChoiceVM(Model model)
         {
             _model = model;
-
+            OnPropertyChanged("ColumnsVM");
         }
         #endregion
 
@@ -37,10 +39,11 @@ namespace DataImpression.ViewModel
                 foreach (var _column in _model.SourceData.CSVCaption)
                 {
                     bool _isChecked = false;
-                    if (_column.Name == "Recording timestamp") _isChecked = true;
+                    if (_column.Name.Contains("AOI hit")) _isChecked = true;
                     var cc = new ColumnAndCheckVM(_column, _isChecked, OnCheckColumn);
                     columnstmp.Add(cc);
                 }
+                _model.SourceData.CSVAOIHitsColumns = GetCSVAOIHitsColumns();
                 return columnstmp;
             }
             //set { }
@@ -48,7 +51,16 @@ namespace DataImpression.ViewModel
 
         void OnCheckColumn(ColumnAndCheckVM newColumnAndCheckVM)
         {
+            _model.SourceData.CSVAOIHitsColumns = GetCSVAOIHitsColumns();
+        }
 
+        private List<Column> GetCSVAOIHitsColumns()
+        {
+            List<Column> columns = new List<Column>();
+            foreach (var c in columnsVM)
+                if (c.IsChecked)
+                    columns.Add(c.Column);
+            return columns;
         }
 
         public ObservableCollection<ColumnAndCheckVM> ColumnsVM
@@ -74,8 +86,8 @@ namespace DataImpression.ViewModel
         #region Methods
         public bool CanExecuteNextInputStage()
         {
-            return false;
-           // if (GetCSVTimeColumn()?.Name != null) return true; else return false; //Не хочу я тернарный оператор
+           // return false;
+           if (GetCSVAOIHitsColumns()?.Count>0) return true; else return false; //Не хочу я тернарный оператор
         }
         #endregion
 

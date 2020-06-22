@@ -12,6 +12,7 @@ namespace DataImpression.Models
     /// <summary>
     /// Столбец
     /// </summary>
+    [Serializable]
     public class Column
     {
         #region ctor
@@ -19,6 +20,11 @@ namespace DataImpression.Models
         {
             OrderedNumber = orderedNumber;
             Name = name;
+        }
+        public Column()
+        {
+            OrderedNumber = 0;
+            Name = "";
         }
         #endregion
 

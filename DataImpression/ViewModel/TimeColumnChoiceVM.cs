@@ -107,6 +107,7 @@ namespace DataImpression.ViewModel
         #endregion
     }
 
+    [Serializable]
     public class ColumnAndCheckVM : INPCBase
     {
         public ColumnAndCheckVM(Column _column, bool _isChecked, AcitonColumnAndCheckVMArgument _checkColumn)
@@ -114,6 +115,13 @@ namespace DataImpression.ViewModel
             Column = _column;
             IsChecked = _isChecked;
             checkColumn = _checkColumn;
+        }
+
+        public ColumnAndCheckVM()
+        {
+            Column = new Column();
+            IsChecked = false;
+            checkColumn = null;
         }
         bool isChecked;
         AcitonColumnAndCheckVMArgument checkColumn;

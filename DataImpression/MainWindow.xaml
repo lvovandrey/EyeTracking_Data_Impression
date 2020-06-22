@@ -34,6 +34,10 @@
                                             DataContext="{Binding AOIHitColumnsChoiceVM}"
                                             Visibility="{Binding Visibility}"
                                            />
+            <views:FAOIsInputView x:Name="FAOIsInput" Grid.Row="1"
+                                            DataContext="{Binding FAOIsInputVM}"
+                                            Visibility="{Binding Visibility}"
+                                           />
             <Button Grid.Row="2" Content="Далее" HorizontalAlignment="Right"  Width="60" Margin="7"
                     Command="{Binding NextInputCommand}"/>
 

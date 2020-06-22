@@ -10,17 +10,20 @@ namespace DataImpression.ViewModel
     {
         None,
         TimeColumnChoice,
-        AOIHitColumnsChoice
+        AOIHitColumnsChoice,
+        FAOIsInput
     }
     public class MainWindowViewModel:INPCBase
     {
 
         #region ctor
-        public MainWindowViewModel(Model model)
+        public MainWindowViewModel(Model model, MainWindow mainWindow)
         {
             _model = model;
+            MainWindow = mainWindow;
             TimeColumnChoiceVM = new TimeColumnChoiceVM(_model);
             AOIHitColumnsChoiceVM = new AOIHitColumnsChoiceVM(_model);
+            FAOIsInputVM = new FAOIsInputVM(_model, MainWindow.FAOIsInput.FAOIsInputListView);
             InputStage = InputStage.None;
             OnPropertyChanged("TimeColumnChoiceOpacity");
         }
@@ -32,7 +35,7 @@ namespace DataImpression.ViewModel
         /// </summary>
         Model _model;
 
-        
+        MainWindow MainWindow;
         #endregion
 
 
@@ -42,6 +45,9 @@ namespace DataImpression.ViewModel
 
         AOIHitColumnsChoiceVM aOIHitColumnsChoiceVM;
         public AOIHitColumnsChoiceVM AOIHitColumnsChoiceVM { get { return aOIHitColumnsChoiceVM; } set { aOIHitColumnsChoiceVM = value; OnPropertyChanged("AOIHitColumnsChoiceVM"); } }
+
+        FAOIsInputVM fAOIsInputVM;
+        public FAOIsInputVM FAOIsInputVM { get { return fAOIsInputVM; } set { fAOIsInputVM = value; OnPropertyChanged("FAOIsInputVM"); } }
 
 
         public InputStage inputStage;
@@ -79,6 +85,11 @@ namespace DataImpression.ViewModel
                             return AOIHitColumnsChoiceVM.CanExecuteNextInputStage();
                             break;
                         }
+                    case InputStage.FAOIsInput:
+                        {
+                            return FAOIsInputVM.CanExecuteNextInputStage();
+                            break;
+                        }
                     default:
                         {
                             return false;
@@ -107,6 +118,11 @@ namespace DataImpression.ViewModel
                     case InputStage.AOIHitColumnsChoice:
                         {
                             return "Выбор колонки csv-файла с попаданиями маркера взгляда в размеченные зоны (AOI Hit)";
+                            break;
+                        }
+                    case InputStage.FAOIsInput:
+                        {
+                            return "Ввод перечня функциональных зон (FAOI)";
                             break;
                         }
                     default:
@@ -159,10 +175,18 @@ namespace DataImpression.ViewModel
                 case InputStage.TimeColumnChoice:
                     {
                         InputStage = InputStage.AOIHitColumnsChoice;
+                        AOIHitColumnsChoiceVM = new AOIHitColumnsChoiceVM(_model);
                         break;
                     }
                 case InputStage.AOIHitColumnsChoice:
                     {
+                        InputStage = InputStage.FAOIsInput;
+                        FAOIsInputVM = new FAOIsInputVM(_model, MainWindow.FAOIsInput.FAOIsInputListView);
+                        break;
+                    }
+                case InputStage.FAOIsInput:
+                    {
+                        if (!FAOIsInputVM.RecordResultsToModel()) return; //TODO: вот это тоже плохо - тут он нужен этот метод, а в других местах его нет. А если забуду?
                         InputStage = InputStage.None;
                         break;
                     }
@@ -185,6 +209,10 @@ namespace DataImpression.ViewModel
             if (AOIHitColumnsChoiceVM != null)
                 if (inputStage == InputStage.AOIHitColumnsChoice) AOIHitColumnsChoiceVM.Visibility = Visibility.Visible;
                 else AOIHitColumnsChoiceVM.Visibility = Visibility.Collapsed;
+
+            if (FAOIsInputVM != null)
+                if (inputStage == InputStage.FAOIsInput) FAOIsInputVM.Visibility = Visibility.Visible;
+                else FAOIsInputVM.Visibility = Visibility.Collapsed;
         }
         #endregion
 
