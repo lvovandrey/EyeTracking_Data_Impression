@@ -42,9 +42,38 @@
                   DataContext="{Binding Path=SelectedFAOIVM}">
             <StackPanel Orientation="Vertical" Height="373" VerticalAlignment="Top">
                 <elements:PropertyViewer DataContext="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Tag="Название зоны"/>
+                
             </StackPanel>
+            
         </GroupBox>
-       
+        <ListView ItemsSource="{Binding Path=SelectedFAOIVM.AOIHitColumnsVM}" Grid.Column="1" Margin="10 100 10 10" Background="Green" SelectionMode="Multiple" ScrollViewer.VerticalScrollBarVisibility="Visible" >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Отметка">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding IsChecked}"></CheckBox>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Номер колонки">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=OrderedNumber}"></TextBlock>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Имя колонки">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=Name}"></TextBlock>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
         <WrapPanel Orientation="Horizontal" Grid.Row="1" >
             <Button Width="20" Content="+" Margin="5" Command="{Binding AddCommand}"/>
             <Button Width="20" Content="-" Margin="5" Command="{Binding RemoveCommand}"/>

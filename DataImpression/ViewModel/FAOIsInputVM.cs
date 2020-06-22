@@ -90,7 +90,7 @@ namespace DataImpression.ViewModel
         }
         void Add()
         {
-            FAOIsVM.Add(new FAOIVM(new FAOI(0, "No name")));
+            FAOIsVM.Add(new FAOIVM(new FAOI(0, "No name"),_model));
             OnPropertyChanged("FAOIsVM");
             RegularizeOrderedNumbers();
         }
@@ -187,7 +187,7 @@ namespace DataImpression.ViewModel
             FAOIstmp.Clear();
             foreach (var c in _model.SourceData.CSVAOIHitsColumns)
             {
-                FAOIstmp.Add(new FAOIVM(new FAOI(c.OrderedNumber, c.Name.Replace("AOI hit [", "").Replace("]", ""))));
+                FAOIstmp.Add(new FAOIVM(new FAOI(c.OrderedNumber, c.Name.Replace("AOI hit [", "").Replace("]", "")), _model));
             }
             RegularizeOrderedNumbers();
             OnPropertyChanged("FAOIsVM");
@@ -339,9 +339,13 @@ namespace DataImpression.ViewModel
     [Serializable]
     public class FAOIVM : INPCBase
     {
-        public FAOIVM(FAOI _faoi)
+        [NonSerialized]
+        Model _model;
+
+        public FAOIVM(FAOI _faoi, Model model)
         {
             fAOI = _faoi;
+            _model = model;
         }
         public FAOIVM()
         {
@@ -362,6 +366,34 @@ namespace DataImpression.ViewModel
             get { return fAOI.OrderedNumber; }
             set { fAOI.OrderedNumber = value; OnPropertyChanged("OrderedNumber"); }
         }
+
+        [NonSerialized]
+        ObservableCollection<ColumnAndCheckVM> columnstmp;
+
+        ObservableCollection<ColumnAndCheckVM> columnsVM
+        {
+            get
+            {
+                if (columnstmp != null)
+                {
+                    return columnstmp;
+                }
+                columnstmp = new ObservableCollection<ColumnAndCheckVM>();
+                foreach (var _column in _model.SourceData.CSVAOIHitsColumns)
+                {
+                    bool _isChecked = false;
+                    var cc = new ColumnAndCheckVM(_column, _isChecked, (e) => { });
+                    columnstmp.Add(cc);
+                }
+                return columnstmp;
+            }
+        }
+
+        public ObservableCollection<ColumnAndCheckVM> AOIHitColumnsVM
+        {
+            get { return columnsVM; }
+        }
+
     }
 
 

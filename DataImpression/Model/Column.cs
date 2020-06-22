@@ -12,6 +12,7 @@ namespace DataImpression.Models
     /// <summary>
     /// Столбец
     /// </summary>
+    [Serializable]
     public class Column
     {
         #region ctor
