@@ -35,6 +35,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
+    </Reference>
+    <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -56,9 +62,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AbstractMVVM\INPCBase.cs" />
-    <Compile Include="Model\FAOIHitsOnTimeInterval.cs" />
-    <Compile Include="Model\ProcessingCore\CSVReader.cs" />
-    <Compile Include="Model\ProcessingCore\RawDataProcessor.cs" />
+    <Compile Include="Models\FAOIHitsOnTimeInterval.cs" />
+    <Compile Include="Models\ProcessingCore\CSVReader.cs" />
+    <Compile Include="Models\ProcessingCore\RawDataProcessor.cs" />
+    <Compile Include="Models\ProcessingResults.cs" />
+    <Compile Include="Models\ResultTypes\FAOIDistributed_Parameter.cs" />
     <Compile Include="ViewModel\AOIHitColumnsChoiceVM.cs" />
     <Compile Include="ViewModel\FAOIsInputVM.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
@@ -68,6 +76,9 @@
     </Compile>
     <Compile Include="View\Elements\PropertyViewer.xaml.cs">
       <DependentUpon>PropertyViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FAOIDiagramView.xaml.cs">
+      <DependentUpon>FAOIDiagramView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\FAOIsInputView.xaml.cs">
       <DependentUpon>FAOIsInputView.xaml</DependentUpon>
@@ -95,6 +106,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\FAOIDiagramView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\FAOIsInputView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -105,12 +120,12 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Column.cs" />
-    <Compile Include="Model\FAOI.cs" />
-    <Compile Include="Model\Model.cs" />
-    <Compile Include="Model\ProcessingTaskSourceData.cs" />
-    <Compile Include="Model\TimeInterval.cs" />
-    <Compile Include="Model\TOI.cs" />
+    <Compile Include="Models\Column.cs" />
+    <Compile Include="Models\FAOI.cs" />
+    <Compile Include="Models\Model.cs" />
+    <Compile Include="Models\ProcessingTaskSourceData.cs" />
+    <Compile Include="Models\TimeInterval.cs" />
+    <Compile Include="Models\TOI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -128,6 +143,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
