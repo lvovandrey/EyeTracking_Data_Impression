@@ -14,9 +14,10 @@ namespace DataImpression.Models
     {
 
         #region ctor
-        public RawDataProcessor(ProcessingTaskSourceData sourceData)
+        public RawDataProcessor(ProcessingTaskSourceData sourceData, ProcessingResults results)
         {
             SourceData = sourceData;
+            Results = results;
         }
         #endregion
 
@@ -28,6 +29,11 @@ namespace DataImpression.Models
         /// Источник данных
         /// </summary>
         public ProcessingTaskSourceData SourceData { get; set; }
+
+        /// <summary>
+        /// Результат
+        /// </summary>
+        public ProcessingResults Results { get; set; }
 
         #endregion
 
@@ -47,4 +53,10 @@ namespace DataImpression.Models
 
 
     }
+
+    public static class RawDataProcessorMethods
+    {
+
+    }
+
 }

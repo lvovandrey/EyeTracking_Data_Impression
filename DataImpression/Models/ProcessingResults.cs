@@ -7,7 +7,11 @@ using System.Threading.Tasks;
 
 namespace DataImpression.Models
 {
-    class ProcessingResults
+    /// <summary>
+    /// Инкапсулирует все результаты решения одной отдельной
+    /// задачи по обработке.
+    /// </summary>
+    public class ProcessingResults
     {
         #region ctor
         public ProcessingResults()

@@ -15,6 +15,7 @@ namespace DataImpression.Models
         public Model()
         {
             SourceData = new ProcessingTaskSourceData();
+            Results = new ProcessingResults();
         }
         #endregion
 
@@ -26,6 +27,8 @@ namespace DataImpression.Models
         /// Источник данных вычислительной задачи.... в общем он в себя вмещает все данные которые нужны для выполнения данной задачи.
         /// </summary>
         public ProcessingTaskSourceData SourceData { get; private set; }
+
+        public ProcessingResults Results { get; private set; }
         #endregion
 
         #region Methods
@@ -36,6 +39,7 @@ namespace DataImpression.Models
         public bool CreateNewProcessingTask()
         {
             SourceData = new ProcessingTaskSourceData();
+            Results = new ProcessingResults();
             return true;
         }
         #endregion

@@ -65,6 +65,7 @@
     <Compile Include="Models\FAOIHitsOnTimeInterval.cs" />
     <Compile Include="Models\ProcessingCore\CSVReader.cs" />
     <Compile Include="Models\ProcessingCore\RawDataProcessor.cs" />
+    <Compile Include="Models\ProcessingCore\TobiiCSVRecord.cs" />
     <Compile Include="Models\ProcessingResults.cs" />
     <Compile Include="Models\ResultTypes\FAOIDistributed_Parameter.cs" />
     <Compile Include="ViewModel\AOIHitColumnsChoiceVM.cs" />
