@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataImpression.Models
 {
-    class CSVReader
+    public class CSVReader
     {
 
         public List<string> TobiiCSVReadStrings(string filename, long countStringsForReading = 1, char separator = '\n', char delimiter = '\t', long bufferStringsSize = 10000)
@@ -35,6 +35,9 @@ namespace DataImpression.Models
             }
             return strings;
         }
+
+
+
 
         /// <summary>
         /// Чтение части файла

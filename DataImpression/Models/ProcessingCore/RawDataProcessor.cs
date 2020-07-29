@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -54,9 +55,54 @@ namespace DataImpression.Models
 
     }
 
+    /// <summary>
+    /// Класс содержит статические функции для считывания и преобразования данных
+    /// </summary>
     public static class RawDataProcessorMethods
     {
+        public static List<TobiiCSVRecord> TobiiCSVRead(ProcessingTaskSourceData SourceData, long countStringsForReading = 1, char separator = '\n', char delimiter = '\t', long bufferStringsSize = 10000)
+        {
+            long i = 0;
+            List<TobiiCSVRecord> tobiiList = new List<TobiiCSVRecord>();
+            using (StreamReader rd = new StreamReader(new FileStream(SourceData.CSVFileName, FileMode.Open)))
+            {
+                bool EndOfFile = false;
+                long CountReadedStrings = 0;
+                if (bufferStringsSize > countStringsForReading) bufferStringsSize = countStringsForReading;
+                while ((!EndOfFile) && (!(CountReadedStrings >= countStringsForReading)))
+                {
 
+                    if (bufferStringsSize > (countStringsForReading - CountReadedStrings)) bufferStringsSize = (countStringsForReading - CountReadedStrings);//TODO:ПРоверить - тут может быть на 1 больше или меньше надо
+                    string[] str_arr_tmp = { "" };
+                    string big_str = "";
+                    EndOfFile = CSVReader.ReadPartOfFile(rd, out big_str, bufferStringsSize);
+                    str_arr_tmp = big_str.Split(separator);
+
+                    foreach (string s in str_arr_tmp)
+                    {
+                        string[] tmp = { "" };
+                        i++;
+                        tmp = s.Split(delimiter);
+                        if (tmp.Count() < 3) continue;
+                        TobiiCSVRecord TR = new TobiiCSVRecord();
+                        if (!long.TryParse(tmp[SourceData.CSVTimeColumn.OrderedNumber], out TR.time_ms))
+                            throw new Exception("Не могу преобразовать в timestamp строку  " + tmp[SourceData.CSVTimeColumn.OrderedNumber]);
+
+                        string[] Hits = new string[SourceData.CSVAOIHitsColumns.Count()];
+                        int HitsIndex = 0; 
+                        foreach (var HitColumn in SourceData.CSVAOIHitsColumns)
+                            if (tmp[HitColumn.OrderedNumber] == "1")
+                                TR.AOIHitsColumnsInCSVFile.Add(HitColumn);
+
+                        tobiiList.Add(TR);
+                    }
+
+                    //strings.AddRange(str_arr_tmp);
+                    CountReadedStrings += bufferStringsSize;
+                }
+            }
+            return tobiiList;
+        }
     }
 
 }
