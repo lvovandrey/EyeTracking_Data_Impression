@@ -46,12 +46,12 @@ namespace DataImpression.Models
             if (SourceData.FAOIs == null) throw new Exception("Incomplete data: SourceData.FAOIs");
             if (SourceData.CSVColumnsToFAOIsConversionTable == null) throw new Exception("Incomplete data: SourceData.CSVColumnsToFAOIsConversionTable");
             if (SourceData.CSVTimeColumn == null) throw new Exception("Incomplete data: SourceData.CSVTimeColumn");
-          
+
             //TODO: тут должна быть обработка
 
             List<TobiiCSVRecord> tobiiCSVRecords = RawDataProcessorMethods.TobiiCSVRead(SourceData, 1_000_000_000);
             List<FAOIsOnTimeRecord> fAOIsOnTimeRecords = RawDataProcessorMethods.ConvertTobiiCSVRecord_To_FAOIsOnTimeRecord(tobiiCSVRecords, SourceData);
-
+            fAOIsOnTimeRecords = RawDataProcessorMethods.CompactFAOIsOnTimeRecord(fAOIsOnTimeRecords);
         }
         #endregion
 
@@ -95,7 +95,7 @@ namespace DataImpression.Models
                             throw new Exception("Не могу преобразовать в timestamp строку  " + tmp[SourceData.CSVTimeColumn.OrderedNumber]);
 
                         string[] Hits = new string[SourceData.CSVAOIHitsColumns.Count()];
-                        int HitsIndex = 0; 
+                        int HitsIndex = 0;
                         foreach (var HitColumn in SourceData.CSVAOIHitsColumns)
                             if (tmp[HitColumn.OrderedNumber] == "1")
                                 TR.AOIHitsColumnsInCSVFile.Add(HitColumn);
@@ -131,6 +131,40 @@ namespace DataImpression.Models
                 FAOIsOnTimeRecordsList.Add(fAOIsOnTimeRecord);
             }
             return FAOIsOnTimeRecordsList;
+        }
+
+        //Убираем повторы из записи тоби - компактифицируем ее
+        public static List<FAOIsOnTimeRecord> CompactFAOIsOnTimeRecord(List<FAOIsOnTimeRecord> FAOIsOnTimeRecords)
+        {
+
+            List<FAOIsOnTimeRecord> RecordsNew = new List<FAOIsOnTimeRecord>();
+            List<FAOI> FAOIsBefore = FAOIsOnTimeRecords[0].FAOIs;
+
+            for (int i = 1; i < FAOIsOnTimeRecords.Count(); i++)
+            {
+                var record = FAOIsOnTimeRecords[i];
+                if (!IsFAOIsListEqual(record.FAOIs, FAOIsBefore))
+                {
+                    RecordsNew.Add(record);
+                    FAOIsBefore = record.FAOIs;
+                }
+            }
+            return RecordsNew;
+
+        }
+
+        /// <summary>
+        /// Наверное можно
+        /// </summary>
+        /// <param name="fAOIs"></param>
+        /// <param name="fAOIsBefore"></param>
+        /// <returns></returns>
+        private static bool IsFAOIsListEqual(List<FAOI> fAOIs, List<FAOI> fAOIsBefore)
+        {
+            if (fAOIs.Count() == 0 && fAOIsBefore.Count() == 0) return true;
+            if (fAOIs.Count() == 0) return false;
+            if (fAOIsBefore.Count() == 0) return false;
+            return fAOIs.SequenceEqual(fAOIsBefore);
         }
     }
 
