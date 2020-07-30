@@ -46,9 +46,12 @@ namespace DataImpression.Models
             if (SourceData.FAOIs == null) throw new Exception("Incomplete data: SourceData.FAOIs");
             if (SourceData.CSVColumnsToFAOIsConversionTable == null) throw new Exception("Incomplete data: SourceData.CSVColumnsToFAOIsConversionTable");
             if (SourceData.CSVTimeColumn == null) throw new Exception("Incomplete data: SourceData.CSVTimeColumn");
-            if (SourceData.CSVRawData == null) throw new Exception("Incomplete data: SourceData.CSVRawData");
-
+          
             //TODO: тут должна быть обработка
+
+            List<TobiiCSVRecord> tobiiCSVRecords = RawDataProcessorMethods.TobiiCSVRead(SourceData, 1_000_000_000);
+            List<FAOIsOnTimeRecord> fAOIsOnTimeRecords = RawDataProcessorMethods.ConvertTobiiCSVRecord_To_FAOIsOnTimeRecord(tobiiCSVRecords, SourceData);
+
         }
         #endregion
 
@@ -68,6 +71,9 @@ namespace DataImpression.Models
             {
                 bool EndOfFile = false;
                 long CountReadedStrings = 0;
+
+                string[] first_string_arr = rd.ReadLine().Split(delimiter); //читаем первую строку - по сути нам просто надо курсор на вторую переместить.
+
                 if (bufferStringsSize > countStringsForReading) bufferStringsSize = countStringsForReading;
                 while ((!EndOfFile) && (!(CountReadedStrings >= countStringsForReading)))
                 {
@@ -102,6 +108,29 @@ namespace DataImpression.Models
                 }
             }
             return tobiiList;
+        }
+
+        /// <summary>
+        /// Преобразовывает записи TobiiCSVRecord в которых указаны колонки с AOIhits (время + AOIhits)
+        /// в записи типа FAOIsOnTimeRecord в которых уже указываются FAOI (вермя + FAOIs)
+        /// </summary>
+        /// <param name="TobiiCSVRecords"></param>
+        /// <returns></returns>
+        public static List<FAOIsOnTimeRecord> ConvertTobiiCSVRecord_To_FAOIsOnTimeRecord(List<TobiiCSVRecord> TobiiCSVRecords, ProcessingTaskSourceData SourceData)
+        {
+            List<FAOIsOnTimeRecord> FAOIsOnTimeRecordsList = new List<FAOIsOnTimeRecord>();
+            foreach (var TR in TobiiCSVRecords)
+            {
+                FAOIsOnTimeRecord fAOIsOnTimeRecord = new FAOIsOnTimeRecord();
+                fAOIsOnTimeRecord.time_ms = TR.time_ms;
+                foreach (var AOIHitColumn in TR.AOIHitsColumnsInCSVFile)
+                    if (SourceData.CSVColumnsToFAOIsConversionTable.ContainsKey(AOIHitColumn))
+                        fAOIsOnTimeRecord.FAOIs.Add(SourceData.CSVColumnsToFAOIsConversionTable[AOIHitColumn]);
+                fAOIsOnTimeRecord.FAOIs = fAOIsOnTimeRecord.FAOIs.Distinct().ToList();
+                fAOIsOnTimeRecord.FAOIs.Sort();
+                FAOIsOnTimeRecordsList.Add(fAOIsOnTimeRecord);
+            }
+            return FAOIsOnTimeRecordsList;
         }
     }
 

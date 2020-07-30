@@ -43,11 +43,6 @@ namespace DataImpression.Models
         public List<Column> CSVCaption { get; set; }
 
         /// <summary>
-        /// Все содеримое csv-файла за исключением его заголовка
-        /// </summary>
-        public string CSVRawData { get; set; }
-
-        /// <summary>
         /// Колонка в файле csv в которой размещается время
         /// </summary>
         public Column CSVTimeColumn { get; set; }

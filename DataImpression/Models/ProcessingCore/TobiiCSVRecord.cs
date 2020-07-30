@@ -23,4 +23,22 @@ namespace DataImpression.Models
             }
         
     }
+
+    public class FAOIsOnTimeRecord
+    {
+
+        public long time_ms;
+        public List<FAOI> FAOIs = new List<FAOI>();
+
+        public FAOIsOnTimeRecord()
+        {
+            time_ms = 0;
+        }
+
+        public FAOIsOnTimeRecord(FAOIsOnTimeRecord Record)
+        {
+            time_ms = Record.time_ms;
+        }
+
+    }
 }
