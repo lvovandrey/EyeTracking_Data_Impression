@@ -39,6 +39,14 @@ namespace DataImpression.Models
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Длительность временного интервала
+        /// </summary>
+        /// <returns></returns>
+        public TimeSpan Duration()
+        {
+            return TimeEnd - TimeBegin;
+        }
         #endregion
     }
 }

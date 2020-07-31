@@ -23,12 +23,12 @@ namespace DataImpression.Models
         /// <summary>
         /// Текущий интервал времени
         /// </summary>
-        TimeInterval TimeInterval { get; set; }
+        public TimeInterval TimeInterval { get; set; }
 
         /// <summary>
         /// Список попаданий в FAOI в данном интервале времени
         /// </summary>
-        List<FAOI> FAOIHits { get; set; }
+        public List<FAOI> FAOIHits { get; set; }
         #endregion
 
         #region Methods
