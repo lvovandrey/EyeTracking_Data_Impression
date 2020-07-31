@@ -28,6 +28,12 @@ namespace DataImpression.Models
         /// т.е. если value = 0.5 для данной faoi, значит туда смотрели половину от всего времени
         /// </summary>
         public FAOIDistributed_Parameter<double> TimePercentDistribution { get; set; }
+
+        /// <summary>
+        /// Список с данными после обработки - содержит информацию в какие FAOI он смотрел в какие моменты времени
+        /// </summary>
+        public List<FAOIHitsOnTimeInterval> FAOIHitsOnTimeIntervalList { get; set; } //можно было бы сделать Dictionary<TimeInterval, List<FAOI>> но мне кажется так нагляднее и проще воспринимать
+
         #endregion
 
         #region Methods

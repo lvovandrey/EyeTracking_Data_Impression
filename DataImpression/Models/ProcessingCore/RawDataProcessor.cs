@@ -52,6 +52,7 @@ namespace DataImpression.Models
             List<TobiiCSVRecord> tobiiCSVRecords = RawDataProcessorMethods.TobiiCSVRead(SourceData, 1_000_000_000);
             List<FAOIsOnTimeRecord> fAOIsOnTimeRecords = RawDataProcessorMethods.ConvertTobiiCSVRecord_To_FAOIsOnTimeRecord(tobiiCSVRecords, SourceData);
             fAOIsOnTimeRecords = RawDataProcessorMethods.CompactFAOIsOnTimeRecord(fAOIsOnTimeRecords);
+            Results.FAOIHitsOnTimeIntervalList = RawDataProcessorMethods.ConvertFAOIsOnTimeRecord_to_FAOIHitsOnTimeInterval(fAOIsOnTimeRecords);
         }
         #endregion
 
@@ -139,7 +140,7 @@ namespace DataImpression.Models
 
             List<FAOIsOnTimeRecord> RecordsNew = new List<FAOIsOnTimeRecord>();
             List<FAOI> FAOIsBefore = FAOIsOnTimeRecords[0].FAOIs;
-
+            RecordsNew.Add(FAOIsOnTimeRecords[0]);
             for (int i = 1; i < FAOIsOnTimeRecords.Count(); i++)
             {
                 var record = FAOIsOnTimeRecords[i];
@@ -165,6 +166,25 @@ namespace DataImpression.Models
             if (fAOIs.Count() == 0) return false;
             if (fAOIsBefore.Count() == 0) return false;
             return fAOIs.SequenceEqual(fAOIsBefore);
+        }
+
+
+        /// <summary>
+        /// Преобразовывает записи с ОТМЕТКАМИ О НАЧАЛЕ времени и FAOI в записи с ИНТЕРВАЛАМИ времени и соответствующими попаданиями взгляда в FAOI
+        /// </summary>
+        /// <param name="FAOIsOnTimeRecords"></param>
+        /// <returns></returns>
+        public static List<FAOIHitsOnTimeInterval> ConvertFAOIsOnTimeRecord_to_FAOIHitsOnTimeInterval(List<FAOIsOnTimeRecord> FAOIsOnTimeRecords)
+        {
+            List<FAOIHitsOnTimeInterval> RecordsNew = new List<FAOIHitsOnTimeInterval>();
+
+            for (int i = 0; i < FAOIsOnTimeRecords.Count()-1; i++)
+            {
+                TimeInterval timeInterval = new TimeInterval(TimeSpan.FromMilliseconds(FAOIsOnTimeRecords[i].time_ms), TimeSpan.FromMilliseconds(FAOIsOnTimeRecords[i + 1].time_ms));
+                var record = new FAOIHitsOnTimeInterval(timeInterval, FAOIsOnTimeRecords[i].FAOIs);
+                RecordsNew.Add(record);
+            }
+            return RecordsNew;
         }
     }
 

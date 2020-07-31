@@ -72,10 +72,6 @@ namespace DataImpression.Models
         /// </summary>
         public Dictionary<Column, FAOI> CSVColumnsToFAOIsConversionTable { get; set; } //TODO: мне не очень нравится то, что эта коллекция и FAOIs независимы друг от друга... надо их как-то жестко связать
         
-        /// <summary>
-        /// Список с данными после обработки - содержит информацию в какие FAOI он смотрел в какие моменты времени
-        /// </summary>
-        public List<FAOIHitsOnTimeInterval> FAOIHitsOnTimeIntervalList { get; set; } //можно было бы сделать Dictionary<TimeInterval, List<FAOI>> но мне кажется так нагляднее и проще воспринимать
         #endregion
 
         #region Methods
