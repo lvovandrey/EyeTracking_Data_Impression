@@ -11,7 +11,8 @@ namespace DataImpression.ViewModel
         None,
         TimeColumnChoice,
         AOIHitColumnsChoice,
-        FAOIsInput
+        FAOIsInput,
+        ProcessingTask           
     }
     public class MainWindowViewModel:INPCBase
     {
@@ -24,6 +25,7 @@ namespace DataImpression.ViewModel
             TimeColumnChoiceVM = new TimeColumnChoiceVM(_model);
             AOIHitColumnsChoiceVM = new AOIHitColumnsChoiceVM(_model);
             FAOIsInputVM = new FAOIsInputVM(_model, MainWindow.FAOIsInput.FAOIsInputListView);
+            ProcessingTaskVM = new ProcessingTaskVM(_model);
             InputStage = InputStage.None;
             OnPropertyChanged("TimeColumnChoiceOpacity");
         }
@@ -49,11 +51,18 @@ namespace DataImpression.ViewModel
         FAOIsInputVM fAOIsInputVM;
         public FAOIsInputVM FAOIsInputVM { get { return fAOIsInputVM; } set { fAOIsInputVM = value; OnPropertyChanged("FAOIsInputVM"); } }
 
+        ProcessingTaskVM processingTaskVM;
+        public ProcessingTaskVM ProcessingTaskVM { get { return processingTaskVM; } set { processingTaskVM = value; OnPropertyChanged("ProcessingTaskVM"); } }
+
+
 
         public InputStage inputStage;
         public InputStage InputStage
         {
-            get { return InputStage; }
+            get
+            {
+                System.Console.WriteLine(InputStage.ToString());
+                return InputStage; }
             set
             {
                 inputStage = value;
@@ -90,6 +99,11 @@ namespace DataImpression.ViewModel
                             return FAOIsInputVM.CanExecuteNextInputStage();
                             break;
                         }
+                    case InputStage.ProcessingTask:
+                        {
+                            return ProcessingTaskVM.CanExecuteNextInputStage();
+                            break;
+                        }
                     default:
                         {
                             return false;
@@ -123,6 +137,11 @@ namespace DataImpression.ViewModel
                     case InputStage.FAOIsInput:
                         {
                             return "Ввод перечня функциональных зон (FAOI)";
+                            break;
+                        }
+                    case InputStage.ProcessingTask:
+                        {
+                            return "Обработка введенных данных, построение внутренней модели";
                             break;
                         }
                     default:
@@ -187,6 +206,11 @@ namespace DataImpression.ViewModel
                 case InputStage.FAOIsInput:
                     {
                         if (!FAOIsInputVM.RecordResultsToModel()) return; //TODO: вот это тоже плохо - тут он нужен этот метод, а в других местах его нет. А если забуду?
+                        InputStage = InputStage.ProcessingTask;
+                        break;
+                    }
+                case InputStage.ProcessingTask:
+                    {
                         InputStage = InputStage.None;
                         break;
                     }
@@ -213,6 +237,10 @@ namespace DataImpression.ViewModel
             if (FAOIsInputVM != null)
                 if (inputStage == InputStage.FAOIsInput) FAOIsInputVM.Visibility = Visibility.Visible;
                 else FAOIsInputVM.Visibility = Visibility.Collapsed;
+
+            if (ProcessingTaskVM != null)
+                if (inputStage == InputStage.ProcessingTask) ProcessingTaskVM.Visibility = Visibility.Visible;
+                else ProcessingTaskVM.Visibility = Visibility.Collapsed;
         }
         #endregion
 
