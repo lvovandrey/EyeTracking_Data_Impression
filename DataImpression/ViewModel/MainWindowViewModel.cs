@@ -56,13 +56,13 @@ namespace DataImpression.ViewModel
 
 
 
-        public InputStage inputStage;
+        private InputStage inputStage;
         public InputStage InputStage
         {
             get
             {
-                System.Console.WriteLine(InputStage.ToString());
-                return InputStage; }
+                return inputStage;
+            }
             set
             {
                 inputStage = value;

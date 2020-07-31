@@ -24,7 +24,6 @@ namespace DataImpression.Models
             WorkingTOI = new TOI(CSVFullTimeInterval, CSVFullTimeInterval);
             FAOIs = new List<FAOI>();
             CSVColumnsToFAOIsConversionTable = new Dictionary<Column, FAOI>();
-            FAOIHitsOnTimeIntervalList = new List<FAOIHitsOnTimeInterval>();
         }
         #endregion
 
