@@ -30,9 +30,15 @@ namespace DataImpression.Models
         public FAOIDistributed_Parameter<double> TimePercentDistribution { get; set; }
 
         /// <summary>
-        /// Список с данными после обработки - содержит информацию в какие FAOI он смотрел в какие моменты времени
+        /// Список с данными после предварительной обработки - содержит информацию в какие FAOI он смотрел в какие интервалы времени
         /// </summary>
-        public List<FAOIHitsOnTimeInterval> FAOIHitsOnTimeIntervalList { get; set; } //можно было бы сделать Dictionary<TimeInterval, List<FAOI>> но мне кажется так нагляднее и проще воспринимать
+        public List<FAOIHitsOnTimeInterval> FAOIHitsOnTimeIntervalList { get; set; } 
+
+        /// <summary>
+        /// Список с данными после предварительной обработки - содержит отфильтрованную (без повторов в промежутках) 
+        /// информацию в каких колонках AOIhits имелись отметки о фиксации в какие моменты времени
+        /// </summary>
+        public List<TobiiCSVRecord> TobiiCSVRecordsList { get; set; } 
 
         #endregion
 

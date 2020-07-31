@@ -49,9 +49,10 @@ namespace DataImpression.Models
 
             //TODO: тут должна быть обработка
 
-            List<TobiiCSVRecord> tobiiCSVRecords = RawDataProcessorMethods.TobiiCSVRead(SourceData, 1_000_000_000);
+            List<TobiiCSVRecord> tobiiCSVRecords = RawDataProcessorMethods.TobiiCSVRead(SourceData, 1_000_000_000_000);
             List<FAOIsOnTimeRecord> fAOIsOnTimeRecords = RawDataProcessorMethods.ConvertTobiiCSVRecord_To_FAOIsOnTimeRecord(tobiiCSVRecords, SourceData);
             fAOIsOnTimeRecords = RawDataProcessorMethods.CompactFAOIsOnTimeRecord(fAOIsOnTimeRecords);
+            Results.TobiiCSVRecordsList = RawDataProcessorMethods.CompactTobiiCSVRecords(tobiiCSVRecords);
             Results.FAOIHitsOnTimeIntervalList = RawDataProcessorMethods.ConvertFAOIsOnTimeRecord_to_FAOIHitsOnTimeInterval(fAOIsOnTimeRecords);
         }
         #endregion
@@ -134,7 +135,11 @@ namespace DataImpression.Models
             return FAOIsOnTimeRecordsList;
         }
 
-        //Убираем повторы из записи тоби - компактифицируем ее
+        /// <summary>
+        /// Убираем повторы из списка записей FAOIsOnTimeRecord - компактифицируем его
+        /// </summary>
+        /// <param name="FAOIsOnTimeRecords"></param>
+        /// <returns></returns>
         public static List<FAOIsOnTimeRecord> CompactFAOIsOnTimeRecord(List<FAOIsOnTimeRecord> FAOIsOnTimeRecords)
         {
 
@@ -144,28 +149,54 @@ namespace DataImpression.Models
             for (int i = 1; i < FAOIsOnTimeRecords.Count(); i++)
             {
                 var record = FAOIsOnTimeRecords[i];
-                if (!IsFAOIsListEqual(record.FAOIs, FAOIsBefore))
+                if (!IsListEqual(record.FAOIs, FAOIsBefore))
                 {
                     RecordsNew.Add(record);
                     FAOIsBefore = record.FAOIs;
                 }
             }
             return RecordsNew;
-
         }
 
         /// <summary>
-        /// Наверное можно
+        /// Убираем повторы из списка записей TobiiCSVRecords - компактифицируем его
         /// </summary>
-        /// <param name="fAOIs"></param>
-        /// <param name="fAOIsBefore"></param>
+        /// <param name="TobiiCSVRecords"></param>
         /// <returns></returns>
-        private static bool IsFAOIsListEqual(List<FAOI> fAOIs, List<FAOI> fAOIsBefore)
+        public static List<TobiiCSVRecord> CompactTobiiCSVRecords(List<TobiiCSVRecord> TobiiCSVRecords)
         {
-            if (fAOIs.Count() == 0 && fAOIsBefore.Count() == 0) return true;
-            if (fAOIs.Count() == 0) return false;
-            if (fAOIsBefore.Count() == 0) return false;
-            return fAOIs.SequenceEqual(fAOIsBefore);
+
+            List<TobiiCSVRecord> RecordsNew = new List<TobiiCSVRecord>();
+            List<Column> AOIHitssBefore = TobiiCSVRecords[0].AOIHitsColumnsInCSVFile;
+            RecordsNew.Add(TobiiCSVRecords[0]);
+            for (int i = 1; i < TobiiCSVRecords.Count(); i++)
+            {
+                var record = TobiiCSVRecords[i];
+                if (!IsListEqual(record.AOIHitsColumnsInCSVFile, AOIHitssBefore))
+                {
+                    RecordsNew.Add(record);
+                    AOIHitssBefore = record.AOIHitsColumnsInCSVFile;
+                }
+            }
+            return RecordsNew;
+        }
+
+
+        /// <summary>
+        /// Проверка эквивалентности двух списков - немного иная логика по сравнению с SequenceEqual. 
+        /// Не выдает исключений если в списках нет элементов. Если в обоих списках нет элементов - считается что списки идентичны. 
+        /// TODO:Эм... возможно SequenceEqual так и работает? надо бы проверить позже.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="List1"></param>
+        /// <param name="List2"></param>
+        /// <returns></returns>
+        private static bool IsListEqual<T>(List<T> List1, List<T> List2)
+        {
+            if (List1.Count() == 0 && List2.Count() == 0) return true;
+            if (List1.Count() == 0) return false;
+            if (List2.Count() == 0) return false;
+            return List1.SequenceEqual(List2);
         }
 
 
