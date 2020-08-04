@@ -69,7 +69,7 @@ namespace DataImpression.Models
         private FAOIDistributed_Parameter<double> TimePercentDistributionCalculate()
         {
             FAOIDistributed_Parameter<double> timePercentDistribution = new FAOIDistributed_Parameter<double>("Доля времени в функциональной зоне, %");
-
+            if(FAOIHitsOnTimeIntervalList == null) return timePercentDistribution;
             if (FAOIHitsOnTimeIntervalList.Count() < 1) throw new Exception("Неполные данные: ProcessingResults.FAOIHitsOnTimeIntervalList не содержит ни одного элемента");
             TimeSpan tbeg = FAOIHitsOnTimeIntervalList[0].TimeInterval.TimeBegin;
             TimeSpan tend = FAOIHitsOnTimeIntervalList[FAOIHitsOnTimeIntervalList.Count()-1].TimeInterval.TimeEnd;
