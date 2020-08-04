@@ -69,6 +69,7 @@
     <Compile Include="Models\ProcessingResults.cs" />
     <Compile Include="Models\ResultTypes\FAOIDistributed_Parameter.cs" />
     <Compile Include="ViewModel\AOIHitColumnsChoiceVM.cs" />
+    <Compile Include="ViewModel\FAOIDiagramVM.cs" />
     <Compile Include="ViewModel\FAOIsInputVM.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\ProcessingTaskVM.cs" />

@@ -15,7 +15,7 @@ namespace DataImpression.Models
         public Model()
         {
             SourceData = new ProcessingTaskSourceData();
-            Results = new ProcessingResults();
+            Results = new ProcessingResults(SourceData);
         }
         #endregion
 
@@ -39,7 +39,7 @@ namespace DataImpression.Models
         public bool CreateNewProcessingTask()
         {
             SourceData = new ProcessingTaskSourceData();
-            Results = new ProcessingResults();
+            Results = new ProcessingResults(SourceData);
             return true;
         }
         #endregion
