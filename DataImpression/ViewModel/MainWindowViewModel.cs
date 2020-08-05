@@ -12,7 +12,8 @@ namespace DataImpression.ViewModel
         TimeColumnChoice,
         AOIHitColumnsChoice,
         FAOIsInput,
-        ProcessingTask           
+        ProcessingTask, 
+        ViewResults
     }
     public class MainWindowViewModel:INPCBase
     {
@@ -26,6 +27,7 @@ namespace DataImpression.ViewModel
             AOIHitColumnsChoiceVM = new AOIHitColumnsChoiceVM(_model);
             FAOIsInputVM = new FAOIsInputVM(_model, MainWindow.FAOIsInput.FAOIsInputListView);
             ProcessingTaskVM = new ProcessingTaskVM(_model);
+            FAOIDiagramVM = new FAOIDiagramVM(_model);
             InputStage = InputStage.None;
             OnPropertyChanged("TimeColumnChoiceOpacity");
         }
@@ -54,15 +56,18 @@ namespace DataImpression.ViewModel
         ProcessingTaskVM processingTaskVM;
         public ProcessingTaskVM ProcessingTaskVM { get { return processingTaskVM; } set { processingTaskVM = value; OnPropertyChanged("ProcessingTaskVM"); } }
 
+        FAOIDiagramVM fAOIDiagramVM;
+        public FAOIDiagramVM FAOIDiagramVM { get { return fAOIDiagramVM; } set { fAOIDiagramVM = value; OnPropertyChanged("FAOIDiagramVM"); } }
 
+        
 
-        public InputStage inputStage;
+        private InputStage inputStage;
         public InputStage InputStage
         {
             get
             {
-                System.Console.WriteLine(InputStage.ToString());
-                return InputStage; }
+                return inputStage;
+            }
             set
             {
                 inputStage = value;
@@ -100,6 +105,11 @@ namespace DataImpression.ViewModel
                             break;
                         }
                     case InputStage.ProcessingTask:
+                        {
+                            return ProcessingTaskVM.CanExecuteNextInputStage();
+                            break;
+                        }
+                    case InputStage.ViewResults:
                         {
                             return ProcessingTaskVM.CanExecuteNextInputStage();
                             break;
@@ -142,6 +152,11 @@ namespace DataImpression.ViewModel
                     case InputStage.ProcessingTask:
                         {
                             return "Обработка введенных данных, построение внутренней модели";
+                            break;
+                        }
+                    case InputStage.ViewResults:
+                        {
+                            return "Отображение результатов";
                             break;
                         }
                     default:
@@ -211,6 +226,12 @@ namespace DataImpression.ViewModel
                     }
                 case InputStage.ProcessingTask:
                     {
+                        InputStage = InputStage.ViewResults;
+                        FAOIDiagramVM = new FAOIDiagramVM(_model);
+                        break;
+                    }
+                case InputStage.ViewResults:
+                    {
                         InputStage = InputStage.None;
                         break;
                     }
@@ -241,6 +262,10 @@ namespace DataImpression.ViewModel
             if (ProcessingTaskVM != null)
                 if (inputStage == InputStage.ProcessingTask) ProcessingTaskVM.Visibility = Visibility.Visible;
                 else ProcessingTaskVM.Visibility = Visibility.Collapsed;
+
+            if (FAOIDiagramVM != null)
+                if (inputStage == InputStage.ViewResults) FAOIDiagramVM.Visibility = Visibility.Visible;
+                else FAOIDiagramVM.Visibility = Visibility.Collapsed;
         }
         #endregion
 

@@ -42,6 +42,12 @@
                                             DataContext="{Binding ProcessingTaskVM}"
                                             Visibility="{Binding Visibility}"
                                            />
+
+            <views:FAOIDiagramView Grid.Row="1"
+                                    DataContext="{Binding FAOIDiagramVM}"
+                                    Visibility="{Binding Visibility}"
+                                   />
+
             <Button Grid.Row="2" Content="Далее" HorizontalAlignment="Right"  Width="60" Margin="7"
                     Command="{Binding NextInputCommand}"/>
 
