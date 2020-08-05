@@ -4,10 +4,12 @@ using LiveCharts;
 using LiveCharts.Wpf;
 using System;
 using System.Collections.Generic;
+
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 
 namespace DataImpression.ViewModel
 {
@@ -58,7 +60,8 @@ namespace DataImpression.ViewModel
                     new ColumnSeries
                     {
                         Title = _model.Results.TimePercentDistribution.ParameterName,
-                        Values = new ChartValues<double> (values)
+                        Values = new ChartValues<double> (values),
+                        Fill = Brushes.Blue
                     }
                 };
             }
