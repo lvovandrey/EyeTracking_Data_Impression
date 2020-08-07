@@ -39,6 +39,14 @@ namespace DataImpression.Models
         }
 
         /// <summary>
+        /// Средняя продолжительность нахождения взгляда в каждом FAOI. "Среднее время фиксации в зоне"
+        /// </summary>
+        public FAOIDistributed_Parameter<TimeSpan> AverageFixationTimeDistribution
+        {
+            get { return AverageFixationTimeDistributionCalculate(); }
+        }
+
+        /// <summary>
         /// Список с данными после предварительной обработки - содержит информацию в какие FAOI он смотрел в какие интервалы времени
         /// </summary>
         public List<FAOIHitsOnTimeInterval> FAOIHitsOnTimeIntervalList { get; set; } 
@@ -91,6 +99,41 @@ namespace DataImpression.Models
                 timePercentDistribution.Results.Add(result);
             }
             return timePercentDistribution;
+        }
+
+        /// <summary>
+        /// Функция расчета параметра "Среднее время фиксации в зоне"
+        /// </summary>
+        /// <returns></returns>
+        private FAOIDistributed_Parameter<TimeSpan> AverageFixationTimeDistributionCalculate()
+        {
+            FAOIDistributed_Parameter<TimeSpan> averageFixationTimeDistribution = new FAOIDistributed_Parameter<TimeSpan>("Среднее время фиксации в зоне");
+            if (FAOIHitsOnTimeIntervalList == null) return averageFixationTimeDistribution;
+            if (FAOIHitsOnTimeIntervalList.Count() < 1) throw new Exception("Неполные данные: ProcessingResults.FAOIHitsOnTimeIntervalList не содержит ни одного элемента");
+            TimeSpan tbeg = FAOIHitsOnTimeIntervalList[0].TimeInterval.TimeBegin;
+            TimeSpan tend = FAOIHitsOnTimeIntervalList[FAOIHitsOnTimeIntervalList.Count() - 1].TimeInterval.TimeEnd;
+            if (tend <= tbeg) throw new Exception("Неверные данные: неверно задано полное время анализируемого файла или заданный интервал времени: начало " +
+                  tbeg.TotalMilliseconds.ToString() + "ms конец " + tend.TotalMilliseconds.ToString());
+            TimeSpan SummTime = tend - tbeg;
+
+            foreach (var curFAOI in SourceData.FAOIs)
+            {
+                TimeSpan SummCurFAOITime = TimeSpan.Zero;
+                int FixationsCount = 0;
+                foreach (var fAOIHitsOnTimeInterval in FAOIHitsOnTimeIntervalList)
+                {
+                    if (fAOIHitsOnTimeInterval.FAOIHits.Contains(curFAOI))
+                    {
+                        SummCurFAOITime += fAOIHitsOnTimeInterval.TimeInterval.Duration();
+                        FixationsCount++;
+                    }
+                }
+                var result = new FAOI_Value_Pair<TimeSpan>();
+                result.FAOI = curFAOI;
+                result.Value = TimeSpan.FromMilliseconds( SummCurFAOITime.TotalMilliseconds / FixationsCount);
+                averageFixationTimeDistribution.Results.Add(result);
+            }
+            return averageFixationTimeDistribution;
         }
 
         #endregion
