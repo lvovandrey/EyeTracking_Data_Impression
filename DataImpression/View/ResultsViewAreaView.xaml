@@ -14,25 +14,25 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-            <Ribbon>
-                <RibbonMenuItem>
-                <RibbonButton Content="15465">
 
-                </RibbonButton>
-            </RibbonMenuItem>
-                    
-            </Ribbon>
+        <avalon:DockingManager x:Name="dockManager" 
+                                   DocumentsSource="{Binding ResultViews}"
+                                   ActiveContent="{Binding ActiveResultView, Mode=TwoWay }"
+                                   Grid.Row="1">
+            <avalon:LayoutRoot >
+                <avalon:LayoutPanel>
+                    <avalon:LayoutDocumentPane>
+                    </avalon:LayoutDocumentPane>
+                </avalon:LayoutPanel>
+            </avalon:LayoutRoot>
+        </avalon:DockingManager>
+
+
         <avalon:DockingManager Grid.Row="1">
             <avalon:LayoutRoot >
                 <avalon:LayoutPanel>
                     <avalon:LayoutDocumentPane >
                         <avalon:LayoutDocument Title="NNNN" CanMove="True">
-                            <Grid>
-                                <TextBlock>asdfsdf</TextBlock>
-                                <Button Width="100" Height="100">sdfs</Button>
-                            </Grid>
-                        </avalon:LayoutDocument>
-                        <avalon:LayoutDocument Title="NNNN2">
                             <Grid>
                                 <TextBlock>asdfsdf</TextBlock>
                                 <Button Width="100" Height="100">sdfs</Button>

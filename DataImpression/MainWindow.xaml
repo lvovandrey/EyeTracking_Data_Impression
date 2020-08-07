@@ -11,6 +11,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition />
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
@@ -19,7 +20,23 @@
                 <MenuItem Header="Открыть csv-файл" Command="{Binding OpenCSVFileCommand}"/>
             </MenuItem>
         </Menu>
-        <Grid Grid.Row="1">
+        <ToolBarTray Grid.Row="1">
+            <ToolBar>
+
+                <Button >
+                    <Image Source="/DataImpression;component/Images/Table-Add.png"  />
+                </Button>
+            </ToolBar>
+            <ToolBar Grid.Row="1">
+                <Button >
+                    <Image Source="/DataImpression;component/Images/Table-Chart.png"  />
+                </Button>
+                <Button >
+                    <Image Source="/DataImpression;component/Images/Table-Add.png"  />
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
+        <Grid Grid.Row="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
                 <RowDefinition/>
@@ -53,6 +70,6 @@
 
         </Grid>
  
-        <StatusBar Grid.Row="2"/>
+        <StatusBar Grid.Row="3"/>
     </Grid>
 </Window>
