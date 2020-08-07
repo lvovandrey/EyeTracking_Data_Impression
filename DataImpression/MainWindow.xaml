@@ -28,7 +28,7 @@
                 </Button>
             </ToolBar>
             <ToolBar Grid.Row="1">
-                <Button >
+                <Button Command="{Binding AddResultsViewCommand}" >
                     <Image Source="/DataImpression;component/Images/Table-Chart.png"  />
                 </Button>
                 <Button >
@@ -64,6 +64,8 @@
                                     DataContext="{Binding FAOIDiagramVM}"
                                     Visibility="{Binding Visibility}"
                                    />
+            <views:ResultsViewAreaView Grid.Row="1"
+                                    DataContext="{Binding ResultsViewAreaVM}"/>
 
             <Button Grid.Row="2" Content="Далее" HorizontalAlignment="Right"  Width="60" Margin="7"
                     Command="{Binding NextInputCommand}"/>

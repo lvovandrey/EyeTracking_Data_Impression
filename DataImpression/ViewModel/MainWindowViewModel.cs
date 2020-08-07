@@ -28,6 +28,7 @@ namespace DataImpression.ViewModel
             FAOIsInputVM = new FAOIsInputVM(_model, MainWindow.FAOIsInput.FAOIsInputListView);
             ProcessingTaskVM = new ProcessingTaskVM(_model);
             FAOIDiagramVM = new FAOIDiagramVM(_model);
+            ResultsViewAreaVM = new ResultsViewAreaVM(_model);
             InputStage = InputStage.None;
             OnPropertyChanged("TimeColumnChoiceOpacity");
         }
@@ -59,7 +60,9 @@ namespace DataImpression.ViewModel
         FAOIDiagramVM fAOIDiagramVM;
         public FAOIDiagramVM FAOIDiagramVM { get { return fAOIDiagramVM; } set { fAOIDiagramVM = value; OnPropertyChanged("FAOIDiagramVM"); } }
 
-        
+        ResultsViewAreaVM resultsViewAreaVM;
+        public ResultsViewAreaVM ResultsViewAreaVM { get { return resultsViewAreaVM; } set { resultsViewAreaVM = value; OnPropertyChanged("ResultsViewAreaVM"); } }
+
 
         private InputStage inputStage;
         public InputStage InputStage
@@ -298,6 +301,18 @@ namespace DataImpression.ViewModel
                 },
                 (obj) =>  CanExecuteNextInputStage == true 
                 ));
+            }
+        }
+
+        private RelayCommand addResultsViewCommand;
+        public RelayCommand AddResultsViewCommand
+        {
+            get
+            {
+                return addResultsViewCommand ?? (addResultsViewCommand = new RelayCommand(obj =>
+                {
+                    ResultsViewAreaVM.ResultViewsAdd("Новое что-то");
+                }));
             }
         }
 

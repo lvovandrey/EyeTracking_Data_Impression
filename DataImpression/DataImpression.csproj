@@ -84,6 +84,7 @@
     <Compile Include="ViewModel\FAOIsInputVM.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\ProcessingTaskVM.cs" />
+    <Compile Include="ViewModel\ResultsViewAreaVM.cs" />
     <Compile Include="ViewModel\TimeColumnChoiceVM.cs" />
     <Compile Include="View\AOIHitColumnsChoiceView.xaml.cs">
       <DependentUpon>AOIHitColumnsChoiceView.xaml</DependentUpon>

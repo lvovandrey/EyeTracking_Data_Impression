@@ -19,16 +19,16 @@
                                    DocumentsSource="{Binding ResultViews}"
                                    ActiveContent="{Binding ActiveResultView, Mode=TwoWay }"
                                    Grid.Row="1">
-            <avalon:LayoutRoot >
-                <avalon:LayoutPanel>
-                    <avalon:LayoutDocumentPane>
-                    </avalon:LayoutDocumentPane>
-                </avalon:LayoutPanel>
+            <avalon:LayoutRoot>
+                <LayoutPanel>
+                    <LayoutPanel.
+                </LayoutPanel>
             </avalon:LayoutRoot>
+
         </avalon:DockingManager>
 
 
-        <avalon:DockingManager Grid.Row="1">
+        <!--<avalon:DockingManager Grid.Row="1">
             <avalon:LayoutRoot >
                 <avalon:LayoutPanel>
                     <avalon:LayoutDocumentPane >
@@ -45,6 +45,6 @@
 
 
             </avalon:LayoutRoot>
-        </avalon:DockingManager>
+        </avalon:DockingManager>-->
     </Grid>
 </UserControl>
