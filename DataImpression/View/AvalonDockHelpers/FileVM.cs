@@ -9,7 +9,7 @@ using System.Windows.Media;
 
 namespace DataImpression.View.AvalonDockHelpers
 {
-    class FileVM : PaneVM
+    public class FileVM : PaneVM
     {
         static ImageSourceConverter ISC = new ImageSourceConverter();
         public FileVM(string filePath)

@@ -1,5 +1,6 @@
 ﻿using DataImpression.AbstractMVVM;
 using DataImpression.Models;
+using DataImpression.View.AvalonDockHelpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -43,13 +44,17 @@ namespace DataImpression.ViewModel
             }
         }
 
-        public ObservableCollection<string> ResultViews = new ObservableCollection<string>();
+        public ObservableCollection<FileVM> ResultViews = new ObservableCollection<FileVM>();
 
         internal void ResultViewsAdd(string v)
         {
-            ResultViews.Add(v);
+            ResultViews.Add(new FileVM());
             OnPropertyChanged("ResultViews");
+            Test++; OnPropertyChanged("Test");
+
         }
+
+        public int Test { get; private set; } = 3;
         #endregion
     }
 }

@@ -8,7 +8,7 @@ using System.Windows.Media;
 
 namespace DataImpression.View.AvalonDockHelpers
 {
-    class PaneVM : INPCBase
+    public class PaneVM : INPCBase
     {
         public PaneVM()
         { }

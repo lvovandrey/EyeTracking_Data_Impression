@@ -9,7 +9,7 @@ using System.Windows.Controls;
 
 namespace DataImpression.View.AvalonDockHelpers
 {
-    class PanesTemplateSelector : DataTemplateSelector
+    public class PanesTemplateSelector : DataTemplateSelector
     {
         public PanesTemplateSelector()
         {
@@ -36,7 +36,7 @@ namespace DataImpression.View.AvalonDockHelpers
             if (item is FileVM)
                 return FileViewTemplate;
 
-            if (item is FileStatsViewModel)
+            if (item is FileStatsVM)
                 return FileStatsViewTemplate;
 
             return base.SelectTemplate(item, container);

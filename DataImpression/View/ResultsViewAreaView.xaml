@@ -4,9 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DataImpression.View"
+             xmlns:avalonHelpers="clr-namespace:DataImpression.View.AvalonDockHelpers"
              xmlns:avalon="https://github.com/Dirkster99/AvalonDock"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <avalonHelpers:ActiveDocumentConverter x:Key="ActiveDocumentConverter"/>
+        <avalonHelpers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -14,21 +19,22 @@
         </Grid.RowDefinitions>
 
 
-
+        <Button Height="20" Content="{Binding Test}"/>
 
         <avalon:DockingManager x:Name="dockManager" 
                                    DocumentsSource="{Binding ResultViews}"
                                    ActiveContent="{Binding ActiveResultView, Mode=TwoWay, Converter={StaticResource ActiveDocumentConverter}}"
                                    Grid.Row="1">
             <avalon:DockingManager.LayoutItemTemplateSelector>
-                <local:PanesTemplateSelector>
-                    <local:PanesTemplateSelector.FileViewTemplate>
+
+            <avalonHelpers:PanesTemplateSelector>
+                    <avalonHelpers:PanesTemplateSelector.FileViewTemplate>
                         <DataTemplate>
                             <TextBox Text="{Binding TextContent, UpdateSourceTrigger=PropertyChanged}"
                                      BorderThickness="0" />
                         </DataTemplate>
-                    </local:PanesTemplateSelector.FileViewTemplate>
-                    <local:PanesTemplateSelector.FileStatsViewTemplate>
+                    </avalonHelpers:PanesTemplateSelector.FileViewTemplate>
+                    <avalonHelpers:PanesTemplateSelector.FileStatsViewTemplate>
                         <DataTemplate>
                             <Border Padding="5">
                                 <StackPanel Orientation="Vertical">
@@ -38,14 +44,14 @@
                                 </StackPanel>
                             </Border>
                         </DataTemplate>
-                    </local:PanesTemplateSelector.FileStatsViewTemplate>
-                </local:PanesTemplateSelector>
+                    </avalonHelpers:PanesTemplateSelector.FileStatsViewTemplate>
+                </avalonHelpers:PanesTemplateSelector>
             </avalon:DockingManager.LayoutItemTemplateSelector>
 
-            <avalonDock:DockingManager.LayoutItemContainerStyleSelector>
-                <local:PanesStyleSelector>
-                    <local:PanesStyleSelector.ToolStyle>
-                        <Style TargetType="{x:Type avalonDockControls:LayoutAnchorableItem}">
+            <avalon:DockingManager.LayoutItemContainerStyleSelector>
+                <avalonHelpers:PanesStyleSelector>
+                    <avalonHelpers:PanesStyleSelector.ToolStyle>
+                        <Style TargetType="{x:Type avalon:LayoutAnchorableItem}">
                             <Setter Property="Title" Value="{Binding Model.Title}"/>
                             <Setter Property="IconSource" Value="{Binding Model.IconSource}"/>
                             <Setter Property="Visibility" Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}"/>
@@ -53,29 +59,29 @@
                             <Setter Property="IsSelected" Value="{Binding Model.IsSelected, Mode=TwoWay}"/>
                             <Setter Property="IsActive" Value="{Binding Model.IsActive, Mode=TwoWay}"/>
                         </Style>
-                    </local:PanesStyleSelector.ToolStyle>
-                    <local:PanesStyleSelector.FileStyle>
-                        <Style TargetType="{x:Type avalonDockControls:LayoutItem}">
+                    </avalonHelpers:PanesStyleSelector.ToolStyle>
+                    <avalonHelpers:PanesStyleSelector.FileStyle>
+                        <Style TargetType="{x:Type avalon:LayoutItem}">
                             <Setter Property="Title" Value="{Binding Model.Title}"/>
                             <Setter Property="ToolTip" Value="{Binding Model.FilePath}"/>
                             <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}"/>
                             <Setter Property="IconSource" Value="{Binding Model.IconSource}"/>
                             <Setter Property="ContentId" Value="{Binding Model.ContentId}"/>
                         </Style>
-                    </local:PanesStyleSelector.FileStyle>
-                </local:PanesStyleSelector>
-            </avalonDock:DockingManager.LayoutItemContainerStyleSelector>
-            <avalonDock:DockingManager.LayoutUpdateStrategy>
-                <local:LayoutInitializer/>
-            </avalonDock:DockingManager.LayoutUpdateStrategy>
+                    </avalonHelpers:PanesStyleSelector.FileStyle>
+                </avalonHelpers:PanesStyleSelector>
+            </avalon:DockingManager.LayoutItemContainerStyleSelector>
+            <avalon:DockingManager.LayoutUpdateStrategy>
+                <avalonHelpers:LayoutInitializer/>
+            </avalon:DockingManager.LayoutUpdateStrategy>
 
-            <avalonDockLayout:LayoutRoot>
-                <avalonDockLayout:LayoutPanel Orientation="Vertical">
-                    <avalonDockLayout:LayoutDocumentPane/>
-                    <avalonDockLayout:LayoutAnchorablePane Name="ToolsPane" DockHeight="150">
-                    </avalonDockLayout:LayoutAnchorablePane>
-                </avalonDockLayout:LayoutPanel>
-            </avalonDockLayout:LayoutRoot>
+            <avalon:LayoutRoot>
+                <avalon:LayoutPanel Orientation="Vertical">
+                    <avalon:LayoutDocumentPane/>
+                    <avalon:LayoutAnchorablePane Name="ToolsPane" DockHeight="150">
+                    </avalon:LayoutAnchorablePane>
+                </avalon:LayoutPanel>
+            </avalon:LayoutRoot>
         </avalon:DockingManager>
     </Grid>
 </UserControl>

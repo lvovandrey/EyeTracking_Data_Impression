@@ -89,9 +89,15 @@
     <Compile Include="View\AOIHitColumnsChoiceView.xaml.cs">
       <DependentUpon>AOIHitColumnsChoiceView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\AvalonDockHelpers\ActiveDocumentConverter.cs" />
+    <Compile Include="View\AvalonDockHelpers\BoolToVisibilityConverter.cs" />
+    <Compile Include="View\AvalonDockHelpers\FileStatsVM.cs" />
     <Compile Include="View\AvalonDockHelpers\FileVM.cs" />
+    <Compile Include="View\AvalonDockHelpers\LayoutInitializer.cs" />
+    <Compile Include="View\AvalonDockHelpers\PanesStyleSelector.cs" />
     <Compile Include="View\AvalonDockHelpers\PanesTemplateSelector.cs" />
     <Compile Include="View\AvalonDockHelpers\PaneVM.cs" />
+    <Compile Include="View\AvalonDockHelpers\ToolVM.cs" />
     <Compile Include="View\Elements\PropertyViewer.xaml.cs">
       <DependentUpon>PropertyViewer.xaml</DependentUpon>
     </Compile>
