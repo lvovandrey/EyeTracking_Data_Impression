@@ -18,7 +18,13 @@ namespace DataImpression.ViewModel
         {
             _model = model;
             _this = this;
+            DiagramVM = new FAOIDiagramVM(model);
         }
+
+        FAOIDiagramVM diagramVM;
+        public FAOIDiagramVM DiagramVM { get { return diagramVM; } set { diagramVM = value; OnPropertyChanged("DiagramVM"); } }
+
+
 
         static ResultsViewAreaVM _this;
 

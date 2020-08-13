@@ -6,7 +6,9 @@
              xmlns:local="clr-namespace:DataImpression.View"
              xmlns:avalonHelpers="clr-namespace:DataImpression.View.AvalonDockHelpers"
              xmlns:avalon="https://github.com/Dirkster99/AvalonDock"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              mc:Ignorable="d" 
+             
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <avalonHelpers:ActiveDocumentConverter x:Key="ActiveDocumentConverter"/>
@@ -17,8 +19,12 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
 
-
+        
         <Button Height="20" Content="{Binding Test}"/>
 
         <avalon:DockingManager x:Name="dockManager" 
@@ -35,7 +41,16 @@
                             
                                 <TextBlock Text="{Binding CSVFilePath, UpdateSourceTrigger=PropertyChanged}" Background="Green" />
                                 <Rectangle Width="40" Height="10" Fill="CadetBlue"/>
-                                <local:FAOIDiagramView DataContext="{Binding FAOIDiagramVM, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Width="200" Height="200" />
+                                <!--<local:FAOIDiagramView DataContext="{Binding FAOIDiagramVM, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Width="200" Height="200" />-->
+
+                                <lvc:CartesianChart  Series="{Binding SeriesCollection}" LegendLocation="None" Grid.Row="1" Height="400" >
+                                    <lvc:CartesianChart.AxisX>
+                                        <lvc:Axis Title="Зона" Labels="{Binding Labels}"></lvc:Axis>
+                                    </lvc:CartesianChart.AxisX>
+                                    <lvc:CartesianChart.AxisY>
+                                        <lvc:Axis Title="Процент времени фиксаций, %" LabelFormatter="{Binding Formatter}" MinValue="0"></lvc:Axis>
+                                    </lvc:CartesianChart.AxisY>
+                                </lvc:CartesianChart>
                             </StackPanel>
                         </DataTemplate>
                     </avalonHelpers:PanesTemplateSelector.TestDiagramViewTemplate>
@@ -104,5 +119,7 @@
                 </avalon:LayoutPanel>
             </avalon:LayoutRoot>
         </avalon:DockingManager>
+
+        <local:FAOIDiagramView DataContext="{Binding DiagramVM, UpdateSourceTrigger=PropertyChanged}"></local:FAOIDiagramView>
     </Grid>
 </UserControl>
