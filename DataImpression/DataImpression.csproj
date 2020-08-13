@@ -97,6 +97,7 @@
     <Compile Include="View\AvalonDockHelpers\PanesStyleSelector.cs" />
     <Compile Include="View\AvalonDockHelpers\PanesTemplateSelector.cs" />
     <Compile Include="View\AvalonDockHelpers\PaneVM.cs" />
+    <Compile Include="View\AvalonDockHelpers\TestDiagramVM.cs" />
     <Compile Include="View\AvalonDockHelpers\ToolVM.cs" />
     <Compile Include="View\Elements\PropertyViewer.xaml.cs">
       <DependentUpon>PropertyViewer.xaml</DependentUpon>

@@ -14,8 +14,9 @@ namespace DataImpression.ViewModel
     public class ResultsViewAreaVM: INPCBase
     {
         #region ctor
-        public ResultsViewAreaVM()
+        public ResultsViewAreaVM(Model model)
         {
+            _model = model;
             _this = this;
         }
 
@@ -33,7 +34,7 @@ namespace DataImpression.ViewModel
         /// <summary>
         /// Модель данных
         /// </summary>
-        Model _model;
+        private Model _model;
 
         #endregion
 
@@ -69,6 +70,22 @@ namespace DataImpression.ViewModel
             }
         }
 
+        ObservableCollection<TestDiagramVM> testDiargamVMs = new ObservableCollection<TestDiagramVM>();
+        ReadOnlyObservableCollection<TestDiagramVM> readonyTestDiargamVMs = null;
+        public ReadOnlyObservableCollection<TestDiagramVM> TestDiargamVMs
+        {
+            get
+            {
+                if (readonyTestDiargamVMs == null)
+                    readonyTestDiargamVMs = new ReadOnlyObservableCollection<TestDiagramVM>(testDiargamVMs);
+
+                return readonyTestDiargamVMs;
+            }
+        }
+
+
+
+
         ToolVM[] _tools = null;
 
         public IEnumerable<ToolVM> Tools
@@ -96,19 +113,18 @@ namespace DataImpression.ViewModel
 
         internal void ResultViewsAdd(string v)
         {
+            testDiargamVMs.Add(new TestDiagramVM(_model));
+            ActiveDocument = testDiargamVMs.Last();
+
             _files.Add(new FileVM());
-            ActiveDocument = _files.Last();
 
-            ResultViews.Add(new FileVM());
-            OnPropertyChanged("ResultViews");
             Test++; OnPropertyChanged("Test");
-
         }
 
 
 
-        private FileVM _activeDocument = null;
-        public FileVM ActiveDocument
+        private TestDiagramVM _activeDocument = null;
+        public TestDiagramVM ActiveDocument
         {
             get { return _activeDocument; }
             set
@@ -140,6 +156,11 @@ namespace DataImpression.ViewModel
         }
 
         public int Test { get; private set; } = 3;
+
+        internal bool CanExecuteNextInputStage()
+        {
+            return true;
+        }
         #endregion
     }
 }

@@ -29,6 +29,12 @@ namespace DataImpression.View.AvalonDockHelpers
             set;
         }
 
+        public DataTemplate TestDiagramViewTemplate
+        {
+            get;
+            set;
+        }
+
         public override System.Windows.DataTemplate SelectTemplate(object item, System.Windows.DependencyObject container)
         {
             var itemAsLayoutContent = item as LayoutContent;
@@ -38,6 +44,9 @@ namespace DataImpression.View.AvalonDockHelpers
 
             if (item is FileStatsVM)
                 return FileStatsViewTemplate;
+
+            if (item is TestDiagramVM)
+                return TestDiagramViewTemplate;
 
             return base.SelectTemplate(item, container);
         }

@@ -8,7 +8,15 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" >
     <Grid>
-        <lvc:CartesianChart Series="{Binding SeriesCollection}" LegendLocation="None"  >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <!--<StackPanel Orientation="Horizontal">
+            <TextBlock Text="{Binding CSVFilePath, UpdateSourceTrigger=PropertyChanged}" MinWidth="20" Background="Red"/>
+            <TextBlock Text="{Binding RecordingCount, UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>-->
+        <lvc:CartesianChart  Series="{Binding SeriesCollection}" LegendLocation="None" Grid.Row="1" >
             <lvc:CartesianChart.AxisX>
                 <lvc:Axis Title="Зона" Labels="{Binding Labels}"></lvc:Axis>
             </lvc:CartesianChart.AxisX>

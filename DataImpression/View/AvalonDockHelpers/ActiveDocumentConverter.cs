@@ -11,7 +11,7 @@ namespace DataImpression.View.AvalonDockHelpers
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (value is FileVM)
+            if (value is TestDiagramVM)
                 return value;
 
             return Binding.DoNothing;
@@ -19,7 +19,7 @@ namespace DataImpression.View.AvalonDockHelpers
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (value is FileVM)
+            if (value is TestDiagramVM)
                 return value;
 
             return Binding.DoNothing;

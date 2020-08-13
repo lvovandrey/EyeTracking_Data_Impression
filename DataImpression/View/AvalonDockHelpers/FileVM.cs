@@ -49,6 +49,8 @@ namespace DataImpression.View.AvalonDockHelpers
                 }
             }
         }
+        public string CSVFilePath { get { return "CSVFilePath - какая-то строка!!!!"; } set { } }
+
         #endregion
 
 

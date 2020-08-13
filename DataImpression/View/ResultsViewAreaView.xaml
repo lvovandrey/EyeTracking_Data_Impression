@@ -23,18 +23,32 @@
 
         <avalon:DockingManager x:Name="dockManager" 
                                    AnchorablesSource="{Binding Tools}" 
-                                   DocumentsSource="{Binding Files}"
+                                   DocumentsSource="{Binding TestDiargamVMs}"
                                    ActiveContent="{Binding ActiveDocument, Mode=TwoWay, Converter={StaticResource ActiveDocumentConverter}}"
                                    Grid.Row="1">
             <avalon:DockingManager.LayoutItemTemplateSelector>
 
             <avalonHelpers:PanesTemplateSelector>
+                    <avalonHelpers:PanesTemplateSelector.TestDiagramViewTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                            
+                                <TextBlock Text="{Binding CSVFilePath, UpdateSourceTrigger=PropertyChanged}" Background="Green" />
+                                <Rectangle Width="40" Height="10" Fill="CadetBlue"/>
+                                <local:FAOIDiagramView DataContext="{Binding FAOIDiagramVM, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Width="200" Height="200" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </avalonHelpers:PanesTemplateSelector.TestDiagramViewTemplate>
+
                     <avalonHelpers:PanesTemplateSelector.FileViewTemplate>
                         <DataTemplate>
-                            <TextBox Text="{Binding TextContent, UpdateSourceTrigger=PropertyChanged}"
-                                     BorderThickness="0" />
+                            <StackPanel Orientation="Vertical">
+                                <Rectangle Width="40" Height="10" Fill="CadetBlue"/>
+                              </StackPanel>
                         </DataTemplate>
                     </avalonHelpers:PanesTemplateSelector.FileViewTemplate>
+
+
                     <avalonHelpers:PanesTemplateSelector.FileStatsViewTemplate>
                         <DataTemplate>
                             <Border Padding="5">
@@ -70,6 +84,12 @@
                             <Setter Property="ContentId" Value="{Binding Model.ContentId}"/>
                         </Style>
                     </avalonHelpers:PanesStyleSelector.FileStyle>
+                    <avalonHelpers:PanesStyleSelector.DiagramStyle>
+                        <Style TargetType="{x:Type avalon:LayoutItem}">
+                            <Setter Property="Title" Value="{Binding Model.CSVFilePath}"/>
+                        </Style>
+                    </avalonHelpers:PanesStyleSelector.DiagramStyle>
+
                 </avalonHelpers:PanesStyleSelector>
             </avalon:DockingManager.LayoutItemContainerStyleSelector>
             <avalon:DockingManager.LayoutUpdateStrategy>
@@ -79,8 +99,8 @@
             <avalon:LayoutRoot>
                 <avalon:LayoutPanel Orientation="Vertical">
                     <avalon:LayoutDocumentPane/>
-                    <avalon:LayoutAnchorablePane Name="ToolsPane" DockHeight="150">
-                    </avalon:LayoutAnchorablePane>
+                    <avalon:LayoutAnchorablePane Name="ToolsPane" DockHeight="150"/>
+
                 </avalon:LayoutPanel>
             </avalon:LayoutRoot>
         </avalon:DockingManager>

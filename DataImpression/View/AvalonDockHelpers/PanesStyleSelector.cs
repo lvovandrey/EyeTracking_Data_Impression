@@ -22,6 +22,12 @@ namespace DataImpression.View.AvalonDockHelpers
             set;
         }
 
+        public Style DiagramStyle
+        {
+            get;
+            set;
+        }
+
         public override System.Windows.Style SelectStyle(object item, System.Windows.DependencyObject container)
         {
             if (item is ToolVM)
@@ -29,6 +35,9 @@ namespace DataImpression.View.AvalonDockHelpers
 
             if (item is FileVM)
                 return FileStyle;
+
+            if (item is TestDiagramVM)
+                return DiagramStyle;
 
             return base.SelectStyle(item, container);
         }
