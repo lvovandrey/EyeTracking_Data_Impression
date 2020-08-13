@@ -22,8 +22,9 @@
         <Button Height="20" Content="{Binding Test}"/>
 
         <avalon:DockingManager x:Name="dockManager" 
-                                   DocumentsSource="{Binding ResultViews}"
-                                   ActiveContent="{Binding ActiveResultView, Mode=TwoWay, Converter={StaticResource ActiveDocumentConverter}}"
+                                   AnchorablesSource="{Binding Tools}" 
+                                   DocumentsSource="{Binding Files}"
+                                   ActiveContent="{Binding ActiveDocument, Mode=TwoWay, Converter={StaticResource ActiveDocumentConverter}}"
                                    Grid.Row="1">
             <avalon:DockingManager.LayoutItemTemplateSelector>
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataImpression.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ namespace DataImpression.View.AvalonDockHelpers
         public FileStatsVM()
             : base("File Stats")
         {
-           
+            ResultsViewAreaVM.This.ActiveDocumentChanged += new EventHandler(OnActiveDocumentChanged);
             ContentId = ToolContentId;
 
             BitmapImage bi = new BitmapImage();
@@ -62,7 +63,12 @@ namespace DataImpression.View.AvalonDockHelpers
 
         #endregion
 
+        void OnActiveDocumentChanged(object sender, EventArgs e)
+        {
 
+                FileSize = new Random().Next();
+                LastModified = DateTime.MinValue;
+        }
 
 
     }

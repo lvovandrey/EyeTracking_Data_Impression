@@ -23,6 +23,7 @@ namespace DataImpression.View
         public ResultsViewAreaView()
         {
             InitializeComponent();
+
         }
     }
 }
