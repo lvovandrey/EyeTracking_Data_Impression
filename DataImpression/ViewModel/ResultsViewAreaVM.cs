@@ -14,16 +14,18 @@ namespace DataImpression.ViewModel
     public class ResultsViewAreaVM: INPCBase
     {
         #region ctor
-        public ResultsViewAreaVM(Model model)
+        public ResultsViewAreaVM(Model model, MainWindowViewModel mainWindowViewModel)
         {
             _model = model;
             _this = this;
             DiagramVM = new FAOIDiagramVM(model);
+            _mainWindowViewModel = mainWindowViewModel;
         }
 
         FAOIDiagramVM diagramVM;
         public FAOIDiagramVM DiagramVM { get { return diagramVM; } set { diagramVM = value; OnPropertyChanged("DiagramVM"); } }
 
+        private MainWindowViewModel _mainWindowViewModel;
 
 
         static ResultsViewAreaVM _this;
@@ -99,7 +101,7 @@ namespace DataImpression.ViewModel
             get
             {
                 if (_tools == null)
-                    _tools = new ToolVM[] { FileStats };
+                    _tools = new ToolVM[] { ProjectExplorer };
                 return _tools;
             }
         }
@@ -113,6 +115,18 @@ namespace DataImpression.ViewModel
                     _fileStats = new FileStatsVM();
 
                 return _fileStats;
+            }
+        }
+
+        ProjectExplorerVM _projectExplorer = null;
+        public ProjectExplorerVM ProjectExplorer
+        {
+            get
+            {
+                if (_projectExplorer == null)
+                    _projectExplorer = new ProjectExplorerVM(_mainWindowViewModel, _model);
+
+                return _projectExplorer;
             }
         }
 

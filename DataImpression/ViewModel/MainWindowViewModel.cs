@@ -28,7 +28,7 @@ namespace DataImpression.ViewModel
             FAOIsInputVM = new FAOIsInputVM(_model, MainWindow.FAOIsInput.FAOIsInputListView);
             ProcessingTaskVM = new ProcessingTaskVM(_model);
           //  FAOIDiagramVM = new FAOIDiagramVM(_model);
-            ResultsViewAreaVM = new ResultsViewAreaVM(_model);
+            ResultsViewAreaVM = new ResultsViewAreaVM(_model, this);
             InputStage = InputStage.None;
             OnPropertyChanged("TimeColumnChoiceOpacity");
         }
@@ -230,7 +230,7 @@ namespace DataImpression.ViewModel
                 case InputStage.ProcessingTask:
                     {
                         InputStage = InputStage.ViewResults;
-                        ResultsViewAreaVM = new ResultsViewAreaVM(_model);
+                        ResultsViewAreaVM = new ResultsViewAreaVM(_model, this);
                         break;
                     }
                 case InputStage.ViewResults:
@@ -312,12 +312,14 @@ namespace DataImpression.ViewModel
                 return addResultsViewCommand ?? (addResultsViewCommand = new RelayCommand(obj =>
                 {
                     ResultsViewAreaVM.ResultViewsAdd("Новое что-то");
+
                 }));
             }
         }
 
 
 
+        
         #endregion
     }
 }

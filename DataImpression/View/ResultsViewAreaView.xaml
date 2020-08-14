@@ -41,8 +41,6 @@
                         </DataTemplate>
                     </avalonHelpers:PanesTemplateSelector.TestDiagramViewTemplate>
 
-
-
                     <avalonHelpers:PanesTemplateSelector.FileStatsViewTemplate>
                         <DataTemplate>
                             <Border Padding="5">
@@ -54,6 +52,14 @@
                             </Border>
                         </DataTemplate>
                     </avalonHelpers:PanesTemplateSelector.FileStatsViewTemplate>
+
+                    <avalonHelpers:PanesTemplateSelector.ProjectExplorerTemplate>
+                        <DataTemplate>
+                            <Border Padding="5" BorderBrush="Black" BorderThickness="1">
+                                <local:ProjectExplorerView/>
+                            </Border>
+                        </DataTemplate>
+                    </avalonHelpers:PanesTemplateSelector.ProjectExplorerTemplate>
                     
                 </avalonHelpers:PanesTemplateSelector>
             </avalon:DockingManager.LayoutItemTemplateSelector>
@@ -78,6 +84,12 @@
                         </Style>
                     </avalonHelpers:PanesStyleSelector.DiagramStyle>
 
+                    <avalonHelpers:PanesStyleSelector.ProjectExplorerStyle>
+                        <Style TargetType="{x:Type avalon:LayoutItem}">
+                            <Setter Property="Title" Value="Обозреватель проекта"/>
+                        </Style>
+                    </avalonHelpers:PanesStyleSelector.ProjectExplorerStyle>
+                    
                 </avalonHelpers:PanesStyleSelector>
             </avalon:DockingManager.LayoutItemContainerStyleSelector>
             <avalon:DockingManager.LayoutUpdateStrategy>
@@ -86,8 +98,8 @@
 
             <avalon:LayoutRoot>
                 <avalon:LayoutPanel Orientation="Horizontal">
+                    <avalon:LayoutAnchorablePane Name="ToolsPane" DockWidth="250"/>
                     <avalon:LayoutDocumentPane/>
-                    <avalon:LayoutAnchorablePane Name="ToolsPane" DockWidth="150"/>
                 </avalon:LayoutPanel>
             </avalon:LayoutRoot>
         </avalon:DockingManager>

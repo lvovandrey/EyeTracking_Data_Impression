@@ -84,6 +84,7 @@
     <Compile Include="ViewModel\FAOIsInputVM.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\ProcessingTaskVM.cs" />
+    <Compile Include="ViewModel\ProjectExplorerVM.cs" />
     <Compile Include="ViewModel\ResultsViewAreaVM.cs" />
     <Compile Include="ViewModel\TimeColumnChoiceVM.cs" />
     <Compile Include="View\AOIHitColumnsChoiceView.xaml.cs">
@@ -110,6 +111,9 @@
     </Compile>
     <Compile Include="View\ProcessingTaskView.xaml.cs">
       <DependentUpon>ProcessingTaskView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ProjectExplorerView.xaml.cs">
+      <DependentUpon>ProjectExplorerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ResultsViewAreaView.xaml.cs">
       <DependentUpon>ResultsViewAreaView.xaml</DependentUpon>
@@ -146,6 +150,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ProcessingTaskView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ProjectExplorerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

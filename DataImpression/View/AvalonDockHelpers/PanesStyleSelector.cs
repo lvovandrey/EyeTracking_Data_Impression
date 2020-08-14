@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataImpression.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,6 +29,12 @@ namespace DataImpression.View.AvalonDockHelpers
             set;
         }
 
+        public Style ProjectExplorerStyle
+        {
+            get;
+            set;
+        }
+
         public override System.Windows.Style SelectStyle(object item, System.Windows.DependencyObject container)
         {
             if (item is ToolVM)
@@ -38,6 +45,9 @@ namespace DataImpression.View.AvalonDockHelpers
 
             if (item is TestDiagramVM)
                 return DiagramStyle;
+
+            if (item is ProjectExplorerVM)
+                return ProjectExplorerStyle;
 
             return base.SelectStyle(item, container);
         }

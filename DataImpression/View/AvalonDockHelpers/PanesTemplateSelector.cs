@@ -1,4 +1,5 @@
 ﻿using AvalonDock.Layout;
+using DataImpression.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,12 @@ namespace DataImpression.View.AvalonDockHelpers
             set;
         }
 
+        public DataTemplate ProjectExplorerTemplate
+        {
+            get;
+            set;
+        }
+
         public DataTemplate TestDiagramViewTemplate
         {
             get;
@@ -47,6 +54,9 @@ namespace DataImpression.View.AvalonDockHelpers
 
             if (item is TestDiagramVM)
                 return TestDiagramViewTemplate;
+
+            if (item is ProjectExplorerVM)
+                return ProjectExplorerTemplate;
 
             return base.SelectTemplate(item, container);
         }
