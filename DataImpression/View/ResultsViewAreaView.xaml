@@ -4,47 +4,92 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DataImpression.View"
+             xmlns:avalonHelpers="clr-namespace:DataImpression.View.AvalonDockHelpers"
              xmlns:avalon="https://github.com/Dirkster99/AvalonDock"
-             xmlns:ribbon="clr-namespace:System.Windows.Controls.Ribbon.Primitives;assembly=System.Windows.Controls.Ribbon"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              mc:Ignorable="d" 
+             
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <avalonHelpers:ActiveDocumentConverter x:Key="ActiveDocumentConverter"/>
+        <avalonHelpers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </UserControl.Resources>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-
-
         <avalon:DockingManager x:Name="dockManager" 
-                                   DocumentsSource="{Binding ResultViews}"
-                                   ActiveContent="{Binding ActiveResultView, Mode=TwoWay }"
+                                   AnchorablesSource="{Binding Tools}" 
+                                   DocumentsSource="{Binding TestDiargamVMs}"
+                                   ActiveContent="{Binding ActiveDocument, Mode=TwoWay, Converter={StaticResource ActiveDocumentConverter}}"
                                    Grid.Row="1">
+            <avalon:DockingManager.LayoutItemTemplateSelector>
+
+                <avalonHelpers:PanesTemplateSelector>
+                    <avalonHelpers:PanesTemplateSelector.TestDiagramViewTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="Black" BorderThickness="1">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <local:FAOIDiagramView DataContext="{Binding FAOIDiagramVM, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" />
+                                    <StackPanel Grid.Row="1">
+                                        <TextBlock Text="{Binding CSVFilePath, StringFormat={}Файл:  {0}}" />
+                                        <TextBlock Text="{Binding RecordingCount, StringFormat={}Кол-во фиксаций:  {0}}" />
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </avalonHelpers:PanesTemplateSelector.TestDiagramViewTemplate>
+
+
+
+                    <avalonHelpers:PanesTemplateSelector.FileStatsViewTemplate>
+                        <DataTemplate>
+                            <Border Padding="5">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="{Binding FileSize}"/>
+                                    <TextBlock Text="{Binding LastModified}"/>
+                                    <TextBox Text="test"/>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </avalonHelpers:PanesTemplateSelector.FileStatsViewTemplate>
+                    
+                </avalonHelpers:PanesTemplateSelector>
+            </avalon:DockingManager.LayoutItemTemplateSelector>
+
+            <avalon:DockingManager.LayoutItemContainerStyleSelector>
+                <avalonHelpers:PanesStyleSelector>
+                    <avalonHelpers:PanesStyleSelector.ToolStyle>
+                        <Style TargetType="{x:Type avalon:LayoutAnchorableItem}">
+                            <Setter Property="Title" Value="{Binding Model.Title}"/>
+                            <Setter Property="IconSource" Value="{Binding Model.IconSource}"/>
+                            <Setter Property="Visibility" Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}"/>
+                            <Setter Property="ContentId" Value="{Binding Model.ContentId}"/>
+                            <Setter Property="IsSelected" Value="{Binding Model.IsSelected, Mode=TwoWay}"/>
+                            <Setter Property="IsActive" Value="{Binding Model.IsActive, Mode=TwoWay}"/>
+                        </Style>
+                    </avalonHelpers:PanesStyleSelector.ToolStyle>
+                    
+                    <avalonHelpers:PanesStyleSelector.DiagramStyle>
+                        <Style TargetType="{x:Type avalon:LayoutItem}">
+                            <Setter Property="Title" Value="{Binding Model.Title}"/>
+                            <Setter Property="IconSource" Value="{Binding Model.IconSource}"/>
+                        </Style>
+                    </avalonHelpers:PanesStyleSelector.DiagramStyle>
+
+                </avalonHelpers:PanesStyleSelector>
+            </avalon:DockingManager.LayoutItemContainerStyleSelector>
+            <avalon:DockingManager.LayoutUpdateStrategy>
+                <avalonHelpers:LayoutInitializer/>
+            </avalon:DockingManager.LayoutUpdateStrategy>
+
             <avalon:LayoutRoot>
-                <LayoutPanel>
-                    <LayoutPanel.
-                </LayoutPanel>
-            </avalon:LayoutRoot>
-
-        </avalon:DockingManager>
-
-
-        <!--<avalon:DockingManager Grid.Row="1">
-            <avalon:LayoutRoot >
-                <avalon:LayoutPanel>
-                    <avalon:LayoutDocumentPane >
-                        <avalon:LayoutDocument Title="NNNN" CanMove="True">
-                            <Grid>
-                                <TextBlock>asdfsdf</TextBlock>
-                                <Button Width="100" Height="100">sdfs</Button>
-                            </Grid>
-                        </avalon:LayoutDocument>
-                    </avalon:LayoutDocumentPane>
-
-
+                <avalon:LayoutPanel Orientation="Horizontal">
+                    <avalon:LayoutDocumentPane/>
+                    <avalon:LayoutAnchorablePane Name="ToolsPane" DockWidth="150"/>
                 </avalon:LayoutPanel>
-
-
             </avalon:LayoutRoot>
-        </avalon:DockingManager>-->
-    </Grid>
+        </avalon:DockingManager>
+      </Grid>
 </UserControl>

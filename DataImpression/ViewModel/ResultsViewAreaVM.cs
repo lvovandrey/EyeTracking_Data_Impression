@@ -1,5 +1,6 @@
 ﻿using DataImpression.AbstractMVVM;
 using DataImpression.Models;
+using DataImpression.View.AvalonDockHelpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,14 +17,30 @@ namespace DataImpression.ViewModel
         public ResultsViewAreaVM(Model model)
         {
             _model = model;
+            _this = this;
+            DiagramVM = new FAOIDiagramVM(model);
         }
+
+        FAOIDiagramVM diagramVM;
+        public FAOIDiagramVM DiagramVM { get { return diagramVM; } set { diagramVM = value; OnPropertyChanged("DiagramVM"); } }
+
+
+
+        static ResultsViewAreaVM _this;
+
+        public static ResultsViewAreaVM This
+        {
+            get { return _this; }
+        }
+
+
         #endregion
 
         #region Fields
         /// <summary>
         /// Модель данных
         /// </summary>
-        Model _model;
+        private Model _model;
 
         #endregion
 
@@ -43,12 +60,104 @@ namespace DataImpression.ViewModel
             }
         }
 
-        public ObservableCollection<string> ResultViews = new ObservableCollection<string>();
+        #region НадоПоменятьПотом
+
+        /// это надо будет переделать
+        ObservableCollection<FileVM> _files = new ObservableCollection<FileVM>();
+        ReadOnlyObservableCollection<FileVM> _readonyFiles = null;
+        public ReadOnlyObservableCollection<FileVM> Files
+        {
+            get
+            {
+                if (_readonyFiles == null)
+                    _readonyFiles = new ReadOnlyObservableCollection<FileVM>(_files);
+
+                return _readonyFiles;
+            }
+        }
+
+        ObservableCollection<TestDiagramVM> testDiargamVMs = new ObservableCollection<TestDiagramVM>();
+        ReadOnlyObservableCollection<TestDiagramVM> readonyTestDiargamVMs = null;
+        public ReadOnlyObservableCollection<TestDiagramVM> TestDiargamVMs
+        {
+            get
+            {
+                if (readonyTestDiargamVMs == null)
+                    readonyTestDiargamVMs = new ReadOnlyObservableCollection<TestDiagramVM>(testDiargamVMs);
+
+                return readonyTestDiargamVMs;
+            }
+        }
+
+
+
+
+        ToolVM[] _tools = null;
+
+        public IEnumerable<ToolVM> Tools
+        {
+            get
+            {
+                if (_tools == null)
+                    _tools = new ToolVM[] { FileStats };
+                return _tools;
+            }
+        }
+
+        FileStatsVM _fileStats = null;
+        public FileStatsVM FileStats
+        {
+            get
+            {
+                if (_fileStats == null)
+                    _fileStats = new FileStatsVM();
+
+                return _fileStats;
+            }
+        }
+
 
         internal void ResultViewsAdd(string v)
         {
-            ResultViews.Add(v);
-            OnPropertyChanged("ResultViews");
+            testDiargamVMs.Add(new TestDiagramVM(_model));
+            ActiveDocument = testDiargamVMs.Last();
+
+            _files.Add(new FileVM());
+
+
+        }
+
+
+
+        private TestDiagramVM _activeDocument = null;
+        public TestDiagramVM ActiveDocument
+        {
+            get { return _activeDocument; }
+            set
+            {
+                if (_activeDocument != value)
+                {
+                    _activeDocument = value;
+                    OnPropertyChanged("ActiveDocument");
+                    if (ActiveDocumentChanged != null)
+                        ActiveDocumentChanged(this, EventArgs.Empty);
+                }
+            }
+        }
+
+        public event EventHandler ActiveDocumentChanged;
+
+
+
+        #endregion
+
+        public ObservableCollection<FileVM> ResultViews = new ObservableCollection<FileVM>();
+
+
+
+        internal bool CanExecuteNextInputStage()
+        {
+            return true;
         }
         #endregion
     }
