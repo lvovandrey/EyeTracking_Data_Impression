@@ -2,6 +2,7 @@
 using DataImpression.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,11 +16,8 @@ namespace DataImpression.View.AvalonDockHelpers
         public TestDiagramVM(Model _model)
         {
             model = _model;
-
-            //Set the icon only for open documents (just a test)
             IconSource = ISC.ConvertFromInvariantString(@"pack://application:,,/Images/Table-Add.png") as ImageSource;
-            Title = CSVFilePath;
-            OnPropertyChanged("FAOIDiagramVM");
+            Title = Path.GetFileName(CSVFilePath);
         }
 
         private Model model;
@@ -27,12 +25,12 @@ namespace DataImpression.View.AvalonDockHelpers
         #region CONTENT
         public string CSVFilePath
         {
-            get { OnPropertyChanged("FAOIDiagramVM"); return model.SourceData.CSVFileName; }
+            get { return model.SourceData.CSVFileName; }
         }
 
         public int RecordingCount
         {
-            get { OnPropertyChanged("FAOIDiagramVM"); return model.Results.TobiiCSVRecordsList.Count; }
+            get { return model.Results.TobiiCSVRecordsList.Count; }
         }
 
         public FAOIDiagramVM FAOIDiagramVM

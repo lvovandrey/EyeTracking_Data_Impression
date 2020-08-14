@@ -25,7 +25,7 @@ namespace DataImpression.View.AvalonDockHelpers
 
         public const string ToolContentId = "FileStatsTool";
 
-       
+
 
         #region FileSize
 
@@ -66,8 +66,8 @@ namespace DataImpression.View.AvalonDockHelpers
         void OnActiveDocumentChanged(object sender, EventArgs e)
         {
 
-                FileSize = new Random().Next();
-                LastModified = DateTime.MinValue;
+            FileSize = new Random().Next();
+            LastModified = DateTime.MinValue;
         }
 
 

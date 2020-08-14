@@ -124,7 +124,7 @@ namespace DataImpression.ViewModel
 
             _files.Add(new FileVM());
 
-            Test++; OnPropertyChanged("Test");
+
         }
 
 
@@ -153,15 +153,7 @@ namespace DataImpression.ViewModel
 
         public ObservableCollection<FileVM> ResultViews = new ObservableCollection<FileVM>();
 
-        internal void ResultViewsAdd_bad(string v)
-        {
-            ResultViews.Add(new FileVM());
-            OnPropertyChanged("ResultViews");
-            Test++; OnPropertyChanged("Test");
 
-        }
-
-        public int Test { get; private set; } = 3;
 
         internal bool CanExecuteNextInputStage()
         {

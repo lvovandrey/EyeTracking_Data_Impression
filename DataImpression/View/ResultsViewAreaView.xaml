@@ -15,18 +15,6 @@
         <avalonHelpers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </UserControl.Resources>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-
-        
-        <Button Height="20" Content="{Binding Test}"/>
-
         <avalon:DockingManager x:Name="dockManager" 
                                    AnchorablesSource="{Binding Tools}" 
                                    DocumentsSource="{Binding TestDiargamVMs}"
@@ -34,36 +22,25 @@
                                    Grid.Row="1">
             <avalon:DockingManager.LayoutItemTemplateSelector>
 
-            <avalonHelpers:PanesTemplateSelector>
+                <avalonHelpers:PanesTemplateSelector>
                     <avalonHelpers:PanesTemplateSelector.TestDiagramViewTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Vertical">
-                            
-                                <TextBlock Text="{Binding CSVFilePath, UpdateSourceTrigger=PropertyChanged}" Background="Green" />
-                                <TextBlock Text="{Binding RecordingCount, UpdateSourceTrigger=PropertyChanged}" Background="Green" />
-
-                                <Rectangle Width="40" Height="10" Fill="CadetBlue"/>
-                                <local:FAOIDiagramView DataContext="{Binding FAOIDiagramVM, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Width="200" Height="200" />
-
-                                <!--<lvc:CartesianChart  Series="{Binding FAOIDiagramVM.SeriesCollection, UpdateSourceTrigger=PropertyChanged}" LegendLocation="None" Grid.Row="1" Height="400" >
-                                    <lvc:CartesianChart.AxisX>
-                                        <lvc:Axis Title="Зона" Labels="{Binding FAOIDiagramVM.Labels, UpdateSourceTrigger=PropertyChanged}"></lvc:Axis>
-                                    </lvc:CartesianChart.AxisX>
-                                    <lvc:CartesianChart.AxisY>
-                                        <lvc:Axis Title="Процент времени фиксаций, %" LabelFormatter="{Binding Formatter, UpdateSourceTrigger=PropertyChanged}" MinValue="0"></lvc:Axis>
-                                    </lvc:CartesianChart.AxisY>
-                                </lvc:CartesianChart>-->
-                            </StackPanel>
+                            <Border BorderBrush="Black" BorderThickness="1">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <local:FAOIDiagramView DataContext="{Binding FAOIDiagramVM, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" />
+                                    <StackPanel Grid.Row="1">
+                                        <TextBlock Text="{Binding CSVFilePath, StringFormat={}Файл:  {0}}" />
+                                        <TextBlock Text="{Binding RecordingCount, StringFormat={}Кол-во фиксаций:  {0}}" />
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
                         </DataTemplate>
                     </avalonHelpers:PanesTemplateSelector.TestDiagramViewTemplate>
 
-                    <avalonHelpers:PanesTemplateSelector.FileViewTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Vertical">
-                                <Rectangle Width="40" Height="10" Fill="CadetBlue"/>
-                              </StackPanel>
-                        </DataTemplate>
-                    </avalonHelpers:PanesTemplateSelector.FileViewTemplate>
 
 
                     <avalonHelpers:PanesTemplateSelector.FileStatsViewTemplate>
@@ -77,6 +54,7 @@
                             </Border>
                         </DataTemplate>
                     </avalonHelpers:PanesTemplateSelector.FileStatsViewTemplate>
+                    
                 </avalonHelpers:PanesTemplateSelector>
             </avalon:DockingManager.LayoutItemTemplateSelector>
 
@@ -92,18 +70,11 @@
                             <Setter Property="IsActive" Value="{Binding Model.IsActive, Mode=TwoWay}"/>
                         </Style>
                     </avalonHelpers:PanesStyleSelector.ToolStyle>
-                    <avalonHelpers:PanesStyleSelector.FileStyle>
-                        <Style TargetType="{x:Type avalon:LayoutItem}">
-                            <Setter Property="Title" Value="{Binding Model.Title}"/>
-                            <Setter Property="ToolTip" Value="{Binding Model.FilePath}"/>
-                            <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}"/>
-                            <Setter Property="IconSource" Value="{Binding Model.IconSource}"/>
-                            <Setter Property="ContentId" Value="{Binding Model.ContentId}"/>
-                        </Style>
-                    </avalonHelpers:PanesStyleSelector.FileStyle>
+                    
                     <avalonHelpers:PanesStyleSelector.DiagramStyle>
                         <Style TargetType="{x:Type avalon:LayoutItem}">
-                            <Setter Property="Title" Value="{Binding Model.CSVFilePath}"/>
+                            <Setter Property="Title" Value="{Binding Model.Title}"/>
+                            <Setter Property="IconSource" Value="{Binding Model.IconSource}"/>
                         </Style>
                     </avalonHelpers:PanesStyleSelector.DiagramStyle>
 
@@ -114,14 +85,11 @@
             </avalon:DockingManager.LayoutUpdateStrategy>
 
             <avalon:LayoutRoot>
-                <avalon:LayoutPanel Orientation="Vertical">
+                <avalon:LayoutPanel Orientation="Horizontal">
                     <avalon:LayoutDocumentPane/>
-                    <avalon:LayoutAnchorablePane Name="ToolsPane" DockHeight="150"/>
-
+                    <avalon:LayoutAnchorablePane Name="ToolsPane" DockWidth="150"/>
                 </avalon:LayoutPanel>
             </avalon:LayoutRoot>
         </avalon:DockingManager>
-
-        <local:FAOIDiagramView DataContext="{Binding DiagramVM, UpdateSourceTrigger=PropertyChanged}"></local:FAOIDiagramView>
-    </Grid>
+      </Grid>
 </UserControl>
