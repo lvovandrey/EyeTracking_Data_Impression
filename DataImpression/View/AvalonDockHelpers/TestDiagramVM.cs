@@ -19,7 +19,7 @@ namespace DataImpression.View.AvalonDockHelpers
             //Set the icon only for open documents (just a test)
             IconSource = ISC.ConvertFromInvariantString(@"pack://application:,,/Images/Table-Add.png") as ImageSource;
             Title = CSVFilePath;
-            FAOIDiagramVM = new FAOIDiagramVM(model);
+            OnPropertyChanged("FAOIDiagramVM");
         }
 
         private Model model;
@@ -27,17 +27,18 @@ namespace DataImpression.View.AvalonDockHelpers
         #region CONTENT
         public string CSVFilePath
         {
-            get { return model.SourceData.CSVFileName; }
+            get { OnPropertyChanged("FAOIDiagramVM"); return model.SourceData.CSVFileName; }
         }
 
         public int RecordingCount
         {
-            get { return model.Results.TobiiCSVRecordsList.Count; }
+            get { OnPropertyChanged("FAOIDiagramVM"); return model.Results.TobiiCSVRecordsList.Count; }
         }
 
         public FAOIDiagramVM FAOIDiagramVM
         {
-            get; set;
+            get { if (model == null) return null;
+                return new FAOIDiagramVM(model);  }
         }
         #endregion
 

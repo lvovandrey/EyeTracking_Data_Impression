@@ -48,7 +48,7 @@ namespace DataImpression.View
             Labels = new[] { "Maria", "Susan", "Charles", "Frida" };
             Formatter = value => value.ToString("N");
 
-            DataContext = this;
+//            DataContext = this;
         }
 
         public SeriesCollection SeriesCollection { get; set; }
