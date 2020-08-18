@@ -65,9 +65,6 @@ namespace DataImpression.Models
         #region Fields
         #endregion
 
-        #region Properties
-        #endregion
-
         #region Methods
 
         /// <summary>

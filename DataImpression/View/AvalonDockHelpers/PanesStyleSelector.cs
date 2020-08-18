@@ -17,7 +17,7 @@ namespace DataImpression.View.AvalonDockHelpers
             set;
         }
 
-        public Style FileStyle
+        public Style DocumentViewStyle
         {
             get;
             set;
@@ -40,8 +40,8 @@ namespace DataImpression.View.AvalonDockHelpers
             if (item is ToolVM)
                 return ToolStyle;
 
-            if (item is FileVM)
-                return FileStyle;
+            if (item is DocumentViewVM)
+                return DocumentViewStyle;
 
             if (item is TestDiagramVM)
                 return DiagramStyle;

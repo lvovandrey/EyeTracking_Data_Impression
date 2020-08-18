@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataImpression.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ namespace DataImpression.View.AvalonDockHelpers
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (value is TestDiagramVM)
+            if (value is DocumentViewVM)
                 return value;
 
             return Binding.DoNothing;
@@ -19,7 +20,7 @@ namespace DataImpression.View.AvalonDockHelpers
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (value is TestDiagramVM)
+            if (value is DocumentViewVM)
                 return value;
 
             return Binding.DoNothing;

@@ -18,17 +18,7 @@ namespace DataImpression.View.AvalonDockHelpers
         }
 
 
-        public DataTemplate FileViewTemplate
-        {
-            get;
-            set;
-        }
 
-        public DataTemplate FileStatsViewTemplate
-        {
-            get;
-            set;
-        }
 
         public DataTemplate ProjectExplorerTemplate
         {
@@ -42,18 +32,22 @@ namespace DataImpression.View.AvalonDockHelpers
             set;
         }
 
+        public DataTemplate DocumentViewTemplate
+        {
+            get;
+            set;
+        }
+
         public override System.Windows.DataTemplate SelectTemplate(object item, System.Windows.DependencyObject container)
         {
             var itemAsLayoutContent = item as LayoutContent;
 
-            if (item is FileVM)
-                return FileViewTemplate;
-
-            if (item is FileStatsVM)
-                return FileStatsViewTemplate;
 
             if (item is TestDiagramVM)
                 return TestDiagramViewTemplate;
+
+            if (item is DocumentViewVM)
+                return DocumentViewTemplate;
 
             if (item is ProjectExplorerVM)
                 return ProjectExplorerTemplate;

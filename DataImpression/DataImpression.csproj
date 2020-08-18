@@ -80,8 +80,12 @@
     <Compile Include="Models\ProcessingResults.cs" />
     <Compile Include="Models\ResultTypes\FAOIDistributed_Parameter.cs" />
     <Compile Include="ViewModel\AOIHitColumnsChoiceVM.cs" />
+    <Compile Include="ViewModel\DocumentBodyVM.cs" />
+    <Compile Include="ViewModel\DocumentViewVM.cs" />
     <Compile Include="ViewModel\FAOIDiagramVM.cs" />
+    <Compile Include="ViewModel\FAOIDistributedColumnChartVM.cs" />
     <Compile Include="ViewModel\FAOIsInputVM.cs" />
+    <Compile Include="ViewModel\IDocumentBodyVM.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\ProcessingTaskVM.cs" />
     <Compile Include="ViewModel\ProjectExplorerVM.cs" />
@@ -92,19 +96,23 @@
     </Compile>
     <Compile Include="View\AvalonDockHelpers\ActiveDocumentConverter.cs" />
     <Compile Include="View\AvalonDockHelpers\BoolToVisibilityConverter.cs" />
-    <Compile Include="View\AvalonDockHelpers\FileStatsVM.cs" />
-    <Compile Include="View\AvalonDockHelpers\FileVM.cs" />
     <Compile Include="View\AvalonDockHelpers\LayoutInitializer.cs" />
     <Compile Include="View\AvalonDockHelpers\PanesStyleSelector.cs" />
     <Compile Include="View\AvalonDockHelpers\PanesTemplateSelector.cs" />
     <Compile Include="View\AvalonDockHelpers\PaneVM.cs" />
     <Compile Include="View\AvalonDockHelpers\TestDiagramVM.cs" />
     <Compile Include="View\AvalonDockHelpers\ToolVM.cs" />
+    <Compile Include="View\DocumentView.xaml.cs">
+      <DependentUpon>DocumentView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Elements\PropertyViewer.xaml.cs">
       <DependentUpon>PropertyViewer.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\FAOIDiagramView.xaml.cs">
       <DependentUpon>FAOIDiagramView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FAOIDistributedColumnChartView.xaml.cs">
+      <DependentUpon>FAOIDistributedColumnChartView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\FAOIsInputView.xaml.cs">
       <DependentUpon>FAOIsInputView.xaml</DependentUpon>
@@ -137,11 +145,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\DocumentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Elements\PropertyViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\FAOIDiagramView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FAOIDistributedColumnChartView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

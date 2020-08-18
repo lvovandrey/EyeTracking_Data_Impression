@@ -64,30 +64,16 @@ namespace DataImpression.ViewModel
 
         #region НадоПоменятьПотом
 
-        /// это надо будет переделать
-        ObservableCollection<FileVM> _files = new ObservableCollection<FileVM>();
-        ReadOnlyObservableCollection<FileVM> _readonyFiles = null;
-        public ReadOnlyObservableCollection<FileVM> Files
+        ObservableCollection<DocumentViewVM> documentViewVMs = new ObservableCollection<DocumentViewVM>();
+        ReadOnlyObservableCollection<DocumentViewVM> readonyDocumentViewVMs = null;
+        public ReadOnlyObservableCollection<DocumentViewVM> DocumentViewVMs
         {
             get
             {
-                if (_readonyFiles == null)
-                    _readonyFiles = new ReadOnlyObservableCollection<FileVM>(_files);
+                if (readonyDocumentViewVMs == null)
+                    readonyDocumentViewVMs = new ReadOnlyObservableCollection<DocumentViewVM>(documentViewVMs);
 
-                return _readonyFiles;
-            }
-        }
-
-        ObservableCollection<TestDiagramVM> testDiargamVMs = new ObservableCollection<TestDiagramVM>();
-        ReadOnlyObservableCollection<TestDiagramVM> readonyTestDiargamVMs = null;
-        public ReadOnlyObservableCollection<TestDiagramVM> TestDiargamVMs
-        {
-            get
-            {
-                if (readonyTestDiargamVMs == null)
-                    readonyTestDiargamVMs = new ReadOnlyObservableCollection<TestDiagramVM>(testDiargamVMs);
-
-                return readonyTestDiargamVMs;
+                return readonyDocumentViewVMs;
             }
         }
 
@@ -106,18 +92,7 @@ namespace DataImpression.ViewModel
             }
         }
 
-        FileStatsVM _fileStats = null;
-        public FileStatsVM FileStats
-        {
-            get
-            {
-                if (_fileStats == null)
-                    _fileStats = new FileStatsVM();
-
-                return _fileStats;
-            }
-        }
-
+      
         ProjectExplorerVM _projectExplorer = null;
         public ProjectExplorerVM ProjectExplorer
         {
@@ -133,18 +108,14 @@ namespace DataImpression.ViewModel
 
         internal void ResultViewsAdd(string v)
         {
-            testDiargamVMs.Add(new TestDiagramVM(_model));
-            ActiveDocument = testDiargamVMs.Last();
-
-            _files.Add(new FileVM());
-
-
+            documentViewVMs.Add(new DocumentViewVM(_model));
+            ActiveDocument = documentViewVMs.Last();
         }
 
 
 
-        private TestDiagramVM _activeDocument = null;
-        public TestDiagramVM ActiveDocument
+        private DocumentViewVM _activeDocument = null;
+        public DocumentViewVM ActiveDocument
         {
             get { return _activeDocument; }
             set
@@ -164,10 +135,6 @@ namespace DataImpression.ViewModel
 
 
         #endregion
-
-        public ObservableCollection<FileVM> ResultViews = new ObservableCollection<FileVM>();
-
-
 
         internal bool CanExecuteNextInputStage()
         {

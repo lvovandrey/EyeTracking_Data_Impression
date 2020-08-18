@@ -17,41 +17,23 @@
     <Grid>
         <avalon:DockingManager x:Name="dockManager" 
                                    AnchorablesSource="{Binding Tools}" 
-                                   DocumentsSource="{Binding TestDiargamVMs}"
+                                   DocumentsSource="{Binding DocumentViewVMs}"
                                    ActiveContent="{Binding ActiveDocument, Mode=TwoWay, Converter={StaticResource ActiveDocumentConverter}}"
                                    Grid.Row="1">
             <avalon:DockingManager.LayoutItemTemplateSelector>
 
                 <avalonHelpers:PanesTemplateSelector>
+                    <avalonHelpers:PanesTemplateSelector.DocumentViewTemplate>
+                        <DataTemplate>
+                             <local:DocumentView DataContext="{Binding DocumentViewVM, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </avalonHelpers:PanesTemplateSelector.DocumentViewTemplate>
+
                     <avalonHelpers:PanesTemplateSelector.TestDiagramViewTemplate>
                         <DataTemplate>
-                            <Border BorderBrush="Black" BorderThickness="1">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-                                    <local:FAOIDiagramView DataContext="{Binding FAOIDiagramVM, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" />
-                                    <StackPanel Grid.Row="1">
-                                        <TextBlock Text="{Binding CSVFilePath, StringFormat={}Файл:  {0}}" />
-                                        <TextBlock Text="{Binding RecordingCount, StringFormat={}Кол-во фиксаций:  {0}}" />
-                                    </StackPanel>
-                                </Grid>
-                            </Border>
+                            <local:DocumentView DataContext="{Binding DocumentViewVM, UpdateSourceTrigger=PropertyChanged}" />
                         </DataTemplate>
                     </avalonHelpers:PanesTemplateSelector.TestDiagramViewTemplate>
-
-                    <avalonHelpers:PanesTemplateSelector.FileStatsViewTemplate>
-                        <DataTemplate>
-                            <Border Padding="5">
-                                <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="{Binding FileSize}"/>
-                                    <TextBlock Text="{Binding LastModified}"/>
-                                    <TextBox Text="test"/>
-                                </StackPanel>
-                            </Border>
-                        </DataTemplate>
-                    </avalonHelpers:PanesTemplateSelector.FileStatsViewTemplate>
 
                     <avalonHelpers:PanesTemplateSelector.ProjectExplorerTemplate>
                         <DataTemplate>
@@ -83,6 +65,13 @@
                             <Setter Property="IconSource" Value="{Binding Model.IconSource}"/>
                         </Style>
                     </avalonHelpers:PanesStyleSelector.DiagramStyle>
+
+                    <avalonHelpers:PanesStyleSelector.DocumentViewStyle>
+                        <Style TargetType="{x:Type avalon:LayoutItem}">
+                            <Setter Property="Title" Value="{Binding Model.Title}"/>
+                            <Setter Property="IconSource" Value="{Binding Model.IconSource}"/>
+                        </Style>
+                    </avalonHelpers:PanesStyleSelector.DocumentViewStyle>
 
                     <avalonHelpers:PanesStyleSelector.ProjectExplorerStyle>
                         <Style TargetType="{x:Type avalon:LayoutItem}">
