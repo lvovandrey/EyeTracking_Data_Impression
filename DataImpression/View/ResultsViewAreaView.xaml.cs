@@ -25,5 +25,10 @@ namespace DataImpression.View
             InitializeComponent();
 
         }
+
+        private void DocumentView_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (((DocumentView)sender).DataContext is null) ;
+        }
     }
 }

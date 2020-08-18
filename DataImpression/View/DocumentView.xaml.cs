@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataImpression.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,5 +25,15 @@ namespace DataImpression.View
         {
             InitializeComponent();
         }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            if (DataContext is DocumentViewVM)
+            {
+                ((DocumentViewVM)DataContext).Body = this;
+            };
+        }
+
     }
 }

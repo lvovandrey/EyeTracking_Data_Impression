@@ -1,4 +1,5 @@
 ﻿using DataImpression.Models;
+using DataImpression.View;
 using DataImpression.View.AvalonDockHelpers;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace DataImpression.ViewModel
 {
@@ -26,6 +28,13 @@ namespace DataImpression.ViewModel
             get;
             set;
         }
+
+        public DocumentViewVM THIS 
+            {get {return this;} }
+
+        public DocumentView Body
+        { get;
+            set; }
         #endregion
 
     }

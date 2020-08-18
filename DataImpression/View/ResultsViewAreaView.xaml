@@ -25,7 +25,7 @@
                 <avalonHelpers:PanesTemplateSelector>
                     <avalonHelpers:PanesTemplateSelector.DocumentViewTemplate>
                         <DataTemplate>
-                             <local:DocumentView DataContext="{Binding DocumentViewVM, UpdateSourceTrigger=PropertyChanged}" />
+                            <local:DocumentView DataContext="{Binding THIS, UpdateSourceTrigger=PropertyChanged}"  Loaded="DocumentView_Loaded"/>
                         </DataTemplate>
                     </avalonHelpers:PanesTemplateSelector.DocumentViewTemplate>
 
