@@ -37,16 +37,7 @@ namespace DataImpression.ViewModel
 
         #region Properties
         ObservableCollection<FAOIVM> FAOIstmp;
-        //{
-        //    get 
-        //    {
-        //        return new ObservableCollection<FAOIVM>(from f in _model.SourceData.FAOIs select new FAOIVM(f));
-        //    }
-        //    set 
-        //    { 
-                
-        //    }
-        //}
+
         public ObservableCollection<FAOIVM> FAOIsVM
         {
             get

@@ -11,8 +11,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition />
+            <RowDefinition Height="*"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         <Menu HorizontalAlignment="Stretch"   >
@@ -20,23 +19,8 @@
                 <MenuItem Header="Открыть csv-файл" Command="{Binding OpenCSVFileCommand}"/>
             </MenuItem>
         </Menu>
-        <ToolBarTray Grid.Row="1">
-            <ToolBar>
-
-                <Button >
-                    <Image Source="/DataImpression;component/Images/Table-Add.png"  />
-                </Button>
-            </ToolBar>
-            <ToolBar Grid.Row="1">
-                <Button >
-                    <Image Source="/DataImpression;component/Images/Table-Chart.png"  />
-                </Button>
-                <Button >
-                    <Image Source="/DataImpression;component/Images/Table-Add.png"  />
-                </Button>
-            </ToolBar>
-        </ToolBarTray>
-        <Grid Grid.Row="2">
+        
+        <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
                 <RowDefinition/>
@@ -60,16 +44,20 @@
                                             Visibility="{Binding Visibility}"
                                            />
 
-            <views:FAOIDiagramView Grid.Row="1"
+            <!--<views:FAOIDiagramView Grid.Row="1"
                                     DataContext="{Binding FAOIDiagramVM}"
                                     Visibility="{Binding Visibility}"
-                                   />
+                                   />-->
+            <views:ResultsViewAreaView Grid.Row="1"
+                                      DataContext="{Binding ResultsViewAreaVM}"
+                                       Visibility="{Binding Visibility}"
+                                       />
 
             <Button Grid.Row="2" Content="Далее" HorizontalAlignment="Right"  Width="60" Margin="7"
                     Command="{Binding NextInputCommand}"/>
 
         </Grid>
  
-        <StatusBar Grid.Row="3"/>
+        <StatusBar Grid.Row="2"/>
     </Grid>
 </Window>

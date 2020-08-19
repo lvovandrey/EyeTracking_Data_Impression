@@ -1,0 +1,58 @@
+﻿<UserControl x:Class="DataImpression.View.ProjectExplorerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DataImpression.View"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="250">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <ToolBar Height="35" Grid.Row="0" >
+            <ToolBar.Resources>
+                <sys:String x:Key="AverageFixationTimeDistribution">AverageFixationTimeDistribution</sys:String>
+                <sys:String x:Key="TimePercentDistribution">TimePercentDistribution</sys:String>
+                <sys:String x:Key="ComplexParameters">TimePercentDistribution+AverageFixationTimeDistribution</sys:String>
+            </ToolBar.Resources>
+            <Button Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource AverageFixationTimeDistribution}" >
+                <Image Source="/DataImpression;component/Images/Table-Chart.png"  />
+            </Button>
+            <Button x:Name="Button1" Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource TimePercentDistribution}" >
+                <Image Source="/DataImpression;component/Images/Table-Chart.png"  />
+            </Button>
+            <Button Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource ComplexParameters}" >
+                <Image Source="/DataImpression;component/Images/Table-Add.png"  />
+            </Button>
+            <Separator/>
+        </ToolBar>
+        <ScrollViewer Grid.Row="1">
+            <TreeView>
+                <TextBlock>Проект 1</TextBlock>
+                <TreeViewItem Header="Исходные данные">
+                    <TreeViewItem Header="Файл.csv" />
+                    <TreeViewItem Header="AOI" />
+                    <TreeViewItem Header="FAOI" />
+                    <TreeViewItem Header="Видео" />
+                </TreeViewItem>
+                <TreeViewItem Header="Представления">
+                    <TreeViewItem Header="Диаграммы">
+                        <TreeViewItem Header="Диаграмма 1" />
+                        <TreeViewItem Header="Диаграмма 2" />
+                        <TreeViewItem Header="Диаграмма 3" />
+                    </TreeViewItem>
+                    <TreeViewItem Header="Таблицы">
+                        <TreeViewItem Header="Таблица 1" />
+                        <TreeViewItem Header="Таблица 2" />
+                        <TreeViewItem Header="Таблица 3" />
+                    </TreeViewItem>
+                    <TreeViewItem Header="Таймлайн"/>
+                    <TreeViewItem Header="Видеопроигрыватель"/>
+                </TreeViewItem>
+            </TreeView>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

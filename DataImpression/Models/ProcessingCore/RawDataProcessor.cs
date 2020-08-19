@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataImpression.Models.ProcessingCore;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;

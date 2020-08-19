@@ -1,5 +1,5 @@
-﻿using DataImpression.AbstractMVVM;
-using DataImpression.Models;
+﻿using DataImpression.Models;
+using DataImpression.Models.ResultTypes;
 using LiveCharts;
 using LiveCharts.Wpf;
 using System;
@@ -13,22 +13,31 @@ using System.Windows.Media;
 
 namespace DataImpression.ViewModel
 {
-    public class FAOIDiagramVM : DocumentBodyVM
+    public class SettingsFAOIDistributedColumnChart
+    {
+        public Brush Fill;
+    }
+
+    public class FAOIDistributedColumnChartVM<T>: DocumentBodyVM
     {
         #region ctor
-        public FAOIDiagramVM(Model model) : base(model)
+        public FAOIDistributedColumnChartVM(Model model, FAOIDistributed_Parameter<T> FAOIDistributed_Parameter, SettingsFAOIDistributedColumnChart settings) : base(model)
         {
-
+            fAOIDistributed_Parameter = FAOIDistributed_Parameter;
+            this.settings = settings;
         }
         #endregion
 
         #region Fields
+        private FAOIDistributed_Parameter<T> fAOIDistributed_Parameter;
+        private SettingsFAOIDistributedColumnChart settings;
         #endregion
 
 
         #region Properties
-        public string Title { get { return Path.GetFileName(model.SourceData.CSVFileName);} }
+        public string Title { get { return fAOIDistributed_Parameter.ParameterName; } }
 
+        
 
 
         Visibility visibility;
@@ -51,16 +60,22 @@ namespace DataImpression.ViewModel
         {
             get
             {
-                var values = model.Results.TimePercentDistribution.Results.Select(r => r.Value);
+                var values = new List<double>();
+                if (((object)fAOIDistributed_Parameter.Results.First().Value is double))
+                    values = fAOIDistributed_Parameter.Results.Select(r => (double)(object)r.Value).ToList();
+
+                if (((object)fAOIDistributed_Parameter.Results.First().Value is TimeSpan))
+                    values = fAOIDistributed_Parameter.Results.Select(r => ((TimeSpan)(object)r.Value).TotalSeconds).ToList();
+
 
                 return new SeriesCollection
                 {
                     new ColumnSeries
                     {
-                        Title = model.Results.TimePercentDistribution.ParameterName,
+                        Title = fAOIDistributed_Parameter.ParameterName,
                         Values = new ChartValues<double> (values),
-                        Fill = Brushes.Blue
-                    }
+                        Fill = settings.Fill
+                    },
                 };
             }
         }
@@ -68,7 +83,7 @@ namespace DataImpression.ViewModel
         {
             get
             {
-                var faoi_titles = model.Results.TimePercentDistribution.Results.Select(r => r.FAOI.Name).ToArray();
+                var faoi_titles = fAOIDistributed_Parameter.Results.Select(r => r.FAOI.Name).ToArray();
                 return faoi_titles;
             }
         }
@@ -77,7 +92,7 @@ namespace DataImpression.ViewModel
             get { return value => value.ToString("N"); }
         }
 
-        
+
 
         #region Methods
         public bool CanExecuteNextInputStage()

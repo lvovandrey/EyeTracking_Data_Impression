@@ -16,19 +16,13 @@ using System.Windows.Shapes;
 namespace DataImpression.View
 {
     /// <summary>
-    /// Логика взаимодействия для ResultsViewAreaView.xaml
+    /// Логика взаимодействия для FAOIDistributedComplexColumnChart.xaml
     /// </summary>
-    public partial class ResultsViewAreaView : UserControl
+    public partial class FAOIDistributedComplexColumnChart : UserControl
     {
-        public ResultsViewAreaView()
+        public FAOIDistributedComplexColumnChart()
         {
             InitializeComponent();
-
-        }
-
-        private void DocumentView_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (((DocumentView)sender).DataContext is null) ;
         }
     }
 }

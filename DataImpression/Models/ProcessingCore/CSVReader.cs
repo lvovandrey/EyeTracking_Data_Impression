@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace DataImpression.Models
 {
+    /// <summary>
+    /// Класс для методов чтения csv-файлов
+    /// </summary>
     public class CSVReader
     {
 

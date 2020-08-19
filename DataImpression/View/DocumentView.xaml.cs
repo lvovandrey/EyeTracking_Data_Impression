@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataImpression.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,19 +17,24 @@ using System.Windows.Shapes;
 namespace DataImpression.View
 {
     /// <summary>
-    /// Логика взаимодействия для ResultsViewAreaView.xaml
+    /// Логика взаимодействия для DocumentView.xaml
     /// </summary>
-    public partial class ResultsViewAreaView : UserControl
+    public partial class DocumentView : UserControl
     {
-        public ResultsViewAreaView()
+        public DocumentView()
         {
             InitializeComponent();
-
         }
 
-        private void DocumentView_Loaded(object sender, RoutedEventArgs e)
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            if (((DocumentView)sender).DataContext is null) ;
+
+            if (DataContext is DocumentViewVM)
+            {
+                
+                ((DocumentViewVM)DataContext).ConstructDocumentView(this);
+            };
         }
+
     }
 }
