@@ -13,22 +13,29 @@ using System.Windows.Media;
 
 namespace DataImpression.ViewModel
 {
+    public class SettingsFAOIDistributedColumnChart
+    {
+        public Brush Fill;
+    }
+
     public class FAOIDistributedColumnChartVM<T>: DocumentBodyVM
     {
         #region ctor
-        public FAOIDistributedColumnChartVM(Model model, FAOIDistributed_Parameter<T> FAOIDistributed_Parameter) : base(model)
+        public FAOIDistributedColumnChartVM(Model model, FAOIDistributed_Parameter<T> FAOIDistributed_Parameter, SettingsFAOIDistributedColumnChart settings) : base(model)
         {
             fAOIDistributed_Parameter = FAOIDistributed_Parameter;
+            this.settings = settings;
         }
         #endregion
 
         #region Fields
         private FAOIDistributed_Parameter<T> fAOIDistributed_Parameter;
+        private SettingsFAOIDistributedColumnChart settings;
         #endregion
 
 
         #region Properties
-        public string Title { get { return Path.GetFileName(model.SourceData.CSVFileName); } }
+        public string Title { get { return fAOIDistributed_Parameter.ParameterName; } }
 
         
 
@@ -67,8 +74,8 @@ namespace DataImpression.ViewModel
                     {
                         Title = fAOIDistributed_Parameter.ParameterName,
                         Values = new ChartValues<double> (values),
-                        Fill = Brushes.Red
-                    }
+                        Fill = settings.Fill
+                    },
                 };
             }
         }

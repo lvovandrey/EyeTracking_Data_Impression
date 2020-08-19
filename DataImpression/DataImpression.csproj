@@ -84,6 +84,7 @@
     <Compile Include="ViewModel\DocumentViewVM.cs" />
     <Compile Include="ViewModel\FAOIDiagramVM.cs" />
     <Compile Include="ViewModel\FAOIDistributedColumnChartVM.cs" />
+    <Compile Include="ViewModel\FAOIDistributedComplexColumnChartVM.cs" />
     <Compile Include="ViewModel\FAOIsInputVM.cs" />
     <Compile Include="ViewModel\IDocumentBodyVM.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
@@ -113,6 +114,9 @@
     </Compile>
     <Compile Include="View\FAOIDistributedColumnChartView.xaml.cs">
       <DependentUpon>FAOIDistributedColumnChartView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FAOIDistributedComplexColumnChart.xaml.cs">
+      <DependentUpon>FAOIDistributedComplexColumnChart.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\FAOIsInputView.xaml.cs">
       <DependentUpon>FAOIsInputView.xaml</DependentUpon>
@@ -158,6 +162,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\FAOIDistributedColumnChartView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FAOIDistributedComplexColumnChart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
