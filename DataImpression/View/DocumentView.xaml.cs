@@ -31,7 +31,8 @@ namespace DataImpression.View
 
             if (DataContext is DocumentViewVM)
             {
-                ((DocumentViewVM)DataContext).Body = this;
+                
+                ((DocumentViewVM)DataContext).ConstructDocumentView(this);
             };
         }
 

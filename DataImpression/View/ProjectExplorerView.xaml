@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DataImpression.View"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="250">
     <Grid>
@@ -12,7 +13,14 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <ToolBar Height="35" Grid.Row="0" >
-            <Button Command="{Binding AddDiagramViewCommand}" >
+            <ToolBar.Resources>
+                <sys:String x:Key="AverageFixationTimeDistribution">AverageFixationTimeDistribution</sys:String>
+                <sys:String x:Key="TimePercentDistribution">TimePercentDistribution</sys:String>
+            </ToolBar.Resources>
+            <Button Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource AverageFixationTimeDistribution}" >
+                <Image Source="/DataImpression;component/Images/Table-Chart.png"  />
+            </Button>
+            <Button x:Name="Button1" Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource TimePercentDistribution}" >
                 <Image Source="/DataImpression;component/Images/Table-Chart.png"  />
             </Button>
             <Separator/>

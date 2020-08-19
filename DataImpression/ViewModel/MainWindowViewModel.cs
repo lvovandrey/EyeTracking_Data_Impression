@@ -12,10 +12,10 @@ namespace DataImpression.ViewModel
         TimeColumnChoice,
         AOIHitColumnsChoice,
         FAOIsInput,
-        ProcessingTask, 
+        ProcessingTask,
         ViewResults
     }
-    public class MainWindowViewModel:INPCBase
+    public class MainWindowViewModel : INPCBase
     {
 
         #region ctor
@@ -27,7 +27,7 @@ namespace DataImpression.ViewModel
             AOIHitColumnsChoiceVM = new AOIHitColumnsChoiceVM(_model);
             FAOIsInputVM = new FAOIsInputVM(_model, MainWindow.FAOIsInput.FAOIsInputListView);
             ProcessingTaskVM = new ProcessingTaskVM(_model);
-          //  FAOIDiagramVM = new FAOIDiagramVM(_model);
+            //  FAOIDiagramVM = new FAOIDiagramVM(_model);
             ResultsViewAreaVM = new ResultsViewAreaVM(_model, this);
             InputStage = InputStage.None;
             OnPropertyChanged("TimeColumnChoiceOpacity");
@@ -180,12 +180,12 @@ namespace DataImpression.ViewModel
         {
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog()==false) return;
+            if (openFileDialog.ShowDialog() == false) return;
 
             InputStage = InputStage.TimeColumnChoice;
             _model.SourceData.CSVFileName = openFileDialog.FileName;// файлнейм в модель  закидываем
             try
-            { 
+            {
                 List<string> caption_string = new CSVReader().TobiiCSVReadStrings(_model.SourceData.CSVFileName, 1);//читаем первую строку и далее ее разбиваем.
                 List<string> splitted_caption_string = new List<string>(caption_string[0].Split('\t'));//разбиваем ее
 
@@ -199,7 +199,7 @@ namespace DataImpression.ViewModel
         }
 
 
-       
+
         void SwithToNextInputStage()
         {
             switch (inputStage)
@@ -250,9 +250,9 @@ namespace DataImpression.ViewModel
 
         void RefreshInputElementsVisibility()
         {
-            if(TimeColumnChoiceVM!=null)
-                if (inputStage==InputStage.TimeColumnChoice) TimeColumnChoiceVM.Visibility = Visibility.Visible;
-                else  TimeColumnChoiceVM.Visibility = Visibility.Collapsed;
+            if (TimeColumnChoiceVM != null)
+                if (inputStage == InputStage.TimeColumnChoice) TimeColumnChoiceVM.Visibility = Visibility.Visible;
+                else TimeColumnChoiceVM.Visibility = Visibility.Collapsed;
 
             if (AOIHitColumnsChoiceVM != null)
                 if (inputStage == InputStage.AOIHitColumnsChoice) AOIHitColumnsChoiceVM.Visibility = Visibility.Visible;
@@ -299,7 +299,7 @@ namespace DataImpression.ViewModel
                 {
                     SwithToNextInputStage();
                 },
-                (obj) =>  CanExecuteNextInputStage == true 
+                (obj) => CanExecuteNextInputStage == true
                 ));
             }
         }
@@ -311,7 +311,8 @@ namespace DataImpression.ViewModel
             {
                 return addResultsViewCommand ?? (addResultsViewCommand = new RelayCommand(obj =>
                 {
-                    ResultsViewAreaVM.ResultViewsAdd("Новое что-то");
+                    if (obj != null)
+                        ResultsViewAreaVM.ResultViewsAdd(obj.ToString());
 
                 }));
             }
@@ -319,7 +320,7 @@ namespace DataImpression.ViewModel
 
 
 
-        
+
         #endregion
     }
 }

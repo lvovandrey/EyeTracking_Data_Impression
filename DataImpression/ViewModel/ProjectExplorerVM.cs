@@ -41,7 +41,7 @@ namespace DataImpression.ViewModel
             {
                 return addDiagramViewCommand ?? (addDiagramViewCommand = new RelayCommand(obj =>
                 {
-                    _mainWindowViewModel.AddResultsViewCommand.Execute(null);
+                    _mainWindowViewModel.AddResultsViewCommand.Execute(obj);
                 }));
             }
         }

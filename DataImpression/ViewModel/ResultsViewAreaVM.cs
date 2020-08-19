@@ -106,9 +106,9 @@ namespace DataImpression.ViewModel
         }
 
 
-        internal void ResultViewsAdd(string v)
+        internal void ResultViewsAdd(string ParameterName)
         {
-            documentViewVMs.Add(new DocumentViewVM(_model));
+            documentViewVMs.Add(new DocumentViewVM(_model, ParameterName));
             ActiveDocument = documentViewVMs.Last();
         }
 

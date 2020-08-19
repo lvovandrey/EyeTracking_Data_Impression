@@ -7,6 +7,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="LightGreen" Loaded="UserControl_Loaded">
     <Grid x:Name="Container" Margin="10" Background="LightGray" >
-        <Button Width="100" Height="100" Click="Button_Click" Content="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
+        <Button Width="300" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top"  Content="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </UserControl>

@@ -53,10 +53,12 @@ namespace DataImpression.ViewModel
         {
             get
             {
-                if (!((object)fAOIDistributed_Parameter.Results.First() is double))
-                    return null;
+                var values = new List<double>();
+                if (((object)fAOIDistributed_Parameter.Results.First().Value is double))
+                    values = fAOIDistributed_Parameter.Results.Select(r => (double)(object)r.Value).ToList();
 
-                var values = fAOIDistributed_Parameter.Results.Select(r => double.Parse(r.Value.ToString()));
+                if (((object)fAOIDistributed_Parameter.Results.First().Value is TimeSpan))
+                    values = fAOIDistributed_Parameter.Results.Select(r => ((TimeSpan)(object)r.Value).TotalSeconds).ToList();
 
 
                 return new SeriesCollection

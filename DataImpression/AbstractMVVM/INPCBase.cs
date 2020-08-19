@@ -23,51 +23,29 @@ namespace DataImpression.AbstractMVVM
     /// </summary>
     public class RelayCommand : ICommand
     {
-        #region Fields
-        readonly Action<object> _execute;
+        private Action<object> execute;
+        private Func<object, bool> canExecute;
 
-        readonly Predicate<object> _canExecute;
-        #endregion
-
-        #region Constructors
-
-        public RelayCommand(Action<object> execute) : this(execute, null) { }
-
-        public RelayCommand(Action<object> execute, Predicate<object> canExecute)
+        public event EventHandler CanExecuteChanged
         {
-            if (execute == null)
-                throw new ArgumentNullException("execute");
-
-            _execute = execute;
-            _canExecute = canExecute;
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
         }
 
-        #endregion
-
-        #region ICommand members
-
-        public bool CanExecute(object parametr)
+        public RelayCommand(Action<object> execute, Func<object, bool> canExecute = null)
         {
-            return _canExecute?.Invoke(parametr) ?? true;
+            this.execute = execute;
+            this.canExecute = canExecute;
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return this.canExecute == null || this.canExecute(parameter);
         }
 
         public void Execute(object parameter)
         {
-            _execute(parameter);
+            this.execute(parameter);
         }
-
-        public event EventHandler CanExecuteChanged
-        {
-            add
-            {
-                CommandManager.RequerySuggested += value;
-            }
-            remove
-            {
-                CommandManager.RequerySuggested -= value;
-            }
-        }
-
-        #endregion
     }
 }

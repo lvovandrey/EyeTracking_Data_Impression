@@ -13,13 +13,15 @@ namespace DataImpression.ViewModel
 {
     public class DocumentViewVM : PaneVM
     {
-        public DocumentViewVM(Model _model)
+        public DocumentViewVM(Model _model, string DocumentType)
         {
             model = _model;
+            documentType = DocumentType;
             Title = Path.GetFileName(model.SourceData.CSVFileName);
         }
 
         private Model model;
+        private string documentType;
 
         #region CONTENT
 
@@ -29,13 +31,38 @@ namespace DataImpression.ViewModel
             set;
         }
 
-        public DocumentViewVM THIS 
-            {get {return this;} }
+        public DocumentViewVM THIS
+        { get { return this; } }
 
-        public DocumentView Body
-        { get;
-            set; }
+
+
         #endregion
 
+        #region Methods
+        public void ConstructDocumentView(DocumentView Body)
+        {
+            if (DocumentBodyVM == null)
+            {
+                if (documentType == "AverageFixationTimeDistribution")
+                {
+                    var diagram = new FAOIDistributedColumnChartView();
+                    DocumentBodyVM = new FAOIDistributedColumnChartVM<TimeSpan>(model, model.Results.AverageFixationTimeDistribution);
+                    diagram.DataContext = DocumentBodyVM;
+                    Body.Container.Children.Add(diagram);
+                }
+                if (documentType == "TimePercentDistribution")
+                {
+                    var diagram = new FAOIDiagramView();
+                    DocumentBodyVM = new FAOIDiagramVM(model);
+                    diagram.DataContext = DocumentBodyVM;
+                    Body.Container.Children.Add(diagram);
+                }
+            }
+            else
+            {
+
+            }
+        }
+        #endregion
     }
 }
