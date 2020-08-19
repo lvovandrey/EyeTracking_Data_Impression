@@ -8,8 +8,12 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace DataImpression.View.AvalonDockHelpers
+namespace DataImpression.ViewModel.AvalonDockHelpers
 {
+
+    /// <summary>
+    /// Класс обеспечивает выбор (проброс через привязки) DataTemplate (шаблона содержимого) Dock-окошка в зависимости от типа VM-ки
+    /// </summary>
     public class PanesTemplateSelector : DataTemplateSelector
     {
         public PanesTemplateSelector()

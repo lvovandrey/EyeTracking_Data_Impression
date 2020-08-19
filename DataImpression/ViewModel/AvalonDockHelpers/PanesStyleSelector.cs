@@ -7,8 +7,11 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace DataImpression.View.AvalonDockHelpers
+namespace DataImpression.ViewModel.AvalonDockHelpers
 {
+    /// <summary>
+    /// Класс обеспечивает выбор (проброс через привязки) стиля Dock-окошка в зависимости от типа VM-ки
+    /// </summary>
     class PanesStyleSelector : StyleSelector
     {
         public Style ToolStyle

@@ -1,6 +1,6 @@
 ﻿using DataImpression.AbstractMVVM;
 using DataImpression.Models;
-using DataImpression.View.AvalonDockHelpers;
+using DataImpression.ViewModel.AvalonDockHelpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

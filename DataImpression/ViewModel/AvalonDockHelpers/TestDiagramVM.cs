@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace DataImpression.View.AvalonDockHelpers
+namespace DataImpression.ViewModel.AvalonDockHelpers
 {
     public class TestDiagramVM: PaneVM
     {

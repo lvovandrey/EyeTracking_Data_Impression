@@ -4,8 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataImpression.View.AvalonDockHelpers
+namespace DataImpression.ViewModel.AvalonDockHelpers
 {
+
+    /// <summary>
+    /// Базовый класс для VM-ок Dock-окошек панелей управления (типа панелей инструментов).
+    /// </summary>
     public class ToolVM : PaneVM
     {
         public ToolVM(string name)

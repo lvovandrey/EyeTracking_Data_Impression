@@ -6,8 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace DataImpression.View.AvalonDockHelpers
+namespace DataImpression.ViewModel.AvalonDockHelpers
 {
+    /// <summary>
+    /// Базовый класс для VM-ок документов. (возможно его можно убрать, и все сложить в DocumentViewVM?)
+    /// </summary>
     public class PaneVM : INPCBase
     {
         public PaneVM()

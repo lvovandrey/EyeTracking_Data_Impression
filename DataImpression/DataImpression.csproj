@@ -75,6 +75,7 @@
     <Compile Include="AbstractMVVM\INPCBase.cs" />
     <Compile Include="Models\FAOIHitsOnTimeInterval.cs" />
     <Compile Include="Models\ProcessingCore\CSVReader.cs" />
+    <Compile Include="Models\ProcessingCore\FAOIsOnTimeRecord.cs" />
     <Compile Include="Models\ProcessingCore\RawDataProcessor.cs" />
     <Compile Include="Models\ProcessingCore\TobiiCSVRecord.cs" />
     <Compile Include="Models\ProcessingResults.cs" />
@@ -95,14 +96,14 @@
     <Compile Include="View\AOIHitColumnsChoiceView.xaml.cs">
       <DependentUpon>AOIHitColumnsChoiceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\AvalonDockHelpers\ActiveDocumentConverter.cs" />
-    <Compile Include="View\AvalonDockHelpers\BoolToVisibilityConverter.cs" />
-    <Compile Include="View\AvalonDockHelpers\LayoutInitializer.cs" />
-    <Compile Include="View\AvalonDockHelpers\PanesStyleSelector.cs" />
-    <Compile Include="View\AvalonDockHelpers\PanesTemplateSelector.cs" />
-    <Compile Include="View\AvalonDockHelpers\PaneVM.cs" />
-    <Compile Include="View\AvalonDockHelpers\TestDiagramVM.cs" />
-    <Compile Include="View\AvalonDockHelpers\ToolVM.cs" />
+    <Compile Include="ViewModel\AvalonDockHelpers\ActiveDocumentConverter.cs" />
+    <Compile Include="ViewModel\AvalonDockHelpers\BoolToVisibilityConverter.cs" />
+    <Compile Include="ViewModel\AvalonDockHelpers\LayoutInitializer.cs" />
+    <Compile Include="ViewModel\AvalonDockHelpers\PanesStyleSelector.cs" />
+    <Compile Include="ViewModel\AvalonDockHelpers\PanesTemplateSelector.cs" />
+    <Compile Include="ViewModel\AvalonDockHelpers\PaneVM.cs" />
+    <Compile Include="ViewModel\AvalonDockHelpers\TestDiagramVM.cs" />
+    <Compile Include="ViewModel\AvalonDockHelpers\ToolVM.cs" />
     <Compile Include="View\DocumentView.xaml.cs">
       <DependentUpon>DocumentView.xaml</DependentUpon>
     </Compile>

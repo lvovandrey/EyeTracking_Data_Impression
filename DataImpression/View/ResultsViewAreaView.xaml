@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DataImpression.View"
-             xmlns:avalonHelpers="clr-namespace:DataImpression.View.AvalonDockHelpers"
+             xmlns:avalonHelpers="clr-namespace:DataImpression.ViewModel.AvalonDockHelpers"
              xmlns:avalon="https://github.com/Dirkster99/AvalonDock"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              mc:Ignorable="d" 

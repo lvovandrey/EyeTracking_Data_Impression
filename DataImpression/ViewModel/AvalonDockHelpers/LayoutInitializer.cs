@@ -5,8 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataImpression.View.AvalonDockHelpers
+namespace DataImpression.ViewModel.AvalonDockHelpers
 {
+    /// <summary>
+    /// Пока не разобрался что здесь происходит. Судя по всему, инициализируется механизмы позволяющие осуществлять докинг этих окошек.
+    /// 
+    /// Класс из примера AvalonDock
+    /// Лицензия и проч см.  https://github.com/Dirkster99/AvalonDock
+    /// </summary>
     class LayoutInitializer : ILayoutUpdateStrategy
     {
         public bool BeforeInsertAnchorable(LayoutRoot layout, LayoutAnchorable anchorableToShow, ILayoutContainer destinationContainer)
