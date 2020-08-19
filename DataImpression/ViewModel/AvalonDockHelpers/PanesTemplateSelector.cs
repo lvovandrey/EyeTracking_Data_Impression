@@ -46,10 +46,6 @@ namespace DataImpression.ViewModel.AvalonDockHelpers
         {
             var itemAsLayoutContent = item as LayoutContent;
 
-
-            if (item is TestDiagramVM)
-                return TestDiagramViewTemplate;
-
             if (item is DocumentViewVM)
                 return DocumentViewTemplate;
 

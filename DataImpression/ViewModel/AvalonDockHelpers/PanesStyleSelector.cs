@@ -46,8 +46,6 @@ namespace DataImpression.ViewModel.AvalonDockHelpers
             if (item is DocumentViewVM)
                 return DocumentViewStyle;
 
-            if (item is TestDiagramVM)
-                return DiagramStyle;
 
             if (item is ProjectExplorerVM)
                 return ProjectExplorerStyle;

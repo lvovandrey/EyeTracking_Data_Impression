@@ -102,7 +102,6 @@
     <Compile Include="ViewModel\AvalonDockHelpers\PanesStyleSelector.cs" />
     <Compile Include="ViewModel\AvalonDockHelpers\PanesTemplateSelector.cs" />
     <Compile Include="ViewModel\AvalonDockHelpers\PaneVM.cs" />
-    <Compile Include="ViewModel\AvalonDockHelpers\TestDiagramVM.cs" />
     <Compile Include="ViewModel\AvalonDockHelpers\ToolVM.cs" />
     <Compile Include="View\DocumentView.xaml.cs">
       <DependentUpon>DocumentView.xaml</DependentUpon>
