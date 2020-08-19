@@ -87,6 +87,7 @@
     <Compile Include="ViewModel\FAOIDistributedColumnChartVM.cs" />
     <Compile Include="ViewModel\FAOIDistributedComplexColumnChartVM.cs" />
     <Compile Include="ViewModel\FAOIsInputVM.cs" />
+    <Compile Include="ViewModel\FixationsTimelineStepChartVM.cs" />
     <Compile Include="ViewModel\IDocumentBodyVM.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\ProcessingTaskVM.cs" />
@@ -120,6 +121,9 @@
     </Compile>
     <Compile Include="View\FAOIsInputView.xaml.cs">
       <DependentUpon>FAOIsInputView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FixationsTimelineStepChartView.xaml.cs">
+      <DependentUpon>FixationsTimelineStepChartView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ProcessingTaskView.xaml.cs">
       <DependentUpon>ProcessingTaskView.xaml</DependentUpon>
@@ -170,6 +174,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\FAOIsInputView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FixationsTimelineStepChartView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
