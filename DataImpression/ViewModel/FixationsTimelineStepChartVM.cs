@@ -51,9 +51,7 @@ namespace DataImpression.ViewModel
                 {
                     new StepLineSeries
                     { 
-                        Title = fAOIDistributed_Parameter.ParameterName,
-                        Values = new ChartValues<double> (values),
-                        Fill = settings.Fill
+
                     },
                 };
             }
@@ -62,7 +60,7 @@ namespace DataImpression.ViewModel
         {
             get
             {
-                var faoi_titles = fAOIDistributed_Parameter.Results.Select(r => r.FAOI.Name).ToArray();
+                var faoi_titles = new string[]{ "A", "B" };
                 return faoi_titles;
             }
         }

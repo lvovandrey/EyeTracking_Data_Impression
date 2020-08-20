@@ -18,6 +18,10 @@
             <MenuItem Header="Файл">
                 <MenuItem Header="Открыть csv-файл" Command="{Binding OpenCSVFileCommand}"/>
             </MenuItem>
+            <MenuItem Header="Debug">
+                <MenuItem Header="Открыть окно для тестов" Click="MenuItem_Click"/>
+            </MenuItem>
+
         </Menu>
         
         <Grid Grid.Row="1">

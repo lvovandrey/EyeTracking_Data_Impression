@@ -80,6 +80,9 @@
     <Compile Include="Models\ProcessingCore\TobiiCSVRecord.cs" />
     <Compile Include="Models\ProcessingResults.cs" />
     <Compile Include="Models\ResultTypes\FAOIDistributed_Parameter.cs" />
+    <Compile Include="Tests\WindowForTests.xaml.cs">
+      <DependentUpon>WindowForTests.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\AOIHitColumnsChoiceVM.cs" />
     <Compile Include="ViewModel\DocumentBodyVM.cs" />
     <Compile Include="ViewModel\DocumentViewVM.cs" />
@@ -109,6 +112,9 @@
     </Compile>
     <Compile Include="View\Elements\PropertyViewer.xaml.cs">
       <DependentUpon>PropertyViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tests\TestScrollableView.xaml.cs">
+      <DependentUpon>TestScrollableView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\FAOIDiagramView.xaml.cs">
       <DependentUpon>FAOIDiagramView.xaml</DependentUpon>
@@ -149,6 +155,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Tests\WindowForTests.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\AOIHitColumnsChoiceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -158,6 +168,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Elements\PropertyViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tests\TestScrollableView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

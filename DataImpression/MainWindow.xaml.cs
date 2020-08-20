@@ -1,6 +1,7 @@
 ﻿using DataImpression.ViewModel;
 using System.Windows;
 using DataImpression.Models;
+using DataImpression.Tests;
 
 namespace DataImpression
 {
@@ -17,6 +18,13 @@ namespace DataImpression
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             DataContext = new MainWindowViewModel(new Model(), this);
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var wnd = new WindowForTests();
+            wnd.DataContext = this.DataContext;
+            wnd.Show();
         }
     }
 }
