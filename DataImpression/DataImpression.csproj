@@ -80,6 +80,9 @@
     <Compile Include="Models\ProcessingCore\TobiiCSVRecord.cs" />
     <Compile Include="Models\ProcessingResults.cs" />
     <Compile Include="Models\ResultTypes\FAOIDistributed_Parameter.cs" />
+    <Compile Include="Tests\FixationsTimeLine.xaml.cs">
+      <DependentUpon>FixationsTimeLine.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Tests\WindowForTests.xaml.cs">
       <DependentUpon>WindowForTests.xaml</DependentUpon>
     </Compile>
@@ -155,6 +158,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Tests\FixationsTimeLine.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Tests\WindowForTests.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
