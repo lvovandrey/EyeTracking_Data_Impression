@@ -34,7 +34,7 @@ namespace DataImpression.Tests
         public FixationsTimeLineVM()
         {
             RectanglesCollection = new ObservableCollection<double>();
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 300; i++)
             {
                 RectanglesCollection.Add(1);
             }
