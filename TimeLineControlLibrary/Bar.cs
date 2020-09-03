@@ -31,6 +31,8 @@ namespace TimeLineControlLibrary
             Body.Stroke = StrokeBrush;
             Body.Width = 10;
             Body.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
+            Body.VerticalAlignment = System.Windows.VerticalAlignment.Bottom;
+            Body.StrokeThickness = 0;
         }
         #endregion
 

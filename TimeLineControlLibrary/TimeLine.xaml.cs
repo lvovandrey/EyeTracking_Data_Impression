@@ -24,13 +24,10 @@ namespace TimeLineControlLibrary
             InitializeComponent();
             //DataContext = this;
             Bars = new List<Bar>();
-            FullTime = TimeSpan.FromSeconds(600);
+            FullTime = TimeSpan.FromSeconds(3600);
 
-            Bars.Add(new Bar(
-                TimeSpan.FromSeconds(10),
-                TimeSpan.FromSeconds(100), "Bar#1", 25,
-                new SolidColorBrush(Colors.Green),
-                new SolidColorBrush(Colors.Brown)));
+
+
 
             T1.T_full = FullTime;
             T1.T_el = TimeSpan.FromSeconds(60);
@@ -68,7 +65,7 @@ namespace TimeLineControlLibrary
         }
         private void Cursor1_OnEndDrag()
         {
-          
+
         }
 
 
@@ -252,7 +249,48 @@ namespace TimeLineControlLibrary
 
         private void THIS_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            BARS.AddBar(Bars[0]);
+            BARS.ClearBars();
+            Bars.Clear();
+            Random random = new Random();
+            Bar OldBar = new Bar(
+                                TimeSpan.FromSeconds(0),
+                                TimeSpan.FromSeconds(((double)random.Next(100, 2000)) / 1000),
+                                "Bar#1",
+                                5 * random.Next(5, 50) / 5,
+                                new SolidColorBrush(Colors.Green),
+                                new SolidColorBrush(Colors.Black));
+            for (int i = 0; i < 3000; i++)
+            {
+                Bar NewBar = new Bar(
+                    OldBar.TimeEnd,
+                    TimeSpan.FromSeconds(OldBar.TimeEnd.TotalSeconds + ((double)random.Next(100, 2000)) / 1000),
+                    "Bar#1",
+                    5 * random.Next(5, 50) / 5,
+                    new SolidColorBrush(Colors.Green),
+                    new SolidColorBrush(Colors.Black));
+
+
+                Bars.Add(OldBar);
+                OldBar = NewBar;
+            }
+
+            foreach (var bar in Bars)
+            {
+                BARS.AddBar(bar);
+            }
+        }
+
+        private void THIS_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if(e.Delta>0)
+            {
+                THIS.Width = THIS.ActualWidth * 1.3;
+            }
+            else
+            {
+                THIS.Width = THIS.ActualWidth / 1.3;
+            }
+
         }
     }
 }

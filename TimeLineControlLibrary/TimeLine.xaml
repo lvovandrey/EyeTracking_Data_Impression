@@ -6,17 +6,11 @@
              xmlns:local="clr-namespace:TimeLineControlLibrary"
              
              mc:Ignorable="d" 
-             d:DesignHeight="50" d:DesignWidth="820" Name="THIS" MouseDown="THIS_MouseDown">
+             d:DesignHeight="50" d:DesignWidth="820" Name="THIS" MouseDown="THIS_MouseDown" PreviewMouseWheel="THIS_PreviewMouseWheel">
 
     <Grid Margin="0,0,-20,0" >
         <Grid x:Name="GridMain"  Height="50" VerticalAlignment="Top" >
             <Grid  Height="50" VerticalAlignment="Top" Margin="0,0,20,0" PreviewMouseDown="Grid_PreviewMouseDown">
-                <Grid.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#FF1B1B1B" Offset="0"/>
-                        <GradientStop Color="Black" Offset="1"/>
-                    </LinearGradientBrush>
-                </Grid.Background>
 
                 <local:BarsArea x:Name="BARS" Height="44" FullTime="{Binding ElementName=THIS, Path=FullTime}"></local:BarsArea>
 
@@ -26,11 +20,11 @@
                 <local:ScaleTime x:Name="T_tenSec" Height="44"></local:ScaleTime>
                 <local:ScaleTime x:Name="T10" Height="44"></local:ScaleTime>
 
-               
+
 
             </Grid>
 
-            <Rectangle HorizontalAlignment="Stretch" Height="1"  VerticalAlignment="Bottom" Margin="0 0 20 13" Fill="#FFB07220" />
+            <Rectangle HorizontalAlignment="Stretch" Height="1"  VerticalAlignment="Bottom" Margin="0 0 20 13" Fill="Black" />
             <Rectangle HorizontalAlignment="Stretch"   VerticalAlignment="Stretch" Margin="0 0 20 0" Stroke="#FF323232" />
 
         </Grid>

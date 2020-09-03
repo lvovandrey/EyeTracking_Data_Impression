@@ -50,7 +50,7 @@ namespace TimeLineControlLibrary
         {
             double widthFull = this.ActualWidth;
             bar.Body.Width = (bar.Duration().TotalMinutes / FullTime.TotalMinutes) * widthFull;
-            bar.Body.Margin = new Thickness((bar.TimeBegin.TotalMinutes / FullTime.TotalMinutes) * widthFull, 0, 0, 0);
+            bar.Body.Margin = new Thickness((bar.TimeBegin.TotalMinutes / FullTime.TotalMinutes) * widthFull, 0, 0, 10);
         }
 
         public void AddBar(Bar bar)
@@ -78,5 +78,12 @@ namespace TimeLineControlLibrary
         }
         #endregion
 
+        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            foreach (var bar in Bars)
+            {
+                CalcBarPosition(bar);
+            }
+        }
     }
 }
