@@ -261,5 +261,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TimeLineControlLibrary\TimeLineControlLibrary.csproj">
+      <Project>{2532b3da-e4b4-45a9-9ffa-76d8a7a73c37}</Project>
+      <Name>TimeLineControlLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
