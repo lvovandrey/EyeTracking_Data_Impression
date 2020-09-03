@@ -6,6 +6,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
+
 namespace TimeLineControlLibrary
 {
     /// <summary>
@@ -13,7 +15,7 @@ namespace TimeLineControlLibrary
     /// </summary>
     public partial class TimeLine : UserControl, INotifyPropertyChanged
     {
-        //        VideoPlayerVM VideoPlayerVM;
+        List<Bar> Bars;
 
         public TimeLine()
         {
@@ -21,8 +23,14 @@ namespace TimeLineControlLibrary
 
             InitializeComponent();
             //DataContext = this;
-
+            Bars = new List<Bar>();
             FullTime = TimeSpan.FromSeconds(600);
+
+            Bars.Add(new Bar(
+                TimeSpan.FromSeconds(10),
+                TimeSpan.FromSeconds(100), "Bar#1", 25,
+                new SolidColorBrush(Colors.Green),
+                new SolidColorBrush(Colors.Brown)));
 
             T1.T_full = FullTime;
             T1.T_el = TimeSpan.FromSeconds(60);
@@ -129,20 +137,6 @@ namespace TimeLineControlLibrary
             DependencyProperty.Register("FullTime", typeof(TimeSpan), typeof(TimeLine), new PropertyMetadata(TimeSpan.FromSeconds(10)));
 
 
-        //DependencyProperty BarsTimeIntervals  - чтобы можно было подписаться на него
-        public List<TimeInterval> BarsTimeIntervals
-        {
-            get { return (TimeSpan)GetValue(FullTimeProperty); }
-            set
-            {
-                SetValue(FullTimeProperty, value);
-                RefreshDashes();
-                OnPropertyChanged("FullTime");
-            }
-        }
-
-        public static readonly DependencyProperty FullTimeProperty =
-            DependencyProperty.Register("FullTime", typeof(TimeSpan), typeof(TimeLine), new PropertyMetadata(TimeSpan.FromSeconds(10)));
 
 
 
@@ -255,6 +249,11 @@ namespace TimeLineControlLibrary
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
+
+        private void THIS_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            BARS.AddBar(Bars[0]);
+        }
     }
 }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace TimeLineControlLibrary
 {
@@ -23,10 +24,18 @@ namespace TimeLineControlLibrary
             Height = height;
             FillBrush = fillBrush;
             StrokeBrush = strokeBrush;
+
+            Body = new Rectangle();
+            Body.Fill = FillBrush;
+            Body.Height = Height;
+            Body.Stroke = StrokeBrush;
+            Body.Width = 10;
+            Body.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
         }
         #endregion
 
         #region Fields
+        public Rectangle Body;
         #endregion
 
         #region Properties
