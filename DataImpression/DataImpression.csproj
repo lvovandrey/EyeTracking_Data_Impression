@@ -93,7 +93,7 @@
     <Compile Include="ViewModel\FAOIDistributedColumnChartVM.cs" />
     <Compile Include="ViewModel\FAOIDistributedComplexColumnChartVM.cs" />
     <Compile Include="ViewModel\FAOIsInputVM.cs" />
-    <Compile Include="ViewModel\FixationsTimelineStepChartVM.cs" />
+    <Compile Include="ViewModel\FixationsTimelineVM.cs" />
     <Compile Include="ViewModel\IDocumentBodyVM.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\ProcessingTaskVM.cs" />
@@ -131,8 +131,8 @@
     <Compile Include="View\FAOIsInputView.xaml.cs">
       <DependentUpon>FAOIsInputView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\FixationsTimelineStepChartView.xaml.cs">
-      <DependentUpon>FixationsTimelineStepChartView.xaml</DependentUpon>
+    <Compile Include="View\FixationsTimelineView.xaml.cs">
+      <DependentUpon>FixationsTimelineView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ProcessingTaskView.xaml.cs">
       <DependentUpon>ProcessingTaskView.xaml</DependentUpon>
@@ -198,7 +198,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\FixationsTimelineStepChartView.xaml">
+    <Page Include="View\FixationsTimelineView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -252,7 +252,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\Chart-Bar.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Table-Add.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -266,6 +268,15 @@
       <Project>{2532b3da-e4b4-45a9-9ffa-76d8a7a73c37}</Project>
       <Name>TimeLineControlLibrary</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Chart-Bar-Add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Chart-Line-Add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Timeline-Marker.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

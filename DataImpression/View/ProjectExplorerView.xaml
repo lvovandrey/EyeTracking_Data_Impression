@@ -17,15 +17,22 @@
                 <sys:String x:Key="AverageFixationTimeDistribution">AverageFixationTimeDistribution</sys:String>
                 <sys:String x:Key="TimePercentDistribution">TimePercentDistribution</sys:String>
                 <sys:String x:Key="ComplexParameters">TimePercentDistribution+AverageFixationTimeDistribution</sys:String>
+                <sys:String x:Key="FixationsTimeline">FixationsTimeline</sys:String>
             </ToolBar.Resources>
             <Button Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource AverageFixationTimeDistribution}" >
-                <Image Source="/DataImpression;component/Images/Table-Chart.png"  />
+                <Image Source="/DataImpression;component/Images/Chart-Bar-Add.png"  />
             </Button>
             <Button x:Name="Button1" Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource TimePercentDistribution}" >
                 <Image Source="/DataImpression;component/Images/Table-Chart.png"  />
             </Button>
-            <Button Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource ComplexParameters}" >
-                <Image Source="/DataImpression;component/Images/Table-Add.png"  />
+            <Button Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource ComplexParameters}" Width="25">
+                <StackPanel Orientation="Vertical">
+                    <Image Source="/DataImpression;component/Images/Chart-Bar.png"  Height="10"/>
+                    <Image Source="/DataImpression;component/Images/Chart-Bar.png"  Height="10" />
+                </StackPanel>
+            </Button>
+            <Button  Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource FixationsTimeline}" >
+                <Image Source="/DataImpression;component/Images/Timeline-Marker.png"  />
             </Button>
             <Separator/>
         </ToolBar>

@@ -18,9 +18,9 @@ namespace DataImpression.View
     /// <summary>
     /// Логика взаимодействия для FixationsTimelineStepChartView.xaml
     /// </summary>
-    public partial class FixationsTimelineStepChartView : UserControl
+    public partial class FixationsTimelineView : UserControl
     {
-        public FixationsTimelineStepChartView()
+        public FixationsTimelineView()
         {
             InitializeComponent();
         }
