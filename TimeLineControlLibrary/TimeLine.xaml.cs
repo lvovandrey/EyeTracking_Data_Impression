@@ -24,7 +24,7 @@ namespace TimeLineControlLibrary
             InitializeComponent();
             //DataContext = this;
             Bars = new List<Bar>();
-            FullTime = TimeSpan.FromSeconds(3600);
+      //      FullTime = TimeSpan.FromSeconds(3600);
 
 
 

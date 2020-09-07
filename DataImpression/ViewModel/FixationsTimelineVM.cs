@@ -12,10 +12,10 @@ using TimeLineControlLibrary;
 namespace DataImpression.ViewModel
 { 
   
-    class FixationsTimelineVM:INPCBase
+    class FixationsTimelineVM: DocumentBodyVM
     {
         #region ctor
-        public FixationsTimelineVM(Model model)
+        public FixationsTimelineVM(Model model):base(model)
         {
             _model = model;
             OnPropertyChanged("FixationsTimelineStepChartVM");

@@ -13,7 +13,7 @@
             <Grid  Height="50" VerticalAlignment="Top" Margin="0,0,20,0" PreviewMouseDown="Grid_PreviewMouseDown">
 
                 <local:BarsArea x:Name="BARS" Height="44" FullTime="{Binding FullTime}"></local:BarsArea>
-
+                <TextBlock Text="{Binding FullTime}"/>
 
                 <local:ScaleTime x:Name="T1" Height="44" ></local:ScaleTime>
                 <local:ScaleTime x:Name="T_Sec" Height="44"></local:ScaleTime>

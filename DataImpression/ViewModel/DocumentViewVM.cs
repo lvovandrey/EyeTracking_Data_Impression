@@ -62,8 +62,8 @@ namespace DataImpression.ViewModel
 
                 if (documentType == "FixationsTimeline")
                 {
+                    DocumentBodyVM = new FixationsTimelineVM(model);
                     var diagram = new FixationsTimelineView();
-                    DocumentBodyVM = new FAOIDiagramVM(model);
                     diagram.DataContext = DocumentBodyVM;
                     Body.Container.Children.Add(diagram);
                 }
