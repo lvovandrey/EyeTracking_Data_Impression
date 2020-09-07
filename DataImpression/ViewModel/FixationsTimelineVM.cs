@@ -19,6 +19,8 @@ namespace DataImpression.ViewModel
         {
             _model = model;
             OnPropertyChanged("FixationsTimelineStepChartVM");
+
+            OnPropertyChanged("Bars");
         }
         #endregion
 
@@ -40,9 +42,10 @@ namespace DataImpression.ViewModel
                 bars = new ObservableCollection<Bar>();
                 foreach (var f in _model.Results.FAOIHitsOnTimeIntervalList)
                 {
-                    bars.Add(ConvertFAOIHitsOnTimeIntervalToBar(f));
+                    if (f.FAOIHits.Count>0)
+                        bars.Add(ConvertFAOIHitsOnTimeIntervalToBar(f));
                 }
-               
+
                 return bars;
             }
         }
@@ -58,6 +61,7 @@ namespace DataImpression.ViewModel
         #region Methods
         private Bar ConvertFAOIHitsOnTimeIntervalToBar(FAOIHitsOnTimeInterval f)
         {
+         
             return new Bar(
                 f.TimeInterval.TimeBegin,
                 f.TimeInterval.TimeEnd,

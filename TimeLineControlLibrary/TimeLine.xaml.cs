@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,7 +16,7 @@ namespace TimeLineControlLibrary
     /// </summary>
     public partial class TimeLine : UserControl, INotifyPropertyChanged
     {
-        List<Bar> Bars;
+       
 
         public TimeLine()
         {
@@ -23,7 +24,7 @@ namespace TimeLineControlLibrary
 
             InitializeComponent();
             //DataContext = this;
-            Bars = new List<Bar>();
+//            Bars = new List<Bar>();
       //      FullTime = TimeSpan.FromSeconds(3600);
 
 
@@ -49,6 +50,8 @@ namespace TimeLineControlLibrary
             this.SetBinding(TimeLine.POSProperty, binding); // установка привязки для элемента-приемника
 
             OnPOSChanged += TimeLine_OnPOSChanged;
+            OnFullTimeChanged += TimeLine_OnFullTimeChanged;
+            OnBarsChanged += TimeLine_OnBarsChanged;
             Cursor1.OnCRPChanged += Cursor1_OnCRPChanged;
             Cursor1.OnStartDrag += Cursor1_OnStartDrag;
             Cursor1.OnEndDrag += Cursor1_OnEndDrag;
@@ -56,6 +59,9 @@ namespace TimeLineControlLibrary
             SizeChanged += (d, e) => { RefreshCusorPosition(); };
 
         }
+
+
+
 
         #region Перемещения курсора
         bool wasplayed = false;
@@ -113,6 +119,9 @@ namespace TimeLineControlLibrary
             if (((TimeLine)d).OnPOSChanged != null)
                 ((TimeLine)d).OnPOSChanged(d, e);
         }
+
+
+
         #endregion
 
 
@@ -131,8 +140,60 @@ namespace TimeLineControlLibrary
         }
 
         public static readonly DependencyProperty FullTimeProperty =
-            DependencyProperty.Register("FullTime", typeof(TimeSpan), typeof(TimeLine), new PropertyMetadata(TimeSpan.FromSeconds(10)));
+            DependencyProperty.Register("FullTime", typeof(TimeSpan), typeof(TimeLine), new PropertyMetadata(TimeSpan.FromSeconds(10), new PropertyChangedCallback(FullTimePropertyChangedCallback)));
 
+        public event PropertyChanged OnFullTimeChanged;
+
+        private static void FullTimePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (((TimeLine)d).OnFullTimeChanged != null)
+                ((TimeLine)d).OnFullTimeChanged(d, e);
+        }
+
+        private void TimeLine_OnFullTimeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            RefreshDashes();
+        }
+
+
+
+        //DependencyProperty Bars  - чтобы можно было подписаться на него
+        public ObservableCollection<Bar> Bars
+        {
+            get { return (ObservableCollection<Bar>)GetValue(BarsProperty); }
+            set
+            {
+                SetValue(BarsProperty, value);
+                RefreshDashes();
+                OnPropertyChanged("Bars");
+            }
+        }
+
+        public static readonly DependencyProperty BarsProperty =
+            DependencyProperty.Register("Bars", typeof(ObservableCollection<Bar>), typeof(TimeLine), new PropertyMetadata(new ObservableCollection<Bar>(), new PropertyChangedCallback(BarsPropertyChangedCallback)));
+
+        public event PropertyChanged OnBarsChanged;
+
+        private static void BarsPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (((TimeLine)d).OnBarsChanged != null)
+                ((TimeLine)d).OnBarsChanged(d, e);
+        }
+
+        private void TimeLine_OnBarsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            RefreshDashes();
+
+            BARS.ClearBars();
+            //Bars.Clear();
+            //Random random = new Random();
+
+            foreach (var bar in Bars)
+            {
+                BARS.AddBar(bar);
+            }
+
+        }
 
 
 
@@ -249,35 +310,44 @@ namespace TimeLineControlLibrary
 
         private void THIS_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            RefreshDashes();
+
             BARS.ClearBars();
-            Bars.Clear();
-            Random random = new Random();
-            Bar OldBar = new Bar(
-                                TimeSpan.FromSeconds(0),
-                                TimeSpan.FromSeconds(((double)random.Next(100, 2000)) / 1000),
-                                "Bar#1",
-                                5 * random.Next(5, 50) / 5,
-                                new SolidColorBrush(Colors.Green),
-                                new SolidColorBrush(Colors.Black));
-            for (int i = 0; i < 3000; i++)
-            {
-                Bar NewBar = new Bar(
-                    OldBar.TimeEnd,
-                    TimeSpan.FromSeconds(OldBar.TimeEnd.TotalSeconds + ((double)random.Next(100, 2000)) / 1000),
-                    "Bar#1",
-                    5 * random.Next(5, 50) / 5,
-                    new SolidColorBrush(Colors.Green),
-                    new SolidColorBrush(Colors.Black));
-
-
-                Bars.Add(OldBar);
-                OldBar = NewBar;
-            }
-
             foreach (var bar in Bars)
             {
                 BARS.AddBar(bar);
             }
+
+            if (DataContext != null) ;
+            //BARS.ClearBars();
+            //Bars.Clear();
+            //Random random = new Random();
+            //Bar OldBar = new Bar(
+            //                    TimeSpan.FromSeconds(0),
+            //                    TimeSpan.FromSeconds(((double)random.Next(100, 2000)) / 1000),
+            //                    "Bar#1",
+            //                    5 * random.Next(5, 50) / 5,
+            //                    new SolidColorBrush(Colors.Green),
+            //                    new SolidColorBrush(Colors.Black));
+            //for (int i = 0; i < 3000; i++)
+            //{
+            //    Bar NewBar = new Bar(
+            //        OldBar.TimeEnd,
+            //        TimeSpan.FromSeconds(OldBar.TimeEnd.TotalSeconds + ((double)random.Next(100, 2000)) / 1000),
+            //        "Bar#1",
+            //        5 * random.Next(5, 50) / 5,
+            //        new SolidColorBrush(Colors.Green),
+            //        new SolidColorBrush(Colors.Black));
+
+
+            //    Bars.Add(OldBar);
+            //    OldBar = NewBar;
+            //}
+
+            //foreach (var bar in Bars)
+            //{
+            //    BARS.AddBar(bar);
+            //}
         }
 
         private void THIS_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
