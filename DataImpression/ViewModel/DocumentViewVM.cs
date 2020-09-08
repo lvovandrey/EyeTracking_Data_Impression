@@ -60,6 +60,15 @@ namespace DataImpression.ViewModel
                     Body.Container.Children.Add(diagram);
                 }
 
+                if (documentType == "FixationsTimeline")
+                {
+                    DocumentBodyVM = new FixationsTimelineVM(model);
+                    var diagram = new FixationsTimelineView();
+                    diagram.DataContext = DocumentBodyVM;
+                    Body.Container.Children.Add(diagram);
+                }
+                
+
                 if (documentType == "TimePercentDistribution+AverageFixationTimeDistribution")
                 {
                     var complexdiagram = new FAOIDistributedComplexColumnChart(); 

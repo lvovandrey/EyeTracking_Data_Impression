@@ -80,6 +80,12 @@
     <Compile Include="Models\ProcessingCore\TobiiCSVRecord.cs" />
     <Compile Include="Models\ProcessingResults.cs" />
     <Compile Include="Models\ResultTypes\FAOIDistributed_Parameter.cs" />
+    <Compile Include="Tests\FixationsTimeLine.xaml.cs">
+      <DependentUpon>FixationsTimeLine.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tests\WindowForTests.xaml.cs">
+      <DependentUpon>WindowForTests.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\AOIHitColumnsChoiceVM.cs" />
     <Compile Include="ViewModel\DocumentBodyVM.cs" />
     <Compile Include="ViewModel\DocumentViewVM.cs" />
@@ -87,6 +93,7 @@
     <Compile Include="ViewModel\FAOIDistributedColumnChartVM.cs" />
     <Compile Include="ViewModel\FAOIDistributedComplexColumnChartVM.cs" />
     <Compile Include="ViewModel\FAOIsInputVM.cs" />
+    <Compile Include="ViewModel\FixationsTimelineVM.cs" />
     <Compile Include="ViewModel\IDocumentBodyVM.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\ProcessingTaskVM.cs" />
@@ -109,6 +116,9 @@
     <Compile Include="View\Elements\PropertyViewer.xaml.cs">
       <DependentUpon>PropertyViewer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Tests\TestScrollableView.xaml.cs">
+      <DependentUpon>TestScrollableView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\FAOIDiagramView.xaml.cs">
       <DependentUpon>FAOIDiagramView.xaml</DependentUpon>
     </Compile>
@@ -120,6 +130,9 @@
     </Compile>
     <Compile Include="View\FAOIsInputView.xaml.cs">
       <DependentUpon>FAOIsInputView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FixationsTimelineView.xaml.cs">
+      <DependentUpon>FixationsTimelineView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ProcessingTaskView.xaml.cs">
       <DependentUpon>ProcessingTaskView.xaml</DependentUpon>
@@ -145,6 +158,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Tests\FixationsTimeLine.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tests\WindowForTests.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\AOIHitColumnsChoiceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -154,6 +175,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Elements\PropertyViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tests\TestScrollableView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -170,6 +195,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\FAOIsInputView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FixationsTimelineView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -223,7 +252,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\Chart-Bar.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Table-Add.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -231,6 +262,21 @@
     <Resource Include="Images\Table-Chart.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TimeLineControlLibrary\TimeLineControlLibrary.csproj">
+      <Project>{2532b3da-e4b4-45a9-9ffa-76d8a7a73c37}</Project>
+      <Name>TimeLineControlLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Chart-Bar-Add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Chart-Line-Add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Timeline-Marker.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

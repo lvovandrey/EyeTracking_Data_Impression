@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="DataImpression.View.FixationsTimelineView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:local="clr-namespace:DataImpression.View"
+              xmlns:timline="clr-namespace:TimeLineControlLibrary;assembly=TimeLineControlLibrary"
+             mc:Ignorable="d" 
+            >
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Visible">
+            <timline:TimeLine Width="1000"  FullTime="{Binding FullTime}" Bars="{Binding Bars}"/>
+        </ScrollViewer>
+        <Button Height="10" Width="30" VerticalAlignment="Top"  Click="Button_Click"></Button>
+    </Grid>
+</UserControl>

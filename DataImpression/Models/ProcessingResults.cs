@@ -47,6 +47,16 @@ namespace DataImpression.Models
         }
 
         /// <summary>
+        /// Продолжительность файла. "Длительность записи"
+        /// </summary>
+        public TimeSpan FullTime
+        {
+            get { return FullTimeCalculate(); }
+        }
+
+
+
+        /// <summary>
         /// Список с данными после предварительной обработки - содержит информацию в какие FAOI он смотрел в какие интервалы времени
         /// </summary>
         public List<FAOIHitsOnTimeInterval> FAOIHitsOnTimeIntervalList { get; set; } 
@@ -131,6 +141,21 @@ namespace DataImpression.Models
                 averageFixationTimeDistribution.Results.Add(result);
             }
             return averageFixationTimeDistribution;
+        }
+
+        /// <summary>
+        /// Вычисляет полную продолжительность обрабатываемого файла
+        /// </summary>
+        /// <returns></returns>
+        private TimeSpan FullTimeCalculate()
+        {
+            if (FAOIHitsOnTimeIntervalList == null) throw new Exception("Неполные данные: ProcessingResults.FAOIHitsOnTimeIntervalList не создан");
+            if (FAOIHitsOnTimeIntervalList.Count() < 1) throw new Exception("Неполные данные: ProcessingResults.FAOIHitsOnTimeIntervalList не содержит ни одного элемента");
+            TimeSpan tbeg = FAOIHitsOnTimeIntervalList[0].TimeInterval.TimeBegin;
+            TimeSpan tend = FAOIHitsOnTimeIntervalList[FAOIHitsOnTimeIntervalList.Count() - 1].TimeInterval.TimeEnd;
+            if (tend <= tbeg) throw new Exception("Неверные данные: неверно задано полное время анализируемого файла или заданный интервал времени: начало " +
+                  tbeg.TotalMilliseconds.ToString() + "ms конец " + tend.TotalMilliseconds.ToString());
+            return  tend - tbeg;
         }
 
         #endregion
