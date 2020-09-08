@@ -6,6 +6,11 @@
              xmlns:local="clr-namespace:TimeLineControlLibrary"
              mc:Ignorable="d" 
               d:DesignWidth="450">
-    <StackPanel Name="MainStack" Orientation="Horizontal"  MouseUp="MainStack_MouseUp"/>
+    <StackPanel Name="MainStack" Orientation="Horizontal" 
+                MouseUp="MainStack_MouseUp" 
+                VirtualizingStackPanel.IsVirtualizing="True"
+                VirtualizingStackPanel.CacheLength="100">
+
+    </StackPanel>
 
 </UserControl>

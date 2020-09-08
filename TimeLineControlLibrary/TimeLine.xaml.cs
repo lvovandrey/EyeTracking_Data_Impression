@@ -210,12 +210,15 @@ namespace TimeLineControlLibrary
             T_tenSec.T_full = FullTime;
             T_Sec.T_full = FullTime;
             T10.T_full = FullTime;
+            T_Sec_tenth_part.T_full = FullTime;
+
+
 
             T1.T_el = TimeSpan.FromSeconds(60);
             T_tenSec.T_el = TimeSpan.FromSeconds(10);
             T_Sec.T_el = TimeSpan.FromSeconds(1);
             T10.T_el = TimeSpan.FromSeconds(600);
-
+            T_Sec_tenth_part.T_el = TimeSpan.FromMilliseconds(100);
 
             int N = (int)Math.Round((FullTime.TotalSeconds / T1.T_el.TotalSeconds)) + 2;
             T1.ClearDashes();
@@ -225,12 +228,20 @@ namespace TimeLineControlLibrary
             T_tenSec.ClearDashes();
             T_tenSec.FillDashes(N);
 
-            if (FullTime.TotalSeconds < 60)
+            if (FullTime.TotalSeconds < 3600)
             {
                 N = (int)Math.Round((FullTime.TotalSeconds / T_Sec.T_el.TotalSeconds)) + 2;
                 T_Sec.ClearDashes();
                 T_Sec.FillDashes(N);
             }
+
+            if (FullTime.TotalSeconds < 60)
+            {
+                N = (int)Math.Round((FullTime.TotalSeconds / T_Sec_tenth_part.T_el.TotalSeconds)) + 2;
+                T_Sec_tenth_part.ClearDashes();
+                T_Sec_tenth_part.FillDashes(N);
+            }
+
 
             N = (int)Math.Round((FullTime.TotalSeconds / T10.T_el.TotalSeconds)) + 2;
             T10.ClearDashes();
@@ -244,6 +255,8 @@ namespace TimeLineControlLibrary
 
             T_Sec.ChangeDashesHeight(10);
 
+            T_Sec_tenth_part.ChangeDashesHeight(5);
+
             T10.ChangeDashesHeight(26);
             T10.ChangeDashesWidth(2);
 
@@ -251,8 +264,25 @@ namespace TimeLineControlLibrary
             T_tenSec.Visibility = Visibility.Visible;
             T_Sec.Visibility = Visibility.Visible;
             T10.Visibility = Visibility.Visible;
+            T_Sec_tenth_part.Visibility = Visibility.Hidden;
 
-            if (FullTime < TimeSpan.FromMinutes(0.5))
+
+            T1.TimeLabelVisibility = Visibility.Hidden;
+            T_tenSec.TimeLabelVisibility = Visibility.Visible;
+            T_Sec.TimeLabelVisibility = Visibility.Visible;
+            T10.TimeLabelVisibility = Visibility.Hidden;
+            T_Sec_tenth_part.TimeLabelVisibility = Visibility.Hidden;
+
+            if (FullTime < TimeSpan.FromMinutes(0.1))
+            {
+                T1.TimeLabelVisibility = Visibility.Hidden;
+                T_tenSec.TimeLabelVisibility = Visibility.Visible;
+                T_Sec.TimeLabelVisibility = Visibility.Visible;
+                T10.TimeLabelVisibility = Visibility.Hidden;
+                T_Sec_tenth_part.Visibility = Visibility.Visible;
+                T_Sec_tenth_part.TimeLabelVisibility = Visibility.Visible;
+            }
+            else if (FullTime < TimeSpan.FromMinutes(0.5))
             {
                 T1.TimeLabelVisibility = Visibility.Hidden;
                 T_tenSec.TimeLabelVisibility = Visibility.Visible;
@@ -277,6 +307,7 @@ namespace TimeLineControlLibrary
                 T_Sec.Visibility = Visibility.Hidden;
             }
 
+            T_Sec_tenth_part.HideRepeatedDashes(T_Sec.Dashes);
             T_Sec.HideRepeatedDashes(T_tenSec.Dashes);
             T_tenSec.HideRepeatedDashes(T1.Dashes);
             T1.HideRepeatedDashes(T10.Dashes);

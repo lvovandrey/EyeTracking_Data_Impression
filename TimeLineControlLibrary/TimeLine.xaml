@@ -18,7 +18,7 @@
                 <local:ScaleTime x:Name="T_Sec" ></local:ScaleTime>
                 <local:ScaleTime x:Name="T_tenSec" ></local:ScaleTime>
                 <local:ScaleTime x:Name="T10" ></local:ScaleTime>
-
+                <local:ScaleTime x:Name="T_Sec_tenth_part"/>
 
 
             </Grid>
