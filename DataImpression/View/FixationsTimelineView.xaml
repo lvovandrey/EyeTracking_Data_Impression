@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:DataImpression.View"
               xmlns:timline="clr-namespace:TimeLineControlLibrary;assembly=TimeLineControlLibrary"
              mc:Ignorable="d" 
-             d:DesignHeight="60" d:DesignWidth="800">
+            >
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Visible">
             <timline:TimeLine Width="1000"  FullTime="{Binding FullTime}" Bars="{Binding Bars}"/>

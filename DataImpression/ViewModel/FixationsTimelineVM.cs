@@ -66,7 +66,7 @@ namespace DataImpression.ViewModel
                 f.TimeInterval.TimeBegin,
                 f.TimeInterval.TimeEnd,
                 f.FAOIHits[0].Name + f.FAOIHits[0].OrderedNumber,
-                f.FAOIHits[0].OrderedNumber * 5,
+                f.FAOIHits[0].OrderedNumber * 35,
                 ConvertOrderedNumberToBrush(f.FAOIHits[0].OrderedNumber),
                 new SolidColorBrush(Colors.DarkGray));
 

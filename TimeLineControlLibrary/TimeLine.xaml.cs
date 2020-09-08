@@ -32,12 +32,17 @@ namespace TimeLineControlLibrary
 
             T1.T_full = FullTime;
             T1.T_el = TimeSpan.FromSeconds(60);
-            T1.ChangeDashesHeight(12);
-            T1.ChangeDashesWidth(1);
+            T1.ChangeDashesHeight(20);
+            T1.ChangeDashesWidth(2);
+
+
+           // T10.ChangeDashesHeight(30);
+
+
 
             T_tenSec.T_full = FullTime;
             T_tenSec.T_el = TimeSpan.FromSeconds(10);
-            T_tenSec.ChangeDashesHeight(6);
+            T_tenSec.ChangeDashesHeight(10);
 
             Cursor1.Container = this;
 

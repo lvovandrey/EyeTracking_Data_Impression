@@ -6,25 +6,24 @@
              xmlns:local="clr-namespace:TimeLineControlLibrary"
              
              mc:Ignorable="d" 
-             d:DesignHeight="50" d:DesignWidth="820" Name="THIS" MouseDown="THIS_MouseDown" PreviewMouseWheel="THIS_PreviewMouseWheel">
+              d:DesignWidth="820" Name="THIS" MouseDown="THIS_MouseDown" PreviewMouseWheel="THIS_PreviewMouseWheel">
 
     <Grid Margin="0,0,-20,0" >
-        <Grid x:Name="GridMain"  Height="50" VerticalAlignment="Top" >
-            <Grid  Height="50" VerticalAlignment="Top" Margin="0,0,20,0" PreviewMouseDown="Grid_PreviewMouseDown">
+        <Grid x:Name="GridMain"   VerticalAlignment="Bottom" >
+            <Grid  VerticalAlignment="Bottom" Margin="0,0,20,0" PreviewMouseDown="Grid_PreviewMouseDown">
 
-                <local:BarsArea x:Name="BARS" Height="44" FullTime="{Binding FullTime}"></local:BarsArea>
-                <TextBlock Text="{Binding FullTime}"/>
-
-                <local:ScaleTime x:Name="T1" Height="44" ></local:ScaleTime>
-                <local:ScaleTime x:Name="T_Sec" Height="44"></local:ScaleTime>
-                <local:ScaleTime x:Name="T_tenSec" Height="44"></local:ScaleTime>
-                <local:ScaleTime x:Name="T10" Height="44"></local:ScaleTime>
+                <local:BarsArea x:Name="BARS"  FullTime="{Binding FullTime}"></local:BarsArea>
+               
+                <local:ScaleTime x:Name="T1" ></local:ScaleTime>
+                <local:ScaleTime x:Name="T_Sec" ></local:ScaleTime>
+                <local:ScaleTime x:Name="T_tenSec" ></local:ScaleTime>
+                <local:ScaleTime x:Name="T10" ></local:ScaleTime>
 
 
 
             </Grid>
 
-            <Rectangle HorizontalAlignment="Stretch" Height="1"  VerticalAlignment="Bottom" Margin="0 0 20 13" Fill="Black" />
+            <Rectangle HorizontalAlignment="Stretch" Height="1"  VerticalAlignment="Bottom" Margin="0 0 20 10" Fill="Black" />
             <Rectangle HorizontalAlignment="Stretch"   VerticalAlignment="Stretch" Margin="0 0 20 0" Stroke="#FF323232" />
 
         </Grid>
