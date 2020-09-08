@@ -28,10 +28,6 @@ namespace DataImpression.Models.ResultTypes
             ParameterName = parameterName;
         }
 
-        public static explicit operator FAOIDistributed_Parameter<T>(FAOIDistributed_Parameter<double> v)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     /// <summary>

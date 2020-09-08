@@ -47,12 +47,29 @@ namespace DataImpression.Models
         }
 
         /// <summary>
-        /// Продолжительность файла. "Длительность записи"
+        /// Продолжительность файла. "Полное время анализируемой записи"
         /// </summary>
-        public TimeSpan FullTime
+        public ScalarParameter<TimeSpan> FullTime
         {
-            get { return FullTimeCalculate(); }
+            get { return new ScalarParameter<TimeSpan>("Полное время анализируемого интервала",  FullTimeCalculate()); }
         }
+
+        /// <summary>
+        /// Полное количество переходов взгляда между функциональными зонами
+        /// </summary>
+        public ScalarParameter<int> FixationsFullCount
+        {
+            get { return new ScalarParameter<int>("Полное количество переходов взгляда между функциональными зонами", FixationsFullCountCalculate()); }
+        }
+        /// <summary>
+        /// Частота переходов взгляда между функциональными зонами,1/мин
+        /// </summary>
+        public ScalarParameter<double> ChangeFAOIFrequencyPerMinute
+        {
+            get { return new ScalarParameter<double>("Частота переходов взгляда между функциональными зонами, 1/мин", ChangeFAOIFrequencyPerMinuteCalculate()); }
+        }
+
+
 
 
 
@@ -158,6 +175,25 @@ namespace DataImpression.Models
             return  tend - tbeg;
         }
 
+
+
+        /// <summary>
+        /// Функция для расчета параметра "Полное количество переходов взгляда между функциональными зонами"
+        /// </summary>
+        /// <returns></returns>
+        private int FixationsFullCountCalculate()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Функция для расчета параметра "Частота переходов взгляда между функциональными зонами, 1/мин"
+        /// </summary>
+        /// <returns></returns>
+        private double ChangeFAOIFrequencyPerMinuteCalculate()
+        {
+            throw new NotImplementedException();
+        }
         #endregion
 
 

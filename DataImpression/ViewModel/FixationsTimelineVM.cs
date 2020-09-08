@@ -52,7 +52,7 @@ namespace DataImpression.ViewModel
 
         public TimeSpan FullTime
         {
-            get { return _model.Results.FullTime; }
+            get { return _model.Results.FullTime.Value; }
         }
 
         #endregion
