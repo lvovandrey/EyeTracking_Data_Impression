@@ -209,7 +209,7 @@ namespace DataImpression.Models
         /// <returns></returns>
         private double ChangeFAOIFrequencyPerMinuteCalculate()
         {
-            throw new NotImplementedException();
+            return FixationsFullCount.Value / FullTime.Value.TotalMinutes;
         }
         #endregion
 
