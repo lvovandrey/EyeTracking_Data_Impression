@@ -80,6 +80,7 @@
     <Compile Include="Models\ProcessingCore\TobiiCSVRecord.cs" />
     <Compile Include="Models\ProcessingResults.cs" />
     <Compile Include="Models\ResultTypes\FAOIDistributed_Parameter.cs" />
+    <Compile Include="Models\ResultTypes\ScalarParameter.cs" />
     <Compile Include="Tests\FixationsTimeLine.xaml.cs">
       <DependentUpon>FixationsTimeLine.xaml</DependentUpon>
     </Compile>
