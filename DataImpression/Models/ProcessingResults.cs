@@ -47,6 +47,15 @@ namespace DataImpression.Models
         }
 
         /// <summary>
+        /// Распределение частоты обращения к каждой функциональной зоне. "Частота обращения к зоне, 1/мин"
+        /// </summary>
+        public FAOIDistributed_Parameter<double> FrequencyRequestsFAOIDistributionPerMinute
+        {
+            get { return FrequencyRequestsFAOIDistributionPerMinuteCalculate(); }
+        }
+
+
+        /// <summary>
         /// Продолжительность файла. "Полное время анализируемой записи"
         /// </summary>
         public ScalarParameter<TimeSpan> FullTime
@@ -64,9 +73,9 @@ namespace DataImpression.Models
         /// <summary>
         /// Частота переходов взгляда между функциональными зонами,1/мин
         /// </summary>
-        public ScalarParameter<double> ChangeFAOIFrequencyPerMinute
+        public ScalarParameter<double> FrequencyRequestsToAnyFAOIPerMinute
         {
-            get { return new ScalarParameter<double>("Частота переходов взгляда между функциональными зонами, 1/мин", ChangeFAOIFrequencyPerMinuteCalculate()); }
+            get { return new ScalarParameter<double>("Частота переходов взгляда между функциональными зонами, 1/мин", FrequencyRequestsToAnyFAOIPerMinuteCalculate()); }
         }
 
 
@@ -160,6 +169,39 @@ namespace DataImpression.Models
             return averageFixationTimeDistribution;
         }
 
+
+        /// <summary>
+        /// Функция расчета параметра "Частота обращения к зоне, 1/мин"
+        /// </summary>
+        private FAOIDistributed_Parameter<double> FrequencyRequestsFAOIDistributionPerMinuteCalculate()
+        {
+            FAOIDistributed_Parameter<double> frequencyDistribution = new FAOIDistributed_Parameter<double>("Частота обращения к зоне, 1/мин");
+            double fullTimeMinutes = FullTime.Value.TotalMinutes; //обратимся сразу к этому полю, чтобы если что прошла валидация
+
+            foreach (var faoi in SourceData.FAOIs)
+            {
+                int fixationsCount = 0;
+                for (int i = 0; i < FAOIHitsOnTimeIntervalList.Count - 1; i++)
+                {
+                   
+                    if ((FAOIHitsOnTimeIntervalList[i].FAOIHits.Contains(faoi)))
+                    {
+                        fixationsCount++;
+                        do
+                        {
+                            i++;
+
+                        } while (FAOIHitsOnTimeIntervalList[i].FAOIHits.Contains(faoi));
+                    }
+                }
+                frequencyDistribution.Results.Add(new FAOI_Value_Pair<double>() { FAOI = faoi, Value = fixationsCount / fullTimeMinutes });
+            }
+
+            return frequencyDistribution;
+        }
+
+
+
         /// <summary>
         /// Вычисляет полную продолжительность обрабатываемого файла
         /// </summary>
@@ -185,11 +227,11 @@ namespace DataImpression.Models
         {
             if (FAOIHitsOnTimeIntervalList == null) throw new Exception("Неполные данные: ProcessingResults.FAOIHitsOnTimeIntervalList равен NULL");
             if (FAOIHitsOnTimeIntervalList.Count() < 1) throw new Exception("Неполные данные: ProcessingResults.FAOIHitsOnTimeIntervalList не содержит ни одного элемента");
-            int fixationsCount=0;
-            for (int i = 1; i < FAOIHitsOnTimeIntervalList.Count-1; i++)
+            int fixationsCount = 0;
+            for (int i = 1; i < FAOIHitsOnTimeIntervalList.Count - 1; i++)
             {
                 var f = FAOIHitsOnTimeIntervalList[i];
-                var fprev = FAOIHitsOnTimeIntervalList[i-1];
+                var fprev = FAOIHitsOnTimeIntervalList[i - 1];
 
                 FAOI faoi = new FAOI();
                 FAOI faoiprev = new FAOI();
@@ -207,11 +249,13 @@ namespace DataImpression.Models
         /// Функция для расчета параметра "Частота переходов взгляда между функциональными зонами, 1/мин"
         /// </summary>
         /// <returns></returns>
-        private double ChangeFAOIFrequencyPerMinuteCalculate()
+        private double FrequencyRequestsToAnyFAOIPerMinuteCalculate()
         {
             return FixationsFullCount.Value / FullTime.Value.TotalMinutes;
         }
         #endregion
+
+
 
 
     }
