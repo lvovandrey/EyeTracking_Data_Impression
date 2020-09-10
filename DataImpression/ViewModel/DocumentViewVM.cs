@@ -52,6 +52,16 @@ namespace DataImpression.ViewModel
                     diagram.DataContext = DocumentBodyVM;
                     Body.Container.Children.Add(diagram);
                 }
+
+                if (documentType == "FrequencyRequestsFAOIDistributionPerMinute")
+                {
+                    var diagram = new FAOIDistributedColumnChartView();
+                    SettingsFAOIDistributedColumnChart settings = new SettingsFAOIDistributedColumnChart() { Fill = Brushes.Orange };
+                    DocumentBodyVM = new FAOIDistributedColumnChartVM<double>(model, model.Results.FrequencyRequestsFAOIDistributionPerMinute, settings);
+                    diagram.DataContext = DocumentBodyVM;
+                    Body.Container.Children.Add(diagram);
+                }
+
                 if (documentType == "TimePercentDistribution")
                 {
                     var diagram = new FAOIDiagramView();
@@ -67,9 +77,10 @@ namespace DataImpression.ViewModel
                     diagram.DataContext = DocumentBodyVM;
                     Body.Container.Children.Add(diagram);
                 }
-                
 
-                if (documentType == "TimePercentDistribution+AverageFixationTimeDistribution")
+
+
+                if (documentType == "TimePercentDistribution+AverageFixationTimeDistribution+FrequencyRequestsFAOIDistributionPerMinute")
                 {
                     var complexdiagram = new FAOIDistributedComplexColumnChart(); 
                     DocumentBodyVM = new FAOIDistributedComplexColumnChartVM<object>(model);
@@ -84,11 +95,15 @@ namespace DataImpression.ViewModel
                     SettingsFAOIDistributedColumnChart settings2 = new SettingsFAOIDistributedColumnChart() { Fill = Brushes.Green };
                     var DocumentBodyVM2 = new FAOIDistributedColumnChartVM<TimeSpan>(model, model.Results.AverageFixationTimeDistribution, settings2);
 
+                    var diagram3 = new FAOIDistributedColumnChartView();
+                    SettingsFAOIDistributedColumnChart settings3 = new SettingsFAOIDistributedColumnChart() { Fill = Brushes.Orange };
+                    var DocumentBodyVM3 = new FAOIDistributedColumnChartVM<double>(model, model.Results.FrequencyRequestsFAOIDistributionPerMinute, settings3);
+
 
                     Body.Container.Children.Add(complexdiagram);
                     ((FAOIDistributedComplexColumnChartVM<object>)DocumentBodyVM).ChartVMs.Add(DocumentBodyVM1);
                     ((FAOIDistributedComplexColumnChartVM<object>)DocumentBodyVM).ChartVMs.Add(DocumentBodyVM2);
-
+                    ((FAOIDistributedComplexColumnChartVM<object>)DocumentBodyVM).ChartVMs.Add(DocumentBodyVM3);
 
                 }
 
