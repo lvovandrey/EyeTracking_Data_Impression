@@ -100,6 +100,7 @@
     <Compile Include="ViewModel\ProcessingTaskVM.cs" />
     <Compile Include="ViewModel\ProjectExplorerVM.cs" />
     <Compile Include="ViewModel\ResultsViewAreaVM.cs" />
+    <Compile Include="ViewModel\StatisticsPanelVM.cs" />
     <Compile Include="ViewModel\TimeColumnChoiceVM.cs" />
     <Compile Include="View\AOIHitColumnsChoiceView.xaml.cs">
       <DependentUpon>AOIHitColumnsChoiceView.xaml</DependentUpon>
@@ -143,6 +144,9 @@
     </Compile>
     <Compile Include="View\ResultsViewAreaView.xaml.cs">
       <DependentUpon>ResultsViewAreaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\StatisticsPanelView.xaml.cs">
+      <DependentUpon>StatisticsPanelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\TimeColumnChoiceView.xaml.cs">
       <DependentUpon>TimeColumnChoiceView.xaml</DependentUpon>
@@ -212,6 +216,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ResultsViewAreaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\StatisticsPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

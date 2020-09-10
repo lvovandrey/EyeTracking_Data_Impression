@@ -29,11 +29,13 @@
                         </DataTemplate>
                     </avalonHelpers:PanesTemplateSelector.DocumentViewTemplate>
 
-                    <avalonHelpers:PanesTemplateSelector.TestDiagramViewTemplate>
+                    <avalonHelpers:PanesTemplateSelector.StatisticsPanelViewTemplate>
                         <DataTemplate>
-                            <local:DocumentView DataContext="{Binding DocumentViewVM, UpdateSourceTrigger=PropertyChanged}" />
+                            <Border Padding="5" BorderBrush="Black" BorderThickness="1">
+                                <local:StatisticsPanelView/>
+                            </Border>
                         </DataTemplate>
-                    </avalonHelpers:PanesTemplateSelector.TestDiagramViewTemplate>
+                    </avalonHelpers:PanesTemplateSelector.StatisticsPanelViewTemplate>
 
                     <avalonHelpers:PanesTemplateSelector.ProjectExplorerTemplate>
                         <DataTemplate>

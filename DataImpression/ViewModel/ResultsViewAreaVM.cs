@@ -87,7 +87,7 @@ namespace DataImpression.ViewModel
             get
             {
                 if (_tools == null)
-                    _tools = new ToolVM[] { ProjectExplorer };
+                    _tools = new ToolVM[] { ProjectExplorer, StatisticsPanel };
                 return _tools;
             }
         }
@@ -102,6 +102,18 @@ namespace DataImpression.ViewModel
                     _projectExplorer = new ProjectExplorerVM(_mainWindowViewModel, _model);
 
                 return _projectExplorer;
+            }
+        }
+
+        StatisticsPanelVM _statisticsPanel = null;
+        public StatisticsPanelVM StatisticsPanel
+        {
+            get
+            {
+                if (_statisticsPanel == null)
+                    _statisticsPanel = new StatisticsPanelVM( _model);
+
+                return _statisticsPanel;
             }
         }
 
