@@ -30,7 +30,8 @@ namespace DataImpression.ViewModel.AvalonDockHelpers
             set;
         }
 
-        public DataTemplate TestDiagramViewTemplate
+
+        public DataTemplate StatisticsPanelViewTemplate
         {
             get;
             set;
@@ -51,6 +52,9 @@ namespace DataImpression.ViewModel.AvalonDockHelpers
 
             if (item is ProjectExplorerVM)
                 return ProjectExplorerTemplate;
+
+            if (item is StatisticsPanelVM)
+                return StatisticsPanelViewTemplate;
 
             return base.SelectTemplate(item, container);
         }

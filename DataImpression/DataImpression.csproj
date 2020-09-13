@@ -100,6 +100,7 @@
     <Compile Include="ViewModel\ProcessingTaskVM.cs" />
     <Compile Include="ViewModel\ProjectExplorerVM.cs" />
     <Compile Include="ViewModel\ResultsViewAreaVM.cs" />
+    <Compile Include="ViewModel\StatisticsPanelVM.cs" />
     <Compile Include="ViewModel\TimeColumnChoiceVM.cs" />
     <Compile Include="View\AOIHitColumnsChoiceView.xaml.cs">
       <DependentUpon>AOIHitColumnsChoiceView.xaml</DependentUpon>
@@ -119,6 +120,9 @@
     </Compile>
     <Compile Include="Tests\TestScrollableView.xaml.cs">
       <DependentUpon>TestScrollableView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Elements\PropertyViewerEx.xaml.cs">
+      <DependentUpon>PropertyViewerEx.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\FAOIDiagramView.xaml.cs">
       <DependentUpon>FAOIDiagramView.xaml</DependentUpon>
@@ -143,6 +147,9 @@
     </Compile>
     <Compile Include="View\ResultsViewAreaView.xaml.cs">
       <DependentUpon>ResultsViewAreaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\StatisticsPanelView.xaml.cs">
+      <DependentUpon>StatisticsPanelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\TimeColumnChoiceView.xaml.cs">
       <DependentUpon>TimeColumnChoiceView.xaml</DependentUpon>
@@ -183,6 +190,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Elements\PropertyViewerEx.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\FAOIDiagramView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -212,6 +223,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ResultsViewAreaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\StatisticsPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
