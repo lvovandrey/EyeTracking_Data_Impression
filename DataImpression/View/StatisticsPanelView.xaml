@@ -9,9 +9,9 @@
              d:DesignHeight="450" d:DesignWidth="800" x:Name="This">
     <Grid>
         <StackPanel Orientation="Vertical">
-            <elements:PropertyViewer Tag="{Binding FullTimeName}" DataContext="{Binding FullTime}"></elements:PropertyViewer>
-            <elements:PropertyViewer Tag="{Binding FixationsFullCountName}" DataContext="{Binding FixationsFullCount}"></elements:PropertyViewer>
-            <elements:PropertyViewer Tag="{Binding FrequencyRequestsToAnyFAOIPerMinuteName}" DataContext="{Binding FrequencyRequestsToAnyFAOIPerMinute}"></elements:PropertyViewer>
+            <elements:PropertyViewerEx DataContext="{Binding FullTime}"></elements:PropertyViewerEx>
+            <elements:PropertyViewerEx DataContext="{Binding FixationsFullCount}"></elements:PropertyViewerEx>
+            <elements:PropertyViewerEx DataContext="{Binding FrequencyRequestsToAnyFAOIPerMinute}"></elements:PropertyViewerEx>
         </StackPanel> 
     </Grid>
 </UserControl>

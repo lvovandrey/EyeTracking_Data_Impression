@@ -14,51 +14,29 @@ namespace DataImpression.ViewModel
         public StatisticsPanelVM(Model _model):base("Панель статистики")
         {
             model = _model;
-            OnPropertyChanged("FullTime");
-            OnPropertyChanged("FixationsFullCount");
-            OnPropertyChanged("FrequencyRequestsToAnyFAOIPerMinute");
-            OnPropertyChanged("FullTimeName");
-            OnPropertyChanged("FixationsFullCountName");
-            OnPropertyChanged("FrequencyRequestsToAnyFAOIPerMinuteName");
         }
         
         public Model model { get; private set; }
-        
 
 
-        public TimeSpan FullTime
+        public object FullTime
         {
-            get { return model.Results.FullTime.Value; }
+            get { return new { Val = model.Results.FullTime.Value, 
+                               Name = model.Results.FullTime.ParameterName }; }
         }
 
-
-        public int FixationsFullCount
+        public object FixationsFullCount
         {
-            get { return model.Results.FixationsFullCount.Value; }
+            get { return new { Val = model.Results.FixationsFullCount.Value, 
+                               Name = model.Results.FixationsFullCount.ParameterName }; }
         }
 
-
-        public double FrequencyRequestsToAnyFAOIPerMinute
+        public object FrequencyRequestsToAnyFAOIPerMinute
         {
-            get { return model.Results.FrequencyRequestsToAnyFAOIPerMinute.Value; }
+            get { return new { Val = model.Results.FrequencyRequestsToAnyFAOIPerMinute.Value, 
+                               Name = model.Results.FrequencyRequestsToAnyFAOIPerMinute.ParameterName }; }
         }
-
-        public string FullTimeName
-        {
-            get { return model.Results.FullTime.ParameterName; }
-        }
-
-        public string FixationsFullCountName
-        {
-            get { return model.Results.FixationsFullCount.ParameterName; }
-        }
-
-        public string FrequencyRequestsToAnyFAOIPerMinuteName
-        {
-            get { return model.Results.FrequencyRequestsToAnyFAOIPerMinute.ParameterName; }
-        }
-
-
 
     }
+
 }

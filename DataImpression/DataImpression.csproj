@@ -121,6 +121,9 @@
     <Compile Include="Tests\TestScrollableView.xaml.cs">
       <DependentUpon>TestScrollableView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Elements\PropertyViewerEx.xaml.cs">
+      <DependentUpon>PropertyViewerEx.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\FAOIDiagramView.xaml.cs">
       <DependentUpon>FAOIDiagramView.xaml</DependentUpon>
     </Compile>
@@ -184,6 +187,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Tests\TestScrollableView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Elements\PropertyViewerEx.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
