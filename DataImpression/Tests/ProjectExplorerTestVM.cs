@@ -1,6 +1,8 @@
-﻿using System;
+﻿using DataImpression.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,40 +11,27 @@ namespace DataImpression.Tests
 {
     public class ProjectExplorerTestVM
     {
-        public ProjectExplorerTestVM()
+        public ProjectExplorerTestVM(Model model)
         {
             source = new PEElement()
             {
+                Title = "Исходные данные",
                 PEElements = new ObservableCollection<PEElement>()
                 {
-                    new PEElement("Файл.csv"),
-                    new PEElement("Таблица AOI"),
-                    new PEElement("Таблица FAOI-AOI")
+                    new PEElement(Path.GetFileName(model.SourceData.CSVFileName), "File"),
+                    new PEElement("Таблица AOI", "Table"),
+                    new PEElement("Таблица FAOI-AOI", "Table")
                 }
             };
             view = new PEElement()
             {
-                //PEElements = new ObservableCollection<PEElement>()
-                //{
-                //    new PEElement("Список диаграмм")
-                //    {
-                //        PEElements = new ObservableCollection<PEElement>()
-                //        {
-                //            new PEDataView("Диаграмма 1"){IsDiagram=true },
-                //            new PEDataView("Диаграмма 2"){IsDiagram=true },
-                //            new PEDataView("Диаграмма 3"){IsDiagram=true },
-                //        }
-                //    },
-                //    new PEElement("Список таблиц")
-                //    {
-                //        PEElements = new ObservableCollection<PEElement>()
-                //        {
-                //            new PEDataView("Таблица 1"){IsTable=true },
-                //            new PEDataView("Таблица 2"){IsTable=true },
-                //            new PEDataView("Таблица 3"){IsTable=true },
-                //        }
-                //    }
-                //}
+                Title = "Визуальные представления",
+                PEElements = new ObservableCollection<PEElement>()
+                {
+                    new PEElement("Диаграмма 1", "Diagram"),
+                    new PEElement("Диаграмма 2", "Diagram"),
+                    new PEElement("Диаграмма 3","Diagram")
+                }
             };
             Items = new ObservableCollection<PEElement>() { source, view };
         }
@@ -63,14 +52,14 @@ namespace DataImpression.Tests
 
         }
 
-        public PEElement(string title)
+        public PEElement(string title, string elementType)
         {
             Title = title;
+            ElementType = elementType;
         }
 
         public string Title { get; set; }
-        public bool IsDiagram = false;
-        public bool IsTable = false;
+        public string ElementType { get; set; }
         public ObservableCollection<PEElement> PEElements { get; set; }
     }
 

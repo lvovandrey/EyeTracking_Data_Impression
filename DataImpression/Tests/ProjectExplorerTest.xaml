@@ -13,10 +13,16 @@
 
                     <HierarchicalDataTemplate DataType="{x:Type local:PEElement}" ItemsSource="{Binding PEElements}">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Title}" />
+                            <TextBlock x:Name="TextBlockTitle" Text="{Binding Title}"   />
                         </StackPanel>
+                        <HierarchicalDataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding ElementType}" Value="Diagram">
+                                <Setter TargetName="TextBlockTitle" Property="Foreground" Value="Red"/>
+                            </DataTrigger>
+                        </HierarchicalDataTemplate.Triggers>
+                    
                     </HierarchicalDataTemplate>
-
+                    
                   
                 </TreeView.Resources>
                 
