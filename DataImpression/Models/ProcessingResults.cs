@@ -239,7 +239,7 @@ namespace DataImpression.Models
                 if (f.FAOIHits.Count > 0) faoi = f.FAOIHits[0];
                 if (fprev.FAOIHits.Count > 0) faoiprev = fprev.FAOIHits[0];
 
-                if (faoi.Equals(faoiprev)) fixationsCount++;
+                if (!faoi.Equals(faoiprev)) fixationsCount++;
 
             }
             return fixationsCount;
