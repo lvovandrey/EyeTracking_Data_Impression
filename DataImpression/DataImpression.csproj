@@ -84,6 +84,13 @@
     <Compile Include="Tests\FixationsTimeLine.xaml.cs">
       <DependentUpon>FixationsTimeLine.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Tests\ProjectExplorerTest.xaml.cs">
+      <DependentUpon>ProjectExplorerTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tests\ProjectExplorerTestVM.cs" />
+    <Compile Include="Tests\TreeViewTest.xaml.cs">
+      <DependentUpon>TreeViewTest.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Tests\WindowForTests.xaml.cs">
       <DependentUpon>WindowForTests.xaml</DependentUpon>
     </Compile>
@@ -167,6 +174,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Tests\FixationsTimeLine.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tests\ProjectExplorerTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tests\TreeViewTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

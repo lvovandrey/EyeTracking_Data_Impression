@@ -10,8 +10,12 @@
     <Grid x:Name="GridMain">
         <!--<local:TestScrollableView  WidthContainer="{Binding ElementName=GridMain, Path=ActualWidth}"/>-->
         <!--<local:FixationsTimeLine/>-->
-        <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Visible">
+        <!--<ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Visible">
         <timline:TimeLine Width="10000" />
-        </ScrollViewer>
+        </ScrollViewer>-->
+        <StackPanel Orientation="Horizontal">
+            <local:ProjectExplorerTest/>
+            <local:TreeViewTest/>
+        </StackPanel>
     </Grid>
 </Window>
