@@ -15,6 +15,7 @@ namespace DataImpression.ViewModel
         {
             _model = model;
             _mainWindowViewModel = mainWindowViewModel;
+            ProjectExplorerTreeViewVM = new ProjectExplorerTreeViewVM(model);
         }
 
         #region Fields
@@ -28,6 +29,19 @@ namespace DataImpression.ViewModel
 
         #region Properties
 
+        ProjectExplorerTreeViewVM projectExplorerTreeViewVM;
+        public ProjectExplorerTreeViewVM ProjectExplorerTreeViewVM 
+        {
+            get
+            {
+                return projectExplorerTreeViewVM;
+            }
+            set 
+            {
+                OnPropertyChanged("ProjectExplorerTreeViewVM");
+                projectExplorerTreeViewVM = value;
+            }
+        }
         #endregion
         #region Methods
         #endregion

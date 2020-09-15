@@ -103,6 +103,7 @@
     <Compile Include="ViewModel\IDocumentBodyVM.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\ProcessingTaskVM.cs" />
+    <Compile Include="ViewModel\ProjectExplorerTreeViewVM.cs" />
     <Compile Include="ViewModel\ProjectExplorerVM.cs" />
     <Compile Include="ViewModel\ResultsViewAreaVM.cs" />
     <Compile Include="ViewModel\StatisticsPanelVM.cs" />
@@ -146,6 +147,9 @@
     </Compile>
     <Compile Include="View\ProcessingTaskView.xaml.cs">
       <DependentUpon>ProcessingTaskView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ProjectExplorerTreeView.xaml.cs">
+      <DependentUpon>ProjectExplorerTreeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ProjectExplorerView.xaml.cs">
       <DependentUpon>ProjectExplorerView.xaml</DependentUpon>
@@ -224,6 +228,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ProcessingTaskView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ProjectExplorerTreeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -317,6 +325,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Document-Todo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
