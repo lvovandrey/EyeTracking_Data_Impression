@@ -13,12 +13,14 @@ namespace DataImpression.Tests
     {
         public ProjectExplorerTestVM(Model model)
         {
+            root = new PEElement(model.Project.Name,"Project");
+
             source = new PEElement()
             {
                 Title = "Исходные данные",
                 PEElements = new ObservableCollection<PEElement>()
                 {
-                    new PEElement(Path.GetFileName(model.SourceData.CSVFileName), "File"),
+                    new PEElement(Path.GetFileName(model.SourceData.CSVFileName), "FileCSV"),
                     new PEElement("Таблица AOI", "Table"),
                     new PEElement("Таблица FAOI-AOI", "Table")
                 }
@@ -33,11 +35,15 @@ namespace DataImpression.Tests
                     new PEElement("Диаграмма 3","Diagram")
                 }
             };
-            Items = new ObservableCollection<PEElement>() { source, view };
+            root.PEElements.Add(source);
+            root.PEElements.Add(view);
+
+            Items = new ObservableCollection<PEElement>() { root };
         }
 
         public string ProjectName { get; set; } = "Project1";
 
+        PEElement root;
         PEElement source;
         PEElement view;
         public ObservableCollection<PEElement> Items { get; set; }
@@ -59,8 +65,8 @@ namespace DataImpression.Tests
         }
 
         public string Title { get; set; }
-        public string ElementType { get; set; }
-        public ObservableCollection<PEElement> PEElements { get; set; }
+        public string ElementType { get; set; } = "Folder";
+        public ObservableCollection<PEElement> PEElements { get; set; } = new ObservableCollection<PEElement>();
     }
 
 

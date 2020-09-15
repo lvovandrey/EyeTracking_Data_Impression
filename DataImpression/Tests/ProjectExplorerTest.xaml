@@ -10,15 +10,28 @@
         <ScrollViewer Grid.Row="1">
             <TreeView ItemsSource="{Binding Items}">
                 <TreeView.Resources>
-
                     <HierarchicalDataTemplate DataType="{x:Type local:PEElement}" ItemsSource="{Binding PEElements}">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock x:Name="TextBlockTitle" Text="{Binding Title}"   />
+                            <Image x:Name="IconIMG" Width="16" Height="16" />
+                            <TextBlock x:Name="TextBlockTitle" Text="{Binding Title}"  Margin="10 0 0 0" />
                         </StackPanel>
                         <HierarchicalDataTemplate.Triggers>
-                            <DataTrigger Binding="{Binding ElementType}" Value="Diagram">
-                                <Setter TargetName="TextBlockTitle" Property="Foreground" Value="Red"/>
+                            <DataTrigger Binding="{Binding ElementType}" Value="Project">
+                                <Setter TargetName="IconIMG" Property="Image.Source" Value="/DataImpression;component/Images/Application.png"/>
                             </DataTrigger>
+                            <DataTrigger Binding="{Binding ElementType}" Value="FileCSV">
+                                <Setter TargetName="IconIMG" Property="Image.Source" Value="/DataImpression;component/Images/TobiiCSVFile.png"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ElementType}" Value="Table">
+                                <Setter TargetName="IconIMG" Property="Image.Source" Value="/DataImpression;component/Images/Table.png"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ElementType}" Value="Diagram">
+                                <Setter TargetName="IconIMG" Property="Image.Source" Value="/DataImpression;component/Images/Chart-Bar.png"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ElementType}" Value="Folder">
+                                <Setter TargetName="IconIMG" Property="Image.Source" Value="/DataImpression;component/Images/Folder.png"/>
+                            </DataTrigger>
+
                         </HierarchicalDataTemplate.Triggers>
                     
                     </HierarchicalDataTemplate>

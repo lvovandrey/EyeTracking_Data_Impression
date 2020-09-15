@@ -79,6 +79,7 @@
     <Compile Include="Models\ProcessingCore\RawDataProcessor.cs" />
     <Compile Include="Models\ProcessingCore\TobiiCSVRecord.cs" />
     <Compile Include="Models\ProcessingResults.cs" />
+    <Compile Include="Models\Project.cs" />
     <Compile Include="Models\ResultTypes\FAOIDistributed_Parameter.cs" />
     <Compile Include="Models\ResultTypes\ScalarParameter.cs" />
     <Compile Include="Tests\FixationsTimeLine.xaml.cs">
@@ -88,9 +89,6 @@
       <DependentUpon>ProjectExplorerTest.xaml</DependentUpon>
     </Compile>
     <Compile Include="Tests\ProjectExplorerTestVM.cs" />
-    <Compile Include="Tests\TreeViewTest.xaml.cs">
-      <DependentUpon>TreeViewTest.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Tests\WindowForTests.xaml.cs">
       <DependentUpon>WindowForTests.xaml</DependentUpon>
     </Compile>
@@ -178,10 +176,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Tests\ProjectExplorerTest.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Tests\TreeViewTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -308,6 +302,21 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Timeline-Marker.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\File-Extension-Xml.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Application.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\TobiiCSVFile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Table.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Folder.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
