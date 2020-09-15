@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataImpression.AbstractMVVM;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -35,7 +36,7 @@ namespace DataImpression.View
     /// <summary>
     /// Отдельный элемент дерева
     /// </summary>
-    public class PEElement
+    public class PEElement:INPCBase
     {
         public PEElement()
         {
@@ -46,6 +47,14 @@ namespace DataImpression.View
         {
             Title = title;
             ElementType = elementType;
+        }
+
+        /// <summary>
+        /// Нужно чтобы пробросить к вьюшке событие об изменении коллекции внутренних элементов, а то так она не хочет его ловить
+        /// </summary>
+        public void ItemsChanged()
+        {
+            OnPropertyChanged("PEElements");
         }
 
         public string Title { get; set; }

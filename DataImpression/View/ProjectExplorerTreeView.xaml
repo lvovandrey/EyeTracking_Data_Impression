@@ -11,7 +11,7 @@
             <TreeView ItemsSource="{Binding Items}" >
 
                 <TreeView.Resources>
-                    <HierarchicalDataTemplate DataType="{x:Type local:PEElement}" ItemsSource="{Binding PEElements}" >
+                    <HierarchicalDataTemplate DataType="{x:Type local:PEElement}" ItemsSource="{Binding PEElements, UpdateSourceTrigger=PropertyChanged}" >
                         <HierarchicalDataTemplate.ItemContainerStyle>
                             <Style TargetType="{x:Type TreeViewItem}">
                                 <EventSetter Event="RequestBringIntoView" Handler="TreeViewItem_RequestBringIntoView" />
@@ -32,7 +32,7 @@
                             <DataTrigger Binding="{Binding ElementType}" Value="Table">
                                 <Setter TargetName="IconIMG" Property="Image.Source" Value="/DataImpression;component/Images/Table.png"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding ElementType}" Value="Diagram">
+                            <DataTrigger Binding="{Binding ElementType}" Value="Diagramm">
                                 <Setter TargetName="IconIMG" Property="Image.Source" Value="/DataImpression;component/Images/Chart-Bar.png"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding ElementType}" Value="Folder">

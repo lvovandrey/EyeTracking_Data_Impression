@@ -4,6 +4,7 @@ using DataImpression.ViewModel.AvalonDockHelpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,8 @@ using System.Windows;
 
 namespace DataImpression.ViewModel
 {
+
+
     public class ResultsViewAreaVM: INPCBase
     {
         #region ctor
@@ -20,6 +23,8 @@ namespace DataImpression.ViewModel
             _this = this;
             DiagramVM = new FAOIDiagramVM(model);
             _mainWindowViewModel = mainWindowViewModel;
+
+            documentViewVMs.CollectionChanged += (sender,e)=> DocumentViewVMsChanged(sender,e);
         }
 
         FAOIDiagramVM diagramVM;
@@ -64,6 +69,8 @@ namespace DataImpression.ViewModel
 
         #region НадоПоменятьПотом
 
+        public event NotifyCollectionChangedEventHandler DocumentViewVMsChanged;
+
         ObservableCollection<DocumentViewVM> documentViewVMs = new ObservableCollection<DocumentViewVM>();
         ReadOnlyObservableCollection<DocumentViewVM> readonyDocumentViewVMs = null;
         public ReadOnlyObservableCollection<DocumentViewVM> DocumentViewVMs
@@ -72,6 +79,7 @@ namespace DataImpression.ViewModel
             {
                 if (readonyDocumentViewVMs == null)
                     readonyDocumentViewVMs = new ReadOnlyObservableCollection<DocumentViewVM>(documentViewVMs);
+                
 
                 return readonyDocumentViewVMs;
             }
@@ -99,7 +107,7 @@ namespace DataImpression.ViewModel
             get
             {
                 if (_projectExplorer == null)
-                    _projectExplorer = new ProjectExplorerVM(_mainWindowViewModel, _model);
+                    _projectExplorer = new ProjectExplorerVM(_mainWindowViewModel, this, _model);
 
                 return _projectExplorer;
             }

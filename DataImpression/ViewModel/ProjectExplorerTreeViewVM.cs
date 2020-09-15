@@ -1,4 +1,5 @@
-﻿using DataImpression.Models;
+﻿using DataImpression.AbstractMVVM;
+using DataImpression.Models;
 using DataImpression.View;
 using System;
 using System.Collections.Generic;
@@ -10,18 +11,21 @@ using System.Threading.Tasks;
 
 namespace DataImpression.ViewModel
 {
-    public class ProjectExplorerTreeViewVM
+    public class ProjectExplorerTreeViewVM:INPCBase
     {
-        public ProjectExplorerTreeViewVM(Model model)
+        public ProjectExplorerTreeViewVM(Model model, ResultsViewAreaVM resultsViewAreaVM)
         {
-            root = new PEElement(model.Project.Name, "Project");
+            Model = model;
+            this.ResultsViewAreaVM = resultsViewAreaVM;
+
+            root = new PEElement(Model.Project.Name, "Project");
 
             source = new PEElement()
             {
                 Title = "Исходные данные",
                 PEElements = new ObservableCollection<PEElement>()
                 {
-                    new PEElement(Path.GetFileName(model.SourceData.CSVFileName), "FileCSV"),
+                    new PEElement(Path.GetFileName(Model.SourceData.CSVFileName), "FileCSV"),
                     new PEElement("Таблица AOI", "Table"),
                     new PEElement("Таблица FAOI-AOI", "Table")
                 }
@@ -31,23 +35,38 @@ namespace DataImpression.ViewModel
                 Title = "Визуальные представления",
                 PEElements = new ObservableCollection<PEElement>()
                 {
-                    new PEElement("Диаграмма 1", "Diagram"),
-                    new PEElement("Диаграмма 2", "Diagram"),
-                    new PEElement("Диаграмма 3","Diagram")
+
                 }
             };
             root.PEElements.Add(source);
             root.PEElements.Add(view);
 
             Items = new ObservableCollection<PEElement>() { root };
+
+            ResultsViewAreaVM.DocumentViewVMsChanged += ViewsRefresh;
         }
 
-        public string ProjectName { get; set; } = "Project1";
+        private void ViewsRefresh(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            view.PEElements = new ObservableCollection<PEElement>();
+            foreach (var documentViewVM in ResultsViewAreaVM.DocumentViewVMs)
+            {
+                view.PEElements.Add(new PEElement(documentViewVM.documentType, "Diagramm"));
+            }
+            view.ItemsChanged();
+        }
+
+
+        public string ProjectName { get; private set; } = "Project1";
 
         PEElement root;
         PEElement source;
         PEElement view;
-        public ObservableCollection<PEElement> Items { get; set; }
+        private ResultsViewAreaVM ResultsViewAreaVM;
+
+        public ObservableCollection<PEElement> Items { get; private set; }
+
+        Model Model { get; set; }
 
     }
 
