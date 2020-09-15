@@ -9,16 +9,17 @@
              d:DesignHeight="900" d:DesignWidth="300" >
     
     <Grid>
-        <ListView ItemsSource="{Binding ChartVMs, UpdateSourceTrigger=PropertyChanged}" Name="ListView1" >
+        <ListView ItemsSource="{Binding ChartVMs, UpdateSourceTrigger=PropertyChanged}" Name="ListView1" ScrollViewer.CanContentScroll="False">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Grid >
+                    <Grid HorizontalAlignment="Stretch">
                         <lvc:CartesianChart Width="{Binding ElementName=ListView1, Path=Width}"
                         Series="{Binding SeriesCollection}"
                                         MinHeight="200" MinWidth="200"
                                         LegendLocation="None" 
                                         Grid.Row="1" 
-                                        Foreground="Green" >
+                                        Foreground="Green" 
+                                            HorizontalAlignment="Stretch">
                         <lvc:CartesianChart.AxisX>
                             <lvc:Axis Title="Зона" Labels="{Binding Labels}"></lvc:Axis>
                         </lvc:CartesianChart.AxisX>

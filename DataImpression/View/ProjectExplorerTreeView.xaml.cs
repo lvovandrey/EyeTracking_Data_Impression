@@ -25,6 +25,11 @@ namespace DataImpression.View
         {
             InitializeComponent();
         }
+
+        private void TreeViewItem_RequestBringIntoView(object sender, RequestBringIntoViewEventArgs e)
+        {
+            e.Handled = true;
+        }
     }
 
     /// <summary>

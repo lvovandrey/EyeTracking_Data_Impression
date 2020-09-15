@@ -7,14 +7,21 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ScrollViewer Grid.Row="1">
-            <TreeView ItemsSource="{Binding Items}">
+        <ScrollViewer Grid.Row="1" >
+            <TreeView ItemsSource="{Binding Items}" >
+
                 <TreeView.Resources>
-                    <HierarchicalDataTemplate DataType="{x:Type local:PEElement}" ItemsSource="{Binding PEElements}">
-                        <StackPanel Orientation="Horizontal">
+                    <HierarchicalDataTemplate DataType="{x:Type local:PEElement}" ItemsSource="{Binding PEElements}" >
+                        <HierarchicalDataTemplate.ItemContainerStyle>
+                            <Style TargetType="{x:Type TreeViewItem}">
+                                <EventSetter Event="RequestBringIntoView" Handler="TreeViewItem_RequestBringIntoView" />
+                            </Style>
+                        </HierarchicalDataTemplate.ItemContainerStyle>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
                             <Image x:Name="IconIMG" Width="16" Height="16" />
                             <TextBlock x:Name="TextBlockTitle" Text="{Binding Title}"  Margin="7 0 0 0" />
                         </StackPanel>
+
                         <HierarchicalDataTemplate.Triggers>
                             <DataTrigger Binding="{Binding ElementType}" Value="Project">
                                 <Setter TargetName="IconIMG" Property="Image.Source" Value="/DataImpression;component/Images/Document-Todo.png"/>
