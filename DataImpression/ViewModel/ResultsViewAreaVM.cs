@@ -139,6 +139,8 @@ namespace DataImpression.ViewModel
 
 
 
+
+
         private DocumentViewVM _activeDocument = null;
         public DocumentViewVM ActiveDocument
         {
@@ -156,7 +158,10 @@ namespace DataImpression.ViewModel
         }
 
         public event EventHandler ActiveDocumentChanged;
-
+        public void ActivateDocument(object documentViewVM)
+        {
+            if (DocumentViewVMs.Contains(documentViewVM)) ActiveDocument = (DocumentViewVM)documentViewVM;
+        }
 
 
         #endregion

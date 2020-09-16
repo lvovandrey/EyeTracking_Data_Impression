@@ -1,4 +1,5 @@
 ﻿using DataImpression.AbstractMVVM;
+using DataImpression.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -31,6 +32,17 @@ namespace DataImpression.View
         {
             e.Handled = true;
         }
+
+        private void TreeViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var item = sender as TreeViewItem;
+            if (item != null)
+            {
+                var DC = item.DataContext as PEElement;
+                if (DC != null && DC.SelectionPEElementCallback != null)
+                    DC.SelectionPEElementCallback.Invoke(DC.DocumentViewVM);
+            };
+        }
     }
 
     /// <summary>
@@ -49,6 +61,14 @@ namespace DataImpression.View
             ElementType = elementType;
         }
 
+        public PEElement(string title, string elementType, SelectionPEElementCallbackDelegate selectionPEElementCallback, DocumentViewVM documentViewVM)
+        {
+            Title = title;
+            ElementType = elementType;
+            SelectionPEElementCallback = selectionPEElementCallback;
+            DocumentViewVM = documentViewVM;
+        }
+
         /// <summary>
         /// Нужно чтобы пробросить к вьюшке событие об изменении коллекции внутренних элементов, а то так она не хочет его ловить
         /// </summary>
@@ -57,8 +77,15 @@ namespace DataImpression.View
             OnPropertyChanged("PEElements");
         }
 
+        public DocumentViewVM DocumentViewVM;
+
         public string Title { get; set; }
         public string ElementType { get; set; } = "Folder";
         public ObservableCollection<PEElement> PEElements { get; set; } = new ObservableCollection<PEElement>();
+
+        public SelectionPEElementCallbackDelegate SelectionPEElementCallback;
     }
+
+
+    public delegate void SelectionPEElementCallbackDelegate(object o);
 }

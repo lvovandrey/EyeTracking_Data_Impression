@@ -15,6 +15,7 @@
                         <HierarchicalDataTemplate.ItemContainerStyle>
                             <Style TargetType="{x:Type TreeViewItem}">
                                 <EventSetter Event="RequestBringIntoView" Handler="TreeViewItem_RequestBringIntoView" />
+                                <EventSetter Event="MouseDoubleClick" Handler="TreeViewItem_MouseDoubleClick"/>
                             </Style>
                         </HierarchicalDataTemplate.ItemContainerStyle>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >

@@ -51,7 +51,7 @@ namespace DataImpression.ViewModel
             view.PEElements = new ObservableCollection<PEElement>();
             foreach (var documentViewVM in ResultsViewAreaVM.DocumentViewVMs)
             {
-                view.PEElements.Add(new PEElement(documentViewVM.documentType, "Diagramm"));
+                view.PEElements.Add(new PEElement(documentViewVM.documentType, "Diagramm", ResultsViewAreaVM.ActivateDocument, documentViewVM));
             }
             view.ItemsChanged();
         }
