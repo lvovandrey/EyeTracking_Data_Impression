@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataImpression.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,5 +31,15 @@ namespace DataImpression.View
         {
             if (((DocumentView)sender).DataContext is null) ;
         }
+
+        private void dockManager_DocumentClosing(object sender, AvalonDock.DocumentClosingEventArgs e)
+        {
+            ((IDocumentVMsCloseable)this.DataContext).OnDocumentClose(e.Document.Content as DocumentViewVM);
+        }
+   }
+
+    public interface IDocumentVMsCloseable
+    {
+        void OnDocumentClose(DocumentViewVM documentViewVM);
     }
 }

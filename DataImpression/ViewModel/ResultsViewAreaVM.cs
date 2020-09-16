@@ -1,5 +1,6 @@
 ﻿using DataImpression.AbstractMVVM;
 using DataImpression.Models;
+using DataImpression.View;
 using DataImpression.ViewModel.AvalonDockHelpers;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace DataImpression.ViewModel
 {
 
 
-    public class ResultsViewAreaVM: INPCBase
+    public class ResultsViewAreaVM: INPCBase, IDocumentVMsCloseable
     {
         #region ctor
         public ResultsViewAreaVM(Model model, MainWindowViewModel mainWindowViewModel)
@@ -85,7 +86,11 @@ namespace DataImpression.ViewModel
             }
         }
 
-
+        public void OnDocumentClose(DocumentViewVM documentViewVM)
+        {
+            documentViewVMs.Remove(documentViewVM);
+            DocumentViewVMsChanged(null,null);
+        }
 
 
         ToolVM[] _tools = null;
