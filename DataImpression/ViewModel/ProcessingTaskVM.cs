@@ -46,17 +46,17 @@ namespace DataImpression.ViewModel
         }
 
         private double progress;
-        public double Progress
+        public double ProgressInPercents
         {
-            get { return progress; }
-            set { OnPropertyChanged("Progress"); progress = value; }
+            get { return progress/100; }
+            set { OnPropertyChanged("ProgressInPercents"); progress = value*100; }
         }
 
         private string stage;
         public string Stage
         {
             get { return stage; }
-            set { OnPropertyChanged("Progress"); stage = value; }
+            set { OnPropertyChanged("Stage"); stage = value; }
         }
         #endregion
         #region Methods
@@ -91,14 +91,14 @@ namespace DataImpression.ViewModel
                     Thread.Sleep(100);
                     Application.Current.Dispatcher.Invoke(new Action(() =>
                     {
-                        OnPropertyChanged("Progress");
+                        OnPropertyChanged("ProgressInPercents"); OnPropertyChanged("Stage");
                         p = progress;
                     }));
                 }
 
                 Application.Current.Dispatcher.Invoke(new Action(() =>
                 {
-                    OnPropertyChanged("Progress");
+                    OnPropertyChanged("ProgressInPercents"); OnPropertyChanged("Stage");
                 }));
 
             });
