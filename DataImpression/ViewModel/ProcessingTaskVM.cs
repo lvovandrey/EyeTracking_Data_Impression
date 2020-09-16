@@ -4,12 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace DataImpression.ViewModel
 {
-    public class ProcessingTaskVM: INPCBase
+    public class ProcessingTaskVM : INPCBase
     {
         #region ctor
         public ProcessingTaskVM(Model model)
@@ -42,33 +44,81 @@ namespace DataImpression.ViewModel
                 OnPropertyChanged("Visibility");
             }
         }
+
+        private double progress;
+        public double Progress
+        {
+            get { return progress; }
+            set { OnPropertyChanged("Progress"); progress = value; }
+        }
+
+        private string stage;
+        public string Stage
+        {
+            get { return stage; }
+            set { OnPropertyChanged("Progress"); stage = value; }
+        }
         #endregion
         #region Methods
+
+        bool canExecuteNextInputStage = false;
         public bool CanExecuteNextInputStage()
         {
-            return true; //   if (FAOIsVM?.Count > 0) return true; else return false;
+            return canExecuteNextInputStage;
         }
 
-        public void BeginProcessing()
+        private async void BeginProcessing()
         {
             RawDataProcessor rawDataProcessor = new RawDataProcessor(_model.SourceData, _model.Results);
-            rawDataProcessor.ConvertCSVRawDataToFAOIHitsOnTimeIntervalList();
-        }
-        #endregion
-
-        #region Commands
-        
-        private RelayCommand beginProcessingCommand;
-        public RelayCommand BeginProcessingCommand
-        {
-            get
+            await Task.Run(() =>
             {
-                return beginProcessingCommand ?? (beginProcessingCommand = new RelayCommand(obj =>
-                {
-                    BeginProcessing();
-                }));
+                ProgressRefresh();
+                rawDataProcessor.ConvertCSVRawDataToFAOIHitsOnTimeIntervalList(ref progress, ref stage);
+
+                Application.Current.Dispatcher.Invoke(new Action(() => canExecuteNextInputStage = true));
             }
+            );
         }
-        #endregion
+
+        private async void ProgressRefresh()
+        {
+            await Task.Run(() =>
+            {
+                double p=0;
+
+                while (p < 100)
+                {
+                    Thread.Sleep(100);
+                    Application.Current.Dispatcher.Invoke(new Action(() =>
+                    {
+                        OnPropertyChanged("Progress");
+                        p = progress;
+                    }));
+                }
+
+                Application.Current.Dispatcher.Invoke(new Action(() =>
+                {
+                    OnPropertyChanged("Progress");
+                }));
+
+            });
+        }
+
+    #endregion
+
+    #region Commands
+
+    private RelayCommand beginProcessingCommand;
+    public RelayCommand BeginProcessingCommand
+    {
+        get
+        {
+            return beginProcessingCommand ?? (beginProcessingCommand = new RelayCommand(obj =>
+            {
+                BeginProcessing();
+            }));
+        }
     }
+    #endregion
+}
 }

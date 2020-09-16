@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DataImpression.Models
@@ -40,7 +41,7 @@ namespace DataImpression.Models
         #endregion
 
         #region Methods
-        public void ConvertCSVRawDataToFAOIHitsOnTimeIntervalList()
+        public void ConvertCSVRawDataToFAOIHitsOnTimeIntervalList(ref double progress, ref string stage)
         {
             if (SourceData.CSVAOIHitsColumns == null) throw new Exception("Incomplete data: SourceData.CSVAOIHitsColumns");
             if (SourceData.WorkingTOI == null) throw new Exception("Incomplete data: SourceData.WorkingTOI");
@@ -49,12 +50,17 @@ namespace DataImpression.Models
             if (SourceData.CSVTimeColumn == null) throw new Exception("Incomplete data: SourceData.CSVTimeColumn");
 
             //TODO: тут должна быть обработка
-
+            progress = 0; stage = "Считывание файла " + SourceData.CSVFileName;
             List<TobiiCSVRecord> tobiiCSVRecords = RawDataProcessorMethods.TobiiCSVRead(SourceData, 1_000_000_000_000);
+            progress = 30; 
             List<FAOIsOnTimeRecord> fAOIsOnTimeRecords = RawDataProcessorMethods.ConvertTobiiCSVRecord_To_FAOIsOnTimeRecord(tobiiCSVRecords, SourceData);
+            progress = 50;
             fAOIsOnTimeRecords = RawDataProcessorMethods.CompactFAOIsOnTimeRecord(fAOIsOnTimeRecords);
+            progress = 70; //Thread.Sleep(1500); Console.WriteLine("Third");
             Results.TobiiCSVRecordsList = RawDataProcessorMethods.CompactTobiiCSVRecords(tobiiCSVRecords);
+            progress = 85; //Thread.Sleep(1500); Console.WriteLine("Fourth");
             Results.FAOIHitsOnTimeIntervalList = RawDataProcessorMethods.ConvertFAOIsOnTimeRecord_to_FAOIHitsOnTimeInterval(fAOIsOnTimeRecords);
+            progress = 100; //Thread.Sleep(1500); Console.WriteLine("Five");
         }
         #endregion
 
