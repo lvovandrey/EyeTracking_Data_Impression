@@ -22,7 +22,7 @@ namespace DataImpression.ViewModel
         }
 
         private Model model;
-        private string documentType;
+        public string documentType { get; private set; }
 
         #region CONTENT
 

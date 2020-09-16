@@ -1,9 +1,11 @@
 ﻿using DataImpression.AbstractMVVM;
 using DataImpression.Models;
+using DataImpression.View;
 using DataImpression.ViewModel.AvalonDockHelpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +13,9 @@ using System.Windows;
 
 namespace DataImpression.ViewModel
 {
-    public class ResultsViewAreaVM: INPCBase
+
+
+    public class ResultsViewAreaVM: INPCBase, IDocumentVMsCloseable
     {
         #region ctor
         public ResultsViewAreaVM(Model model, MainWindowViewModel mainWindowViewModel)
@@ -20,6 +24,8 @@ namespace DataImpression.ViewModel
             _this = this;
             DiagramVM = new FAOIDiagramVM(model);
             _mainWindowViewModel = mainWindowViewModel;
+
+            documentViewVMs.CollectionChanged += (sender,e)=> DocumentViewVMsChanged(sender,e);
         }
 
         FAOIDiagramVM diagramVM;
@@ -64,6 +70,8 @@ namespace DataImpression.ViewModel
 
         #region НадоПоменятьПотом
 
+        public event NotifyCollectionChangedEventHandler DocumentViewVMsChanged;
+
         ObservableCollection<DocumentViewVM> documentViewVMs = new ObservableCollection<DocumentViewVM>();
         ReadOnlyObservableCollection<DocumentViewVM> readonyDocumentViewVMs = null;
         public ReadOnlyObservableCollection<DocumentViewVM> DocumentViewVMs
@@ -72,12 +80,17 @@ namespace DataImpression.ViewModel
             {
                 if (readonyDocumentViewVMs == null)
                     readonyDocumentViewVMs = new ReadOnlyObservableCollection<DocumentViewVM>(documentViewVMs);
+                
 
                 return readonyDocumentViewVMs;
             }
         }
 
-
+        public void OnDocumentClose(DocumentViewVM documentViewVM)
+        {
+            documentViewVMs.Remove(documentViewVM);
+            DocumentViewVMsChanged(null,null);
+        }
 
 
         ToolVM[] _tools = null;
@@ -99,7 +112,7 @@ namespace DataImpression.ViewModel
             get
             {
                 if (_projectExplorer == null)
-                    _projectExplorer = new ProjectExplorerVM(_mainWindowViewModel, _model);
+                    _projectExplorer = new ProjectExplorerVM(_mainWindowViewModel, this, _model);
 
                 return _projectExplorer;
             }
@@ -126,6 +139,8 @@ namespace DataImpression.ViewModel
 
 
 
+
+
         private DocumentViewVM _activeDocument = null;
         public DocumentViewVM ActiveDocument
         {
@@ -143,7 +158,10 @@ namespace DataImpression.ViewModel
         }
 
         public event EventHandler ActiveDocumentChanged;
-
+        public void ActivateDocument(object documentViewVM)
+        {
+            if (DocumentViewVMs.Contains(documentViewVM)) ActiveDocument = (DocumentViewVM)documentViewVM;
+        }
 
 
         #endregion

@@ -11,10 +11,11 @@ namespace DataImpression.ViewModel
 {
     public class ProjectExplorerVM: ToolVM
     {
-        public ProjectExplorerVM(MainWindowViewModel mainWindowViewModel, Model model) : base("Project Explorer")
+        public ProjectExplorerVM(MainWindowViewModel mainWindowViewModel, ResultsViewAreaVM ResultsViewAreaVM, Model model) : base("Project Explorer")
         {
             _model = model;
             _mainWindowViewModel = mainWindowViewModel;
+            ProjectExplorerTreeViewVM = new ProjectExplorerTreeViewVM(model, ResultsViewAreaVM);
         }
 
         #region Fields
@@ -28,6 +29,19 @@ namespace DataImpression.ViewModel
 
         #region Properties
 
+        ProjectExplorerTreeViewVM projectExplorerTreeViewVM;
+        public ProjectExplorerTreeViewVM ProjectExplorerTreeViewVM 
+        {
+            get
+            {
+                return projectExplorerTreeViewVM;
+            }
+            set 
+            {
+                OnPropertyChanged("ProjectExplorerTreeViewVM");
+                projectExplorerTreeViewVM = value;
+            }
+        }
         #endregion
         #region Methods
         #endregion

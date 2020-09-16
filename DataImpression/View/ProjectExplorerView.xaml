@@ -41,30 +41,6 @@
             </Button>
             <Separator/>
         </ToolBar>
-        <ScrollViewer Grid.Row="1">
-            <TreeView>
-                <TextBlock>Проект 1</TextBlock>
-                <TreeViewItem Header="Исходные данные">
-                    <TreeViewItem Header="Файл.csv" />
-                    <TreeViewItem Header="AOI" />
-                    <TreeViewItem Header="FAOI" />
-                    <TreeViewItem Header="Видео" />
-                </TreeViewItem>
-                <TreeViewItem Header="Представления">
-                    <TreeViewItem Header="Диаграммы">
-                        <TreeViewItem Header="Диаграмма 1" />
-                        <TreeViewItem Header="Диаграмма 2" />
-                        <TreeViewItem Header="Диаграмма 3" />
-                    </TreeViewItem>
-                    <TreeViewItem Header="Таблицы">
-                        <TreeViewItem Header="Таблица 1" />
-                        <TreeViewItem Header="Таблица 2" />
-                        <TreeViewItem Header="Таблица 3" />
-                    </TreeViewItem>
-                    <TreeViewItem Header="Таймлайн"/>
-                    <TreeViewItem Header="Видеопроигрыватель"/>
-                </TreeViewItem>
-            </TreeView>
-        </ScrollViewer>
+        <local:ProjectExplorerTreeView Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" DataContext="{Binding ProjectExplorerTreeViewVM}"/>
     </Grid>
 </UserControl>

@@ -19,13 +19,14 @@
                                    AnchorablesSource="{Binding Tools}" 
                                    DocumentsSource="{Binding DocumentViewVMs}"
                                    ActiveContent="{Binding ActiveDocument, Mode=TwoWay, Converter={StaticResource ActiveDocumentConverter}}"
-                                   Grid.Row="1">
+                                   Grid.Row="1" 
+                                   DocumentClosing="dockManager_DocumentClosing">
             <avalon:DockingManager.LayoutItemTemplateSelector>
 
                 <avalonHelpers:PanesTemplateSelector>
                     <avalonHelpers:PanesTemplateSelector.DocumentViewTemplate>
                         <DataTemplate>
-                            <local:DocumentView DataContext="{Binding THIS, UpdateSourceTrigger=PropertyChanged}"  Loaded="DocumentView_Loaded"/>
+                            <local:DocumentView DataContext="{Binding THIS, UpdateSourceTrigger=PropertyChanged}"  Loaded="DocumentView_Loaded"  />
                         </DataTemplate>
                     </avalonHelpers:PanesTemplateSelector.DocumentViewTemplate>
 

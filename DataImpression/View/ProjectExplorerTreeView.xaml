@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="DataImpression.View.ProjectExplorerTreeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DataImpression.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <ScrollViewer Grid.Row="1" >
+            <TreeView ItemsSource="{Binding Items}" >
+
+                <TreeView.Resources>
+                    <HierarchicalDataTemplate DataType="{x:Type local:PEElement}" ItemsSource="{Binding PEElements, UpdateSourceTrigger=PropertyChanged}" >
+                        <HierarchicalDataTemplate.ItemContainerStyle>
+                            <Style TargetType="{x:Type TreeViewItem}">
+                                <EventSetter Event="RequestBringIntoView" Handler="TreeViewItem_RequestBringIntoView" />
+                                <EventSetter Event="MouseDoubleClick" Handler="TreeViewItem_MouseDoubleClick"/>
+                            </Style>
+                        </HierarchicalDataTemplate.ItemContainerStyle>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
+                            <Image x:Name="IconIMG" Width="16" Height="16" />
+                            <TextBlock x:Name="TextBlockTitle" Text="{Binding Title}"  Margin="7 0 0 0" />
+                        </StackPanel>
+
+                        <HierarchicalDataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding ElementType}" Value="Project">
+                                <Setter TargetName="IconIMG" Property="Image.Source" Value="/DataImpression;component/Images/Document-Todo.png"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ElementType}" Value="FileCSV">
+                                <Setter TargetName="IconIMG" Property="Image.Source" Value="/DataImpression;component/Images/TobiiCSVFile.png"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ElementType}" Value="Table">
+                                <Setter TargetName="IconIMG" Property="Image.Source" Value="/DataImpression;component/Images/Table.png"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ElementType}" Value="Diagramm">
+                                <Setter TargetName="IconIMG" Property="Image.Source" Value="/DataImpression;component/Images/Chart-Bar.png"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ElementType}" Value="Folder">
+                                <Setter TargetName="IconIMG" Property="Image.Source" Value="/DataImpression;component/Images/Folder.png"/>
+                            </DataTrigger>
+
+                        </HierarchicalDataTemplate.Triggers>
+
+                    </HierarchicalDataTemplate>
+
+
+                </TreeView.Resources>
+
+
+            </TreeView>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
