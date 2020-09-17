@@ -10,6 +10,7 @@ namespace DataImpression.Models
     /// Временная зона - отрезок времени из полного временного интервала.
     /// Под этим можно понимать например часть времени, которая анализируется из всей записи.
     /// </summary>
+    [Serializable]
     public class TOI
     {
         #region ctor
@@ -18,6 +19,13 @@ namespace DataImpression.Models
             WorkingTimeInterval = workingTimeInterval;//TODO: Валидация данных - если workingTimeInterval вне fullTimeInterval - кинуть Exception
             FullTimeInterval = fullTimeInterval;
         }
+
+        public TOI()
+        {
+            WorkingTimeInterval = new TimeInterval();//TODO: Валидация данных - если workingTimeInterval вне fullTimeInterval - кинуть Exception
+            FullTimeInterval = new TimeInterval();
+        }
+
         #endregion
 
         #region Fields

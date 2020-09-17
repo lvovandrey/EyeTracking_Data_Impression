@@ -30,6 +30,8 @@ namespace DataImpression.ViewModel
         /// </summary>
         Model _model;
 
+        public Model GetModel() { return _model; }
+
         MainWindow MainWindow;
         CSVOpenMasterView CSVOpenMasterView;
         #endregion

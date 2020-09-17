@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataImpression.Models.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,7 @@ namespace DataImpression.Models
     /// Инкапсулирует все исходные данные для решения одной 
     /// задачи по обработке.
     /// </summary>
+    [Serializable]
     public class ProcessingTaskSourceData
     {
         #region ctor
@@ -23,8 +25,9 @@ namespace DataImpression.Models
             CSVFullTimeInterval = new TimeInterval(TimeSpan.Zero, TimeSpan.Zero);
             WorkingTOI = new TOI(CSVFullTimeInterval, CSVFullTimeInterval);
             FAOIs = new List<FAOI>();
-            CSVColumnsToFAOIsConversionTable = new Dictionary<Column, FAOI>();
+            CSVColumnsToFAOIsConversionTable = new XmlSerializableDictionary<Column, FAOI>();
         }
+
         #endregion
 
         #region Fields
@@ -69,7 +72,7 @@ namespace DataImpression.Models
         /// <summary>
         /// Таблица соответствия колонки c csv-файле функциональной зоне
         /// </summary>
-        public Dictionary<Column, FAOI> CSVColumnsToFAOIsConversionTable { get; set; } //TODO: мне не очень нравится то, что эта коллекция и FAOIs независимы друг от друга... надо их как-то жестко связать
+        public XmlSerializableDictionary<Column, FAOI> CSVColumnsToFAOIsConversionTable { get; set; } //TODO: мне не очень нравится то, что эта коллекция и FAOIs независимы друг от друга... надо их как-то жестко связать
         
         #endregion
 

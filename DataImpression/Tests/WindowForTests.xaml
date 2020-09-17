@@ -13,8 +13,10 @@
         <!--<ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Visible">
         <timline:TimeLine Width="10000" />
         </ScrollViewer>-->
-        <StackPanel Orientation="Horizontal">
+        <!--<StackPanel Orientation="Horizontal">
             <local:ProjectExplorerTest/>
-        </StackPanel>
+        </StackPanel>-->
+
+        <Button Click="Button_Click" Width="100" Height="20">Serialize</Button>
     </Grid>
 </Window>

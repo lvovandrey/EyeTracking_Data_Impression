@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataImpression.Models
 {
-
+    [Serializable]
     public class Project
     {
         public Project(Model model, string projectFilePath)
@@ -16,8 +16,14 @@ namespace DataImpression.Models
             FilePath = projectFilePath;
         }
 
+        public Project()
+        {
+        }
+
         public Model Model { get; private set; }
         public string FilePath { get; private set; }
+        
+        
         public string Name 
         { 
             get 

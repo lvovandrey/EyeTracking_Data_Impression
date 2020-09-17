@@ -9,6 +9,7 @@ namespace DataImpression.Models
     /// <summary>
     /// Временной интервал.
     /// </summary>
+    [Serializable]
     public class TimeInterval
     {
         #region ctor
@@ -19,6 +20,11 @@ namespace DataImpression.Models
 
             TimeBegin = timeBegin;
             TimeEnd = timeEnd;
+        }
+        public TimeInterval()
+        {
+            TimeBegin = TimeSpan.Zero;
+            TimeEnd = TimeSpan.FromMilliseconds(1);
         }
         #endregion
 
