@@ -33,7 +33,7 @@ namespace DataImpression.ViewModel
             TimeColumnChoiceVM = new TimeColumnChoiceVM(model);
             AOIHitColumnsChoiceVM = new AOIHitColumnsChoiceVM(model);
             FAOIsInputVM = new FAOIsInputVM(model, CSVOpenMasterView.FAOIsInput.FAOIsInputListView);
-            ProcessingTaskVM = new ProcessingTaskVM(model);
+            ProcessingTaskVM = new ProcessingTaskVM(model, this);
 
             InputStage = CSVFileOpenStage.None;
         }
@@ -202,7 +202,7 @@ namespace DataImpression.ViewModel
             }
             TimeColumnChoiceVM = new TimeColumnChoiceVM(model);
             OnPropertyChanged("TimeColumnChoiceVM");
-            if (CSVOpenMasterView.TimeColumnChoiceView.DataContext != null) ;
+            
         }
 
 
@@ -237,12 +237,13 @@ namespace DataImpression.ViewModel
                 case CSVFileOpenStage.ProcessingTask:
                     {
                         InputStage = CSVFileOpenStage.ViewResults;
+                        CSVOpenMasterView.Close();
                         break;
                     }
                 case CSVFileOpenStage.ViewResults:
                     {
                         InputStage = CSVFileOpenStage.None;
-                        CSVOpenMasterView.Close();
+                        
                         break;
                     }
                 default:
@@ -287,7 +288,8 @@ namespace DataImpression.ViewModel
                 {
                     SwithToNextInputStage();
                 },
-                (obj) => CanExecuteNextInputStage == true
+                (obj) => 
+                CanExecuteNextInputStage == true
                 ));
             }
         }

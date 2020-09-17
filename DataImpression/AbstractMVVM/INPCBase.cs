@@ -47,5 +47,10 @@ namespace DataImpression.AbstractMVVM
         {
             this.execute(parameter);
         }
+
+        public void InvalidateRequerySuggested() 
+        {
+            CommandManager.InvalidateRequerySuggested();
+        }
     }
 }

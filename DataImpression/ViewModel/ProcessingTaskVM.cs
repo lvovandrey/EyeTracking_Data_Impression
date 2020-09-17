@@ -14,9 +14,10 @@ namespace DataImpression.ViewModel
     public class ProcessingTaskVM : INPCBase
     {
         #region ctor
-        public ProcessingTaskVM(Model model)
+        public ProcessingTaskVM(Model model, CSVOpenMasterVM cSVOpenMasterVM)
         {
             _model = model;
+            CSVOpenMasterVM = cSVOpenMasterVM;
         }
         #endregion
 
@@ -25,6 +26,7 @@ namespace DataImpression.ViewModel
         /// Модель данных
         /// </summary>
         Model _model;
+        CSVOpenMasterVM CSVOpenMasterVM;
 
         #endregion
 
@@ -78,6 +80,9 @@ namespace DataImpression.ViewModel
                 Application.Current.Dispatcher.Invoke(new Action(() => canExecuteNextInputStage = true));
             }
             );
+
+            OnPropertyChanged("CanExecuteNextInputStage");
+            CSVOpenMasterVM.NextInputCommand.InvalidateRequerySuggested();
         }
 
         private async void ProgressRefresh()
