@@ -13,7 +13,7 @@
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
         <TextBlock Text="{Binding InputPageTitle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <local:TimeColumnChoiceView  Grid.Row="1"
+        <local:TimeColumnChoiceView x:Name="TimeColumnChoiceView"  Grid.Row="1"
                                          DataContext="{Binding TimeColumnChoiceVM}"
                                          Visibility="{Binding Visibility, UpdateSourceTrigger=PropertyChanged}"
                                          />

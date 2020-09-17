@@ -36,10 +36,6 @@ namespace DataImpression.ViewModel
         {
             get
             {
-                if (columnstmp != null)
-                {
-                    return columnstmp;
-                }
                 columnstmp = new ObservableCollection<ColumnAndCheckVM>();
                 foreach (var _column in _model.SourceData.CSVCaption)
                 {
@@ -90,7 +86,7 @@ namespace DataImpression.ViewModel
         Column GetCSVTimeColumn()
         {
             Column column = null;
-            foreach (var c in ColumnsVM)
+            foreach (var c in columnstmp)
                 if(c.IsChecked) { column = c.Column; break; }
             return column;
         }

@@ -178,14 +178,14 @@ namespace DataImpression.ViewModel
         /// </summary>
         public void OpenCSVFile()
         {
-            TimeColumnChoiceVM = new TimeColumnChoiceVM(model);
+
 
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == false) return;
 
             CSVOpenMasterView.Show();
-
+            
             InputStage = CSVFileOpenStage.TimeColumnChoice;
             model.SourceData.CSVFileName = openFileDialog.FileName;// файлнейм в модель  закидываем
             try
@@ -200,6 +200,9 @@ namespace DataImpression.ViewModel
                 InputStage = CSVFileOpenStage.None;
                 MessageBox.Show("Не удалось считать заголовок csv-файла. Попробуйте открыть файл вручную и убедиться в правильности его формата.");
             }
+            TimeColumnChoiceVM = new TimeColumnChoiceVM(model);
+            OnPropertyChanged("TimeColumnChoiceVM");
+            if (CSVOpenMasterView.TimeColumnChoiceView.DataContext != null) ;
         }
 
 
