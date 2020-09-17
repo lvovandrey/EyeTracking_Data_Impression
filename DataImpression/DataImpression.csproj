@@ -93,6 +93,7 @@
       <DependentUpon>WindowForTests.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\AOIHitColumnsChoiceVM.cs" />
+    <Compile Include="ViewModel\CSVOpenMasterVM.cs" />
     <Compile Include="ViewModel\DocumentBodyVM.cs" />
     <Compile Include="ViewModel\DocumentViewVM.cs" />
     <Compile Include="ViewModel\FAOIDiagramVM.cs" />
@@ -118,6 +119,9 @@
     <Compile Include="ViewModel\AvalonDockHelpers\PanesTemplateSelector.cs" />
     <Compile Include="ViewModel\AvalonDockHelpers\PaneVM.cs" />
     <Compile Include="ViewModel\AvalonDockHelpers\ToolVM.cs" />
+    <Compile Include="View\CSVOpenMaster.xaml.cs">
+      <DependentUpon>CSVOpenMaster.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\DocumentView.xaml.cs">
       <DependentUpon>DocumentView.xaml</DependentUpon>
     </Compile>
@@ -188,6 +192,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\AOIHitColumnsChoiceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CSVOpenMaster.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
