@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataImpression.Models
 {
+
     public class Project
     {
         public Project(Model model, string projectFilePath)

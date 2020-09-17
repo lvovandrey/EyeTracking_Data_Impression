@@ -92,24 +92,24 @@
     <Compile Include="Tests\WindowForTests.xaml.cs">
       <DependentUpon>WindowForTests.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\AOIHitColumnsChoiceVM.cs" />
-    <Compile Include="ViewModel\CSVOpenMasterVM.cs" />
+    <Compile Include="ViewModel\CSVOpenMaster\AOIHitColumnsChoiceVM.cs" />
+    <Compile Include="ViewModel\CSVOpenMaster\CSVOpenMasterVM.cs" />
     <Compile Include="ViewModel\DocumentBodyVM.cs" />
     <Compile Include="ViewModel\DocumentViewVM.cs" />
-    <Compile Include="ViewModel\FAOIDiagramVM.cs" />
-    <Compile Include="ViewModel\FAOIDistributedColumnChartVM.cs" />
-    <Compile Include="ViewModel\FAOIDistributedComplexColumnChartVM.cs" />
-    <Compile Include="ViewModel\FAOIsInputVM.cs" />
-    <Compile Include="ViewModel\FixationsTimelineVM.cs" />
+    <Compile Include="ViewModel\ResultsView\FAOIDiagramVM.cs" />
+    <Compile Include="ViewModel\ResultsView\FAOIDistributedColumnChartVM.cs" />
+    <Compile Include="ViewModel\ResultsView\FAOIDistributedComplexColumnChartVM.cs" />
+    <Compile Include="ViewModel\CSVOpenMaster\FAOIsInputVM.cs" />
+    <Compile Include="ViewModel\ResultsView\FixationsTimelineVM.cs" />
     <Compile Include="ViewModel\IDocumentBodyVM.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
-    <Compile Include="ViewModel\ProcessingTaskVM.cs" />
+    <Compile Include="ViewModel\CSVOpenMaster\ProcessingTaskVM.cs" />
     <Compile Include="ViewModel\ProjectExplorerTreeViewVM.cs" />
     <Compile Include="ViewModel\ProjectExplorerVM.cs" />
-    <Compile Include="ViewModel\ResultsViewAreaVM.cs" />
+    <Compile Include="ViewModel\ResultsView\ResultsViewAreaVM.cs" />
     <Compile Include="ViewModel\StatisticsPanelVM.cs" />
-    <Compile Include="ViewModel\TimeColumnChoiceVM.cs" />
-    <Compile Include="View\AOIHitColumnsChoiceView.xaml.cs">
+    <Compile Include="ViewModel\CSVOpenMaster\TimeColumnChoiceVM.cs" />
+    <Compile Include="View\CSVOpenMaster\AOIHitColumnsChoiceView.xaml.cs">
       <DependentUpon>AOIHitColumnsChoiceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\AvalonDockHelpers\ActiveDocumentConverter.cs" />
@@ -119,7 +119,7 @@
     <Compile Include="ViewModel\AvalonDockHelpers\PanesTemplateSelector.cs" />
     <Compile Include="ViewModel\AvalonDockHelpers\PaneVM.cs" />
     <Compile Include="ViewModel\AvalonDockHelpers\ToolVM.cs" />
-    <Compile Include="View\CSVOpenMasterView.xaml.cs">
+    <Compile Include="View\CSVOpenMaster\CSVOpenMasterView.xaml.cs">
       <DependentUpon>CSVOpenMasterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DocumentView.xaml.cs">
@@ -134,22 +134,22 @@
     <Compile Include="View\Elements\PropertyViewerEx.xaml.cs">
       <DependentUpon>PropertyViewerEx.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\FAOIDiagramView.xaml.cs">
+    <Compile Include="View\ResultsView\FAOIDiagramView.xaml.cs">
       <DependentUpon>FAOIDiagramView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\FAOIDistributedColumnChartView.xaml.cs">
+    <Compile Include="View\ResultsView\FAOIDistributedColumnChartView.xaml.cs">
       <DependentUpon>FAOIDistributedColumnChartView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\FAOIDistributedComplexColumnChart.xaml.cs">
+    <Compile Include="View\ResultsView\FAOIDistributedComplexColumnChart.xaml.cs">
       <DependentUpon>FAOIDistributedComplexColumnChart.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\FAOIsInputView.xaml.cs">
+    <Compile Include="View\CSVOpenMaster\FAOIsInputView.xaml.cs">
       <DependentUpon>FAOIsInputView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\FixationsTimelineView.xaml.cs">
+    <Compile Include="View\ResultsView\FixationsTimelineView.xaml.cs">
       <DependentUpon>FixationsTimelineView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ProcessingTaskView.xaml.cs">
+    <Compile Include="View\CSVOpenMaster\ProcessingTaskView.xaml.cs">
       <DependentUpon>ProcessingTaskView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ProjectExplorerTreeView.xaml.cs">
@@ -158,13 +158,13 @@
     <Compile Include="View\ProjectExplorerView.xaml.cs">
       <DependentUpon>ProjectExplorerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ResultsViewAreaView.xaml.cs">
+    <Compile Include="View\ResultsView\ResultsViewAreaView.xaml.cs">
       <DependentUpon>ResultsViewAreaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\StatisticsPanelView.xaml.cs">
       <DependentUpon>StatisticsPanelView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\TimeColumnChoiceView.xaml.cs">
+    <Compile Include="View\CSVOpenMaster\TimeColumnChoiceView.xaml.cs">
       <DependentUpon>TimeColumnChoiceView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
@@ -191,11 +191,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\AOIHitColumnsChoiceView.xaml">
+    <Page Include="View\CSVOpenMaster\AOIHitColumnsChoiceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\CSVOpenMasterView.xaml">
+    <Page Include="View\CSVOpenMaster\CSVOpenMasterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -215,27 +215,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\FAOIDiagramView.xaml">
+    <Page Include="View\ResultsView\FAOIDiagramView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\FAOIDistributedColumnChartView.xaml">
+    <Page Include="View\ResultsView\FAOIDistributedColumnChartView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\FAOIDistributedComplexColumnChart.xaml">
+    <Page Include="View\ResultsView\FAOIDistributedComplexColumnChart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\FAOIsInputView.xaml">
+    <Page Include="View\CSVOpenMaster\FAOIsInputView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\FixationsTimelineView.xaml">
+    <Page Include="View\ResultsView\FixationsTimelineView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ProcessingTaskView.xaml">
+    <Page Include="View\CSVOpenMaster\ProcessingTaskView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -247,7 +247,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ResultsViewAreaView.xaml">
+    <Page Include="View\ResultsView\ResultsViewAreaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -255,7 +255,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\TimeColumnChoiceView.xaml">
+    <Page Include="View\CSVOpenMaster\TimeColumnChoiceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -349,5 +349,6 @@
   <ItemGroup>
     <Resource Include="Images\Add.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
