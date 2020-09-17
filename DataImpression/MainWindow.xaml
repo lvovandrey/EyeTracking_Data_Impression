@@ -16,7 +16,34 @@
         </Grid.RowDefinitions>
         <Menu HorizontalAlignment="Stretch"   >
             <MenuItem Header="Файл">
-                <MenuItem Header="Открыть csv-файл" Command="{Binding OpenCSVFileCommand}"/>
+                <MenuItem Header="Новый проект" >
+                    <MenuItem.Icon>
+                        <Image Source="Images/Document-Spacing.png"></Image>
+                    </MenuItem.Icon>
+                </MenuItem>
+
+
+                <MenuItem Header="Открыть проект" >
+                    <MenuItem.Icon>
+                        <Image Source="Images/Folder-Go.png"></Image>
+                    </MenuItem.Icon>
+                </MenuItem>
+
+                <MenuItem Header="Сохранить проект" >
+                    <MenuItem.Icon>
+                        <Image Source="Images/Disk.png"></Image>
+                    </MenuItem.Icon>
+                </MenuItem>
+
+                <MenuItem Header="Добавить csv-файл" Command="{Binding OpenCSVFileCommand}">
+                    <MenuItem.Icon>
+                        <Grid>
+                            <Image Source="Images/TobiiCSVFile.png"/>
+                            <Image Source="Images/Add.png" Width="10" Height="10" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+
+                        </Grid>
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="Debug">
                 <MenuItem Header="Открыть окно для тестов" Click="MenuItem_Click"/>
@@ -25,40 +52,13 @@
         </Menu>
         
         <Grid Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="40"/>
-                <RowDefinition/>
-                <RowDefinition Height="40"/>
-                </Grid.RowDefinitions>
-            <TextBlock Text="{Binding InputPageTitle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <views:TimeColumnChoiceView  Grid.Row="1"
-                                         DataContext="{Binding TimeColumnChoiceVM}"
-                                         Visibility="{Binding Visibility, UpdateSourceTrigger=PropertyChanged}"
-                                         />
-            <views:AOIHitColumnsChoiceView Grid.Row="1" 
-                                            DataContext="{Binding AOIHitColumnsChoiceVM}"
-                                            Visibility="{Binding Visibility}"
-                                           />
-            <views:FAOIsInputView x:Name="FAOIsInput" Grid.Row="1"
-                                            DataContext="{Binding FAOIsInputVM}"
-                                            Visibility="{Binding Visibility}"
-                                           />
-            <views:ProcessingTaskView  Grid.Row="1"
-                                            DataContext="{Binding ProcessingTaskVM}"
-                                            Visibility="{Binding Visibility}"
-                                           />
 
-            <!--<views:FAOIDiagramView Grid.Row="1"
-                                    DataContext="{Binding FAOIDiagramVM}"
-                                    Visibility="{Binding Visibility}"
-                                   />-->
             <views:ResultsViewAreaView Grid.Row="1"
                                       DataContext="{Binding ResultsViewAreaVM}"
                                        Visibility="{Binding Visibility}"
                                        />
 
-            <Button Grid.Row="2" Content="Далее" HorizontalAlignment="Right"  Width="60" Margin="7"
-                    Command="{Binding NextInputCommand}"/>
+
 
         </Grid>
  
