@@ -20,8 +20,8 @@ namespace DataImpression.Models
         {
         }
 
-        public Model Model { get; private set; }
-        public string FilePath { get; private set; }
+        public Model Model { get; set; }
+        public string FilePath { get; set; }
         
         
         public string Name 

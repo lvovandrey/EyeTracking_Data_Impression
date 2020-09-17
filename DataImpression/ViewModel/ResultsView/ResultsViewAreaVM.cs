@@ -18,9 +18,10 @@ namespace DataImpression.ViewModel
     public class ResultsViewAreaVM: INPCBase, IDocumentVMsCloseable
     {
         #region ctor
-        public ResultsViewAreaVM(Model model, MainWindowViewModel mainWindowViewModel)
+        public ResultsViewAreaVM(Project project, Model model, MainWindowViewModel mainWindowViewModel)
         {
             _model = model;
+            _project = project;
             _this = this;
             DiagramVM = new FAOIDiagramVM(model);
             _mainWindowViewModel = mainWindowViewModel;
@@ -49,7 +50,7 @@ namespace DataImpression.ViewModel
         /// Модель данных
         /// </summary>
         private Model _model;
-
+        private Project _project;
         #endregion
 
         #region Properties
@@ -112,7 +113,7 @@ namespace DataImpression.ViewModel
             get
             {
                 if (_projectExplorer == null)
-                    _projectExplorer = new ProjectExplorerVM(_mainWindowViewModel, this, _model);
+                    _projectExplorer = new ProjectExplorerVM(_mainWindowViewModel, this, _project);
 
                 return _projectExplorer;
             }

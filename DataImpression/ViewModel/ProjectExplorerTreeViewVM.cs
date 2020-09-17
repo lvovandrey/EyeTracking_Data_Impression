@@ -13,19 +13,19 @@ namespace DataImpression.ViewModel
 {
     public class ProjectExplorerTreeViewVM:INPCBase
     {
-        public ProjectExplorerTreeViewVM(Model model, ResultsViewAreaVM resultsViewAreaVM)
+        public ProjectExplorerTreeViewVM(Project project, ResultsViewAreaVM resultsViewAreaVM)
         {
-            Model = model;
+            Project = project;
             this.ResultsViewAreaVM = resultsViewAreaVM;
 
-            root = new PEElement(Model.Project.Name, "Project");
+            root = new PEElement(Project.Name, "Project");
 
             source = new PEElement()
             {
                 Title = "Исходные данные",
                 PEElements = new ObservableCollection<PEElement>()
                 {
-                    new PEElement(Path.GetFileName(Model.SourceData.CSVFileName), "FileCSV"),
+                    new PEElement(Path.GetFileName(Project.Model.SourceData.CSVFileName), "FileCSV"),
                     new PEElement("Таблица AOI", "Table"),
                     new PEElement("Таблица FAOI-AOI", "Table")
                 }
@@ -66,7 +66,7 @@ namespace DataImpression.ViewModel
 
         public ObservableCollection<PEElement> Items { get; private set; }
 
-        Model Model { get; set; }
+        Project Project { get; set; }
 
     }
 

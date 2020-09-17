@@ -9,6 +9,7 @@ namespace DataImpression.Models
     /// <summary>
     /// Основной класс модели.
     /// </summary>
+    [Serializable]
     public class Model
     {
         #region ctor
