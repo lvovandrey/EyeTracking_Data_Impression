@@ -16,7 +16,9 @@
         <!--<StackPanel Orientation="Horizontal">
             <local:ProjectExplorerTest/>
         </StackPanel>-->
-
-        <Button Click="Button_Click" Width="100" Height="20">Serialize</Button>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
+            <Button Click="Button_Click" Width="100" Height="20" Margin="10">Serialize</Button>
+            <Button Click="Button_Click_1"  Width="100" Height="20">Deserialize</Button>
+        </StackPanel>
     </Grid>
 </Window>

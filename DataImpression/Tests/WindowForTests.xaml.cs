@@ -32,14 +32,14 @@ namespace DataImpression.Tests
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            SaveToXML(  ((MainWindowViewModel)DataContext).GetModel().SourceData);
+            SaveToXML(  ((MainWindowViewModel)DataContext).GetModel().Results);
 
         }
 
  
 
 
-        private void SaveToXML(ProcessingTaskSourceData SourceData)
+        private void SaveToXML(ProcessingResults Results)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "Xml-flie(*.xml)|*.xml";
@@ -49,11 +49,11 @@ namespace DataImpression.Tests
 
             try
             {
-                XmlSerializer formatter = new XmlSerializer(typeof(ProcessingTaskSourceData));
+                XmlSerializer formatter = new XmlSerializer(typeof(ProcessingResults));
 
                 using (FileStream fs = new FileStream(filename, FileMode.Create))
                 {
-                    formatter.Serialize(fs, SourceData);
+                    formatter.Serialize(fs, Results);
                 }
                 MessageBox.Show("Файл " + filename + " успешно сохранен");
             }
@@ -61,6 +61,38 @@ namespace DataImpression.Tests
             {
                 MessageBox.Show("Ошибка сохранения файла " + filename + ". \n Описание ошибки: " + e.Message + "    Stacktrace:" + e.StackTrace);
             }
+        }
+
+        private void LoadFromXML()
+        {
+            ProcessingResults results;
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Xml-flie(*.xml)|*.xml";
+            bool? res = openFileDialog.ShowDialog();
+            if (res == null || res == false) return;
+            string filename = openFileDialog.FileName;
+            try
+            {
+                XmlSerializer formatter = new XmlSerializer(typeof(ProcessingResults));
+
+                using (FileStream fs = new FileStream(filename, FileMode.Open))
+                {
+                    results = (ProcessingResults)formatter.Deserialize(fs);
+                }
+
+                Model model = new Model() { Results = results, SourceData = results.SourceData };
+                Project project = new Project(model, filename);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Ошибка открытия файла " + filename + ". \n Описание ошибки: " + e.Message + "    Stacktrace:" + e.StackTrace);
+            }
+        }
+
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            LoadFromXML();
         }
     }
 }
