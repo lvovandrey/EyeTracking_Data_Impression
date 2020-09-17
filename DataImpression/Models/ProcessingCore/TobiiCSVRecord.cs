@@ -9,6 +9,7 @@ namespace DataImpression.Models
     /// <summary>
     /// Класс хранит в себе данные одной записи (строки) из csv-файла в формате tobii
     /// </summary>
+    [Serializable]
     public class TobiiCSVRecord
     {
         /// <summary>

@@ -16,20 +16,20 @@
         </Grid.RowDefinitions>
         <Menu HorizontalAlignment="Stretch"   >
             <MenuItem Header="Файл">
-                <MenuItem Header="Новый проект" >
+                <MenuItem Header="Новый проект" Command="{Binding NewProjectCommand}" >
                     <MenuItem.Icon>
                         <Image Source="Images/Document-Spacing.png"></Image>
                     </MenuItem.Icon>
                 </MenuItem>
 
 
-                <MenuItem Header="Открыть проект" >
+                <MenuItem Header="Открыть проект" Command="{Binding OpenProjectCommand}" >
                     <MenuItem.Icon>
                         <Image Source="Images/Folder-Go.png"></Image>
                     </MenuItem.Icon>
                 </MenuItem>
 
-                <MenuItem Header="Сохранить проект" >
+                <MenuItem Header="Сохранить проект" Command="{Binding SaveProjectCommand}">
                     <MenuItem.Icon>
                         <Image Source="Images/Disk.png"></Image>
                     </MenuItem.Icon>

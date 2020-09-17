@@ -11,16 +11,16 @@ namespace DataImpression.Tests
 {
     public class ProjectExplorerTestVM
     {
-        public ProjectExplorerTestVM(Model model)
+        public ProjectExplorerTestVM(Project project)
         {
-            root = new PEElement(model.Project.Name,"Project");
+            root = new PEElement(project.Name,"Project");
 
             source = new PEElement()
             {
                 Title = "Исходные данные",
                 PEElements = new ObservableCollection<PEElement>()
                 {
-                    new PEElement(Path.GetFileName(model.SourceData.CSVFileName), "FileCSV"),
+                    new PEElement(Path.GetFileName(project.Model.SourceData.CSVFileName), "FileCSV"),
                     new PEElement("Таблица AOI", "Table"),
                     new PEElement("Таблица FAOI-AOI", "Table")
                 }

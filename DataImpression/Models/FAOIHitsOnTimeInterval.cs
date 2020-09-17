@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DataImpression.Models
 {
@@ -6,6 +7,7 @@ namespace DataImpression.Models
     /// Отдельная запись, в которой хранятся данные о том, какие на данном временном интервале были попадания маркера взгляда в FAOI
     /// Иначе говоря куда он смотрел в данный интервал времени
     /// </summary>
+    [Serializable]
     public class FAOIHitsOnTimeInterval
     {
         #region ctor
@@ -13,6 +15,9 @@ namespace DataImpression.Models
         {
             TimeInterval = timeInterval;
             FAOIHits = fAOIHits;
+        }
+        public FAOIHitsOnTimeInterval()
+        {
         }
         #endregion
 

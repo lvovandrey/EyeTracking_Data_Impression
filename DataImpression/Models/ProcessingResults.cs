@@ -11,12 +11,17 @@ namespace DataImpression.Models
     /// Инкапсулирует все результаты решения одной отдельной
     /// задачи по обработке.
     /// </summary>
+    [Serializable]
     public class ProcessingResults
     {
         #region ctor
         public ProcessingResults(ProcessingTaskSourceData _sourceData)
         {
             SourceData = _sourceData;
+        }
+        public ProcessingResults()
+        {
+
         }
         #endregion
 

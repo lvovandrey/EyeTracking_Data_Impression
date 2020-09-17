@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace DataImpression.Models
 {
     /// <summary>
     /// Временной интервал.
     /// </summary>
+    [Serializable]
     public class TimeInterval
     {
         #region ctor
@@ -20,21 +22,30 @@ namespace DataImpression.Models
             TimeBegin = timeBegin;
             TimeEnd = timeEnd;
         }
+        public TimeInterval()
+        {
+            //TimeBegin = TimeSpan.Zero;
+            //TimeEnd = TimeSpan.FromMilliseconds(1);
+        }
         #endregion
 
         #region Fields
         #endregion
 
         #region Properties
+        public long timeBegin_ms;
         /// <summary>
         /// Граница начала временного интервала
         /// </summary>
-        public TimeSpan TimeBegin { get; set;}
+        [XmlIgnore]
+        public TimeSpan TimeBegin { get { return TimeSpan.FromMilliseconds(timeBegin_ms); } set { timeBegin_ms = (long)value.TotalMilliseconds; } }
 
+        public long timeEnd_ms;
         /// <summary>
         /// Граница конца временного интервала
         /// </summary>
-        public TimeSpan TimeEnd { get; set; }
+        [XmlIgnore]
+        public TimeSpan TimeEnd { get { return TimeSpan.FromMilliseconds(timeEnd_ms); } set { timeEnd_ms = (long)value.TotalMilliseconds; } }
 
         #endregion
 

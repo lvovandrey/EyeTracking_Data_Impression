@@ -1,6 +1,4 @@
-﻿using DataImpression.Models;
-using DataImpression.ViewModel;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,38 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Xml.Serialization;
 
-namespace DataImpression.Tests
+namespace DataImpression.Models.Helpers
 {
-    /// <summary>
-    /// Логика взаимодействия для WindowForTests.xaml
-    /// </summary>
-    public partial class WindowForTests : Window
+    public static class ModelSerializer
     {
-        public WindowForTests()
-        {
-            InitializeComponent();
-            
-        }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            SaveToXML(  ((MainWindowViewModel)DataContext).GetModel().Results);
-
-        }
-
- 
-
-
-        private void SaveToXML(ProcessingResults Results)
+        public static void SaveToXML(Project project)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "Etprj-flie(*.Etprj)|*.Etprj";
@@ -47,13 +21,18 @@ namespace DataImpression.Tests
             if (res == null || res == false) return;
             string filename = saveFileDialog.FileName;
 
+            SaveToXML(project, filename);
+        }
+
+        public static void SaveToXML(Project project, string filename)
+        {
             try
             {
-                XmlSerializer formatter = new XmlSerializer(typeof(ProcessingResults));
+                XmlSerializer formatter = new XmlSerializer(typeof(Project));
 
                 using (FileStream fs = new FileStream(filename, FileMode.Create))
                 {
-                    formatter.Serialize(fs, Results);
+                    formatter.Serialize(fs, project);
                 }
                 MessageBox.Show("Файл " + filename + " успешно сохранен");
             }
@@ -63,36 +42,35 @@ namespace DataImpression.Tests
             }
         }
 
-        private void LoadFromXML()
+        public static void LoadFromXML(out Project _project)
         {
             ProcessingResults results;
+            Model model = new Model();
+            Project project = new Project();
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Etprj-flie(*.Etprj)|*.Etprj";
             bool? res = openFileDialog.ShowDialog();
+            _project = project;
             if (res == null || res == false) return;
             string filename = openFileDialog.FileName;
             try
             {
-                XmlSerializer formatter = new XmlSerializer(typeof(ProcessingResults));
+                XmlSerializer formatter = new XmlSerializer(typeof(Project));
 
                 using (FileStream fs = new FileStream(filename, FileMode.Open))
                 {
-                    results = (ProcessingResults)formatter.Deserialize(fs);
+                    results = ((Project)formatter.Deserialize(fs)).Model.Results;
                 }
 
-                Model model = new Model() { Results = results, SourceData = results.SourceData };
-                Project project = new Project(model, filename);
+                model = new Model() { Results = results, SourceData = results.SourceData };
+                project = new Project(model, filename);
+
             }
             catch (Exception e)
             {
                 MessageBox.Show("Ошибка открытия файла " + filename + ". \n Описание ошибки: " + e.Message + "    Stacktrace:" + e.StackTrace);
             }
-        }
-
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            LoadFromXML();
+            _project = project;
         }
     }
 }

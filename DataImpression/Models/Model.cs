@@ -9,6 +9,7 @@ namespace DataImpression.Models
     /// <summary>
     /// Основной класс модели.
     /// </summary>
+    [Serializable]
     public class Model
     {
         #region ctor
@@ -16,7 +17,6 @@ namespace DataImpression.Models
         {
             SourceData = new ProcessingTaskSourceData();
             Results = new ProcessingResults(SourceData);
-            Project = new Project(this, @"C:\tmp\Project1.etdi");
         }
         #endregion
 
@@ -29,11 +29,10 @@ namespace DataImpression.Models
         /// <summary>
         /// Источник данных вычислительной задачи.... в общем он в себя вмещает все данные которые нужны для выполнения данной задачи.
         /// </summary>
-        public ProcessingTaskSourceData SourceData { get; private set; }
+        public ProcessingTaskSourceData SourceData { get; set; }
 
-        public ProcessingResults Results { get; private set; }
-        
-        public Project Project { get; private set; }
+        public ProcessingResults Results { get; set; }
+
         #endregion
 
         #region Methods

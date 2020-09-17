@@ -23,7 +23,6 @@ namespace DataImpression.Tests
         public ProjectExplorerTest()
         {
             InitializeComponent();
-            DataContext = new ProjectExplorerTestVM(new Models.Model());
         }
     }
 }
