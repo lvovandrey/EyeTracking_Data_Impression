@@ -46,7 +46,7 @@
             </StackPanel>
             
         </GroupBox>
-        <ListView ItemsSource="{Binding Path=SelectedFAOIVM.AOIHitColumnsVM}" Grid.Column="1" Margin="10 100 10 10" Background="Green" SelectionMode="Multiple" ScrollViewer.VerticalScrollBarVisibility="Visible" >
+        <ListView ItemsSource="{Binding Path=SelectedFAOIVM.AOIHitColumnsVM}" Grid.Column="1" Margin="10 100 10 10" SelectionMode="Multiple" ScrollViewer.VerticalScrollBarVisibility="Visible" >
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Отметка">
