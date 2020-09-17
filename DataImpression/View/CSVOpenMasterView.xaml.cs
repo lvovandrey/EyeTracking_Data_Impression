@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace DataImpression.View
 {
     /// <summary>
-    /// Interaction logic for CSVOpenMaster.xaml
+    /// Interaction logic for CSVOpenMasterView.xaml
     /// </summary>
-    public partial class CSVOpenMaster : UserControl
+    public partial class CSVOpenMasterView : Window
     {
-        public CSVOpenMaster()
+        public CSVOpenMasterView()
         {
             InitializeComponent();
         }

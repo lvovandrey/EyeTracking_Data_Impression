@@ -119,8 +119,8 @@
     <Compile Include="ViewModel\AvalonDockHelpers\PanesTemplateSelector.cs" />
     <Compile Include="ViewModel\AvalonDockHelpers\PaneVM.cs" />
     <Compile Include="ViewModel\AvalonDockHelpers\ToolVM.cs" />
-    <Compile Include="View\CSVOpenMaster.xaml.cs">
-      <DependentUpon>CSVOpenMaster.xaml</DependentUpon>
+    <Compile Include="View\CSVOpenMasterView.xaml.cs">
+      <DependentUpon>CSVOpenMasterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DocumentView.xaml.cs">
       <DependentUpon>DocumentView.xaml</DependentUpon>
@@ -195,7 +195,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\CSVOpenMaster.xaml">
+    <Page Include="View\CSVOpenMasterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -336,6 +336,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Document-Todo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Document-Spacing.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Folder-Go.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Disk.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Add.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

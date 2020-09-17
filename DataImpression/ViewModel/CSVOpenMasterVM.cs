@@ -1,9 +1,13 @@
-﻿using DataImpression.Models;
+﻿using DataImpression.AbstractMVVM;
+using DataImpression.Models;
+using DataImpression.View;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace DataImpression.ViewModel
 {
@@ -18,15 +22,18 @@ namespace DataImpression.ViewModel
     }
 
 
-    public class CSVOpenMasterVM
+    public class CSVOpenMasterVM: INPCBase
     {
         #region ctor
-        public CSVOpenMasterVM(Model _model, MainWindow mainWindow)
+        public CSVOpenMasterVM(Model _model, CSVOpenMasterView cSVOpenMasterView)
         {
-            TimeColumnChoiceVM = new TimeColumnChoiceVM(_model);
-            AOIHitColumnsChoiceVM = new AOIHitColumnsChoiceVM(_model);
-            FAOIsInputVM = new FAOIsInputVM(_model, MainWindow.FAOIsInput.FAOIsInputListView);
-            ProcessingTaskVM = new ProcessingTaskVM(_model);
+            model = _model;
+            CSVOpenMasterView = cSVOpenMasterView;
+
+            TimeColumnChoiceVM = new TimeColumnChoiceVM(model);
+            AOIHitColumnsChoiceVM = new AOIHitColumnsChoiceVM(model);
+            FAOIsInputVM = new FAOIsInputVM(model, CSVOpenMasterView.FAOIsInput.FAOIsInputListView);
+            ProcessingTaskVM = new ProcessingTaskVM(model);
 
             InputStage = CSVFileOpenStage.None;
         }
@@ -36,9 +43,9 @@ namespace DataImpression.ViewModel
         /// <summary>
         /// Модель данных
         /// </summary>
-        Model _model;
+        Model model;
 
-        MainWindow MainWindow;
+        CSVOpenMasterView CSVOpenMasterView;
         #endregion
 
 
@@ -106,7 +113,7 @@ namespace DataImpression.ViewModel
                         }
                     case CSVFileOpenStage.ViewResults:
                         {
-                            return ResultsViewAreaVM.CanExecuteNextInputStage();
+                            return true;
                             break;
                         }
                     default:
@@ -163,6 +170,124 @@ namespace DataImpression.ViewModel
             }
         }
 
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Метод для команды OpenCSVFileCommand - открывает csv файл и готовится к работе с ним (заполняет CSVCaption и CSVFileName в SourceData в модели). 
+        /// </summary>
+        public void OpenCSVFile()
+        {
+            TimeColumnChoiceVM = new TimeColumnChoiceVM(model);
+
+
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == false) return;
+
+            CSVOpenMasterView.Show();
+
+            InputStage = CSVFileOpenStage.TimeColumnChoice;
+            model.SourceData.CSVFileName = openFileDialog.FileName;// файлнейм в модель  закидываем
+            try
+            {
+                List<string> caption_string = new CSVReader().TobiiCSVReadStrings(model.SourceData.CSVFileName, 1);//читаем первую строку и далее ее разбиваем.
+                List<string> splitted_caption_string = new List<string>(caption_string[0].Split('\t'));//разбиваем ее
+
+                model.SourceData.CSVCaption = Column.ToColumns(splitted_caption_string);//и преобразовываем в набор колонок и закидываем в модель
+            }
+            catch
+            {
+                InputStage = CSVFileOpenStage.None;
+                MessageBox.Show("Не удалось считать заголовок csv-файла. Попробуйте открыть файл вручную и убедиться в правильности его формата.");
+            }
+        }
+
+
+
+        void SwithToNextInputStage()
+        {
+            switch (inputStage)
+            {
+                case CSVFileOpenStage.None:
+                    {
+                        InputStage = CSVFileOpenStage.TimeColumnChoice;
+                        break;
+                    }
+                case CSVFileOpenStage.TimeColumnChoice:
+                    {
+                        InputStage = CSVFileOpenStage.AOIHitColumnsChoice;
+                        AOIHitColumnsChoiceVM = new AOIHitColumnsChoiceVM(model);
+                        break;
+                    }
+                case CSVFileOpenStage.AOIHitColumnsChoice:
+                    {
+                        InputStage = CSVFileOpenStage.FAOIsInput;
+                        FAOIsInputVM = new FAOIsInputVM(model, CSVOpenMasterView.FAOIsInput.FAOIsInputListView);
+                        break;
+                    }
+                case CSVFileOpenStage.FAOIsInput:
+                    {
+                        if (!FAOIsInputVM.RecordResultsToModel()) return; //TODO: вот это тоже плохо - тут он нужен этот метод, а в других местах его нет. А если забуду?
+                        InputStage = CSVFileOpenStage.ProcessingTask;
+                        break;
+                    }
+                case CSVFileOpenStage.ProcessingTask:
+                    {
+                        InputStage = CSVFileOpenStage.ViewResults;
+                        break;
+                    }
+                case CSVFileOpenStage.ViewResults:
+                    {
+                        InputStage = CSVFileOpenStage.None;
+                        CSVOpenMasterView.Close();
+                        break;
+                    }
+                default:
+                    {
+                        InputStage = CSVFileOpenStage.None;
+                        break;
+                    }
+            }
+
+            RefreshInputElementsVisibility();
+        }
+
+        void RefreshInputElementsVisibility()
+        {
+            if (TimeColumnChoiceVM != null)
+                if (inputStage == CSVFileOpenStage.TimeColumnChoice) TimeColumnChoiceVM.Visibility = Visibility.Visible;
+                else TimeColumnChoiceVM.Visibility = Visibility.Collapsed;
+
+            if (AOIHitColumnsChoiceVM != null)
+                if (inputStage == CSVFileOpenStage.AOIHitColumnsChoice) AOIHitColumnsChoiceVM.Visibility = Visibility.Visible;
+                else AOIHitColumnsChoiceVM.Visibility = Visibility.Collapsed;
+
+            if (FAOIsInputVM != null)
+                if (inputStage == CSVFileOpenStage.FAOIsInput) FAOIsInputVM.Visibility = Visibility.Visible;
+                else FAOIsInputVM.Visibility = Visibility.Collapsed;
+
+            if (ProcessingTaskVM != null)
+                if (inputStage == CSVFileOpenStage.ProcessingTask) ProcessingTaskVM.Visibility = Visibility.Visible;
+                else ProcessingTaskVM.Visibility = Visibility.Collapsed;
+
+
+        }
+        #endregion
+
+        #region Commands
+        private RelayCommand nextInputCommand;
+        public RelayCommand NextInputCommand
+        {
+            get
+            {
+                return nextInputCommand ?? (nextInputCommand = new RelayCommand(obj =>
+                {
+                    SwithToNextInputStage();
+                },
+                (obj) => CanExecuteNextInputStage == true
+                ));
+            }
+        }
         #endregion
     }
 }
