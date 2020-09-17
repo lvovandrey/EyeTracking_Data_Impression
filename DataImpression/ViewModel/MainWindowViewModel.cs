@@ -95,6 +95,7 @@ namespace DataImpression.ViewModel
                     string filename = saveFileDialog.FileName;
                     CurrentProject = new Project(new Model(), filename);
                     ModelSerializer.SaveToXML(CurrentProject, CurrentProject.FilePath);
+                    ResultsViewAreaVM = new ResultsViewAreaVM(CurrentProject, _model, this);
                 }));
             }
         }
@@ -108,18 +109,20 @@ namespace DataImpression.ViewModel
                 return saveProjectCommand ?? (saveProjectCommand = new RelayCommand(obj =>
                 {
                     ModelSerializer.SaveToXML(CurrentProject, CurrentProject.FilePath);
+                    ResultsViewAreaVM = new ResultsViewAreaVM(CurrentProject, _model, this);
                 }));
             }
         }
 
-        private RelayCommand loadProjectCommand;
-        public RelayCommand LoadProjectCommand
+        private RelayCommand openProjectCommand;
+        public RelayCommand OpenProjectCommand
         {
             get
             {
-                return loadProjectCommand ?? (loadProjectCommand = new RelayCommand(obj =>
+                return openProjectCommand ?? (openProjectCommand = new RelayCommand(obj =>
                 {
                     ModelSerializer.LoadFromXML(out CurrentProject);
+                    ResultsViewAreaVM = new ResultsViewAreaVM(CurrentProject, _model, this);
                 }));
             }
         }
