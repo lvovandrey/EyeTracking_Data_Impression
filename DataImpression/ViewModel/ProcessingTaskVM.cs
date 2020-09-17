@@ -80,8 +80,6 @@ namespace DataImpression.ViewModel
                 Application.Current.Dispatcher.Invoke(new Action(() => canExecuteNextInputStage = true));
             }
             );
-
-            OnPropertyChanged("CanExecuteNextInputStage");
             CSVOpenMasterVM.NextInputCommand.InvalidateRequerySuggested();
         }
 

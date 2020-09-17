@@ -48,6 +48,10 @@ namespace DataImpression.AbstractMVVM
             this.execute(parameter);
         }
 
+        /// <summary>
+        /// Производит некое невалидное ("force") обновление условий возможности выполнения команды. 
+        /// из msdn - вызывает обновление "conditions that might change the ability of a command to execute"
+        /// </summary>
         public void InvalidateRequerySuggested() 
         {
             CommandManager.InvalidateRequerySuggested();

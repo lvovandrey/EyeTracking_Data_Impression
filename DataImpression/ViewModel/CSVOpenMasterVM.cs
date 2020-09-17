@@ -240,12 +240,6 @@ namespace DataImpression.ViewModel
                         CSVOpenMasterView.Close();
                         break;
                     }
-                case CSVFileOpenStage.ViewResults:
-                    {
-                        InputStage = CSVFileOpenStage.None;
-                        
-                        break;
-                    }
                 default:
                     {
                         InputStage = CSVFileOpenStage.None;
