@@ -141,9 +141,10 @@ namespace DataImpression.Models
                 {
                     string s = rd.ReadLine();
                     if (s == null) break;
+                    if (s.Replace(" ", "") == "") throw new Exception("Файл содержит пустые строки");
                     CountReadedStrings++;
                 }
-                if (CountReadedStrings >= 1_000_000_000) MessageBox.Show("Файл слишком большого размера > 1 млрд. строк. не поддерживается");
+                if (CountReadedStrings >= 1_000_000_000) MessageBox.Show("Файл слишком большого размера");
             }
             return CountReadedStrings;
         }
@@ -290,6 +291,29 @@ namespace DataImpression.Models
             }
             return RecordsNew;
         }
+        /// <summary>
+        /// Проверяет временную целостность полученного списка записей
+        /// </summary>
+        /// <param name="tobiiCSVRecords"></param>
+        /// <param name="progress"></param>
+        /// <param name="progress_koef"></param>
+        /// <returns>Возвращает true если каждая последующая запись содержит отметку времени большую чем предыдущая</returns>
+        internal static bool CheckTimeIntegrity(List<TobiiCSVRecord> tobiiCSVRecords, ref double progress, double progress_koef)
+        {
+            int curI = 0;
+            double initialProgress = progress;
+            int RecordsCount = tobiiCSVRecords.Count()-2;
+
+            for (int i = 0; i < tobiiCSVRecords.Count - 2; i++)
+            {
+                curI++;
+                progress = initialProgress + progress_koef * ((double)curI / (double)RecordsCount);
+                if (tobiiCSVRecords[i + 1].time_ms < tobiiCSVRecords[i].time_ms)
+                    return false;
+            }
+            return true;
+        }
+
     }
 
 }
