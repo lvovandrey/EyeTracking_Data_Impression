@@ -55,12 +55,7 @@ namespace DataImpression.Models
             progress = 0; stage = "Оценка размера файла";
             long countStringsForReading = RawDataProcessorMethods.TobiiCSVCalculateCountOfStrings(SourceData);
             progress = 5; stage = "Считывание файла " + SourceData.CSVFileName;
-            List<TobiiCSVRecord> tobiiCSVRecords = RawDataProcessorMethods.TobiiCSVRead(SourceData, ref progress, 60, countStringsForReading+100);
-
-            progress = 65; stage = "Проверка временной целостности файла";
-            if (!RawDataProcessorMethods.CheckTimeIntegrity(tobiiCSVRecords, ref progress, 5))
-                throw new Exception("Проверка временной целостности файла не пройдена: файл должен содержать только один непрерывный временной интервал.");
-
+            List<TobiiCSVRecord> tobiiCSVRecords = RawDataProcessorMethods.TobiiCSVRead(SourceData, ref progress, 65, countStringsForReading+100);
             progress = 70; stage = "Сортировка фиксаций по функциональным зонам";
             List<FAOIsOnTimeRecord> fAOIsOnTimeRecords = RawDataProcessorMethods.ConvertTobiiCSVRecord_To_FAOIsOnTimeRecord(tobiiCSVRecords, 
                                                                                                                             SourceData, ref progress, 15);
@@ -296,7 +291,6 @@ namespace DataImpression.Models
             }
             return RecordsNew;
         }
-
         /// <summary>
         /// Проверяет временную целостность полученного списка записей
         /// </summary>
