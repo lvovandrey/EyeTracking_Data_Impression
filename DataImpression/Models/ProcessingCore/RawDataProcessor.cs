@@ -146,9 +146,10 @@ namespace DataImpression.Models
                 {
                     string s = rd.ReadLine();
                     if (s == null) break;
+                    if (s.Replace(" ", "") == "") throw new Exception("Файл содержит пустые строки");
                     CountReadedStrings++;
                 }
-                if (CountReadedStrings >= 1_000_000_000) MessageBox.Show("Файл слишком большого размера > 1 млрд. строк. не поддерживается");
+                if (CountReadedStrings >= 1_000_000_000) MessageBox.Show("Файл слишком большого размера");
             }
             return CountReadedStrings;
         }
@@ -318,6 +319,7 @@ namespace DataImpression.Models
             }
             return true;
         }
+
     }
 
 }
