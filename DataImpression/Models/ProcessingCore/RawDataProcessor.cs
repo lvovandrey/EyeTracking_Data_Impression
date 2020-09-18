@@ -55,7 +55,12 @@ namespace DataImpression.Models
             progress = 0; stage = "Оценка размера файла";
             long countStringsForReading = RawDataProcessorMethods.TobiiCSVCalculateCountOfStrings(SourceData);
             progress = 5; stage = "Считывание файла " + SourceData.CSVFileName;
-            List<TobiiCSVRecord> tobiiCSVRecords = RawDataProcessorMethods.TobiiCSVRead(SourceData, ref progress, 65, countStringsForReading+100);
+            List<TobiiCSVRecord> tobiiCSVRecords = RawDataProcessorMethods.TobiiCSVRead(SourceData, ref progress, 60, countStringsForReading+100);
+
+            progress = 65; stage = "Проверка временной целостности файла";
+            if (!RawDataProcessorMethods.CheckTimeIntegrity(tobiiCSVRecords, ref progress, 5))
+                throw new Exception("Проверка временной целостности файла не пройдена: файл должен содержать только один непрерывный временной интервал.");
+
             progress = 70; stage = "Сортировка фиксаций по функциональным зонам";
             List<FAOIsOnTimeRecord> fAOIsOnTimeRecords = RawDataProcessorMethods.ConvertTobiiCSVRecord_To_FAOIsOnTimeRecord(tobiiCSVRecords, 
                                                                                                                             SourceData, ref progress, 15);
@@ -289,6 +294,29 @@ namespace DataImpression.Models
                 RecordsNew.Add(record);
             }
             return RecordsNew;
+        }
+
+        /// <summary>
+        /// Проверяет временную целостность полученного списка записей
+        /// </summary>
+        /// <param name="tobiiCSVRecords"></param>
+        /// <param name="progress"></param>
+        /// <param name="progress_koef"></param>
+        /// <returns>Возвращает true если каждая последующая запись содержит отметку времени большую чем предыдущая</returns>
+        internal static bool CheckTimeIntegrity(List<TobiiCSVRecord> tobiiCSVRecords, ref double progress, double progress_koef)
+        {
+            int curI = 0;
+            double initialProgress = progress;
+            int RecordsCount = tobiiCSVRecords.Count()-2;
+
+            for (int i = 0; i < tobiiCSVRecords.Count - 2; i++)
+            {
+                curI++;
+                progress = initialProgress + progress_koef * ((double)curI / (double)RecordsCount);
+                if (tobiiCSVRecords[i + 1].time_ms < tobiiCSVRecords[i].time_ms)
+                    return false;
+            }
+            return true;
         }
     }
 
