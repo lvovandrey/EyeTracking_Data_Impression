@@ -50,8 +50,8 @@ namespace DataImpression.ViewModel
         private double progress;
         public double ProgressInPercents
         {
-            get { return progress/100; }
-            set { OnPropertyChanged("ProgressInPercents"); progress = value*100; }
+            get { return progress / 100; }
+            set { OnPropertyChanged("ProgressInPercents"); progress = value * 100; }
         }
 
         private string stage;
@@ -72,14 +72,25 @@ namespace DataImpression.ViewModel
         private async void BeginProcessing()
         {
             RawDataProcessor rawDataProcessor = new RawDataProcessor(_model.SourceData, _model.Results);
-            await Task.Run(() =>
+            try
             {
-                ProgressRefresh();
-                rawDataProcessor.ConvertCSVRawDataToFAOIHitsOnTimeIntervalList(ref progress, ref stage);
-
-                Application.Current.Dispatcher.Invoke(new Action(() => canExecuteNextInputStage = true));
+                await Task.Run(() =>
+                {
+                    ProgressRefresh();
+                    rawDataProcessor.ConvertCSVRawDataToFAOIHitsOnTimeIntervalList(ref progress, ref stage);
+                    Application.Current.Dispatcher.Invoke(new Action(() => canExecuteNextInputStage = true));
+                }
+                );
             }
-            );
+
+            catch (Exception e)
+            {
+                MessageBox.Show("Ошибка считывания файла " + _model.SourceData.CSVFileName +
+                                Environment.NewLine + "Ошибка: " + e.Message+
+                                Environment.NewLine + "StackTrace: " + e.StackTrace);
+
+            }
+
             CSVOpenMasterVM.NextInputCommand.InvalidateRequerySuggested();
         }
 
@@ -87,7 +98,7 @@ namespace DataImpression.ViewModel
         {
             await Task.Run(() =>
             {
-                double p=0;
+                double p = 0;
 
                 while (p < 100)
                 {
@@ -107,21 +118,22 @@ namespace DataImpression.ViewModel
             });
         }
 
-    #endregion
+        #endregion
 
-    #region Commands
+        #region Commands
 
-    private RelayCommand beginProcessingCommand;
-    public RelayCommand BeginProcessingCommand
-    {
-        get
+        private RelayCommand beginProcessingCommand;
+        public RelayCommand BeginProcessingCommand
         {
-            return beginProcessingCommand ?? (beginProcessingCommand = new RelayCommand(obj =>
+            get
             {
-                BeginProcessing();
-            }));
+                return beginProcessingCommand ?? (beginProcessingCommand = new RelayCommand(obj =>
+                {
+
+                    BeginProcessing();
+                }));
+            }
         }
+        #endregion
     }
-    #endregion
-}
 }
