@@ -212,6 +212,10 @@ namespace DataImpression.Models
                     FAOIsBefore = record.FAOIs;
                 }
             }
+            //добавляем последнюю запись - чтобы интервалы потом правильно считались.
+            var lastRecord = new FAOIsOnTimeRecord() { time_ms = FAOIsOnTimeRecords.Last().time_ms, FAOIs = new List<FAOI>()};
+            RecordsNew.Add(lastRecord);
+
             return RecordsNew;
         }
 
@@ -243,6 +247,9 @@ namespace DataImpression.Models
                     AOIHitssBefore = record.AOIHitsColumnsInCSVFile;
                 }
             }
+            //добавляем последнюю запись - чтобы интервалы потом правильно считались.
+            RecordsNew.Add(new TobiiCSVRecord() { time_ms = TobiiCSVRecords.Last().time_ms + 1 });
+
             return RecordsNew;
         }
 
@@ -289,6 +296,9 @@ namespace DataImpression.Models
                 var record = new FAOIHitsOnTimeInterval(timeInterval, FAOIsOnTimeRecords[i].FAOIs);
                 RecordsNew.Add(record);
             }
+
+
+
             return RecordsNew;
         }
         /// <summary>
