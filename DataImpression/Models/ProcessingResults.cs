@@ -186,16 +186,17 @@ namespace DataImpression.Models
             foreach (var faoi in SourceData.FAOIs)
             {
                 int fixationsCount = 0;
-                for (int i = 0; i < FAOIHitsOnTimeIntervalList.Count - 1; i++)
+                for (int i = 0; i < FAOIHitsOnTimeIntervalList.Count; i++)
                 {
-                   
+
                     if ((FAOIHitsOnTimeIntervalList[i].FAOIHits.Contains(faoi)))
                     {
                         fixationsCount++;
                         do
                         {
                             i++;
-
+                            if (FAOIHitsOnTimeIntervalList.Count <= i)
+                                break;
                         } while (FAOIHitsOnTimeIntervalList[i].FAOIHits.Contains(faoi));
                     }
                 }
@@ -233,7 +234,7 @@ namespace DataImpression.Models
             if (FAOIHitsOnTimeIntervalList == null) throw new Exception("Неполные данные: ProcessingResults.FAOIHitsOnTimeIntervalList равен NULL");
             if (FAOIHitsOnTimeIntervalList.Count() < 1) throw new Exception("Неполные данные: ProcessingResults.FAOIHitsOnTimeIntervalList не содержит ни одного элемента");
             int fixationsCount = 0;
-            for (int i = 1; i < FAOIHitsOnTimeIntervalList.Count - 1; i++)
+            for (int i = 1; i < FAOIHitsOnTimeIntervalList.Count; i++)
             {
                 var f = FAOIHitsOnTimeIntervalList[i];
                 var fprev = FAOIHitsOnTimeIntervalList[i - 1];
