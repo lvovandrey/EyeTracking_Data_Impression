@@ -59,10 +59,12 @@ namespace DataImpression.Models
             progress = 70; stage = "Сортировка фиксаций по функциональным зонам";
             List<FAOIsOnTimeRecord> fAOIsOnTimeRecords = RawDataProcessorMethods.ConvertTobiiCSVRecord_To_FAOIsOnTimeRecord(tobiiCSVRecords, 
                                                                                                                             SourceData, ref progress, 15);
-            progress = 85; stage = "Сжатие проанализированных данных";
-            fAOIsOnTimeRecords = RawDataProcessorMethods.CompactFAOIsOnTimeRecord(fAOIsOnTimeRecords, ref progress, 5);
-            progress = 90; stage = "Сжатие сырых данных";
+            progress = 85; stage = "Сжатие сырых данных";
             Results.TobiiCSVRecordsList = RawDataProcessorMethods.CompactTobiiCSVRecords(tobiiCSVRecords, ref progress, 5);
+
+            progress = 90; stage = "Сжатие проанализированных данных";
+            fAOIsOnTimeRecords = RawDataProcessorMethods.CompactFAOIsOnTimeRecord(fAOIsOnTimeRecords, ref progress, 5);
+
             progress = 95; stage = "Конвертирование результатов анализа";
             Results.FAOIHitsOnTimeIntervalList = RawDataProcessorMethods.ConvertFAOIsOnTimeRecord_to_FAOIHitsOnTimeInterval(fAOIsOnTimeRecords, ref progress, 5);
             progress = 100; stage = "Анализ данных завершен";
@@ -180,6 +182,11 @@ namespace DataImpression.Models
                 fAOIsOnTimeRecord.FAOIs.Sort();
                 FAOIsOnTimeRecordsList.Add(fAOIsOnTimeRecord);
             }
+
+            //добавляем последнюю запись - чтобы интервалы потом правильно считались.
+            var lastRecord = new FAOIsOnTimeRecord() { time_ms = FAOIsOnTimeRecordsList.Last().time_ms + 1 };
+            FAOIsOnTimeRecordsList.Add(lastRecord);
+
             return FAOIsOnTimeRecordsList;
         }
 
@@ -213,8 +220,8 @@ namespace DataImpression.Models
                 }
             }
             //добавляем последнюю запись - чтобы интервалы потом правильно считались.
-            var lastRecord = new FAOIsOnTimeRecord() { time_ms = FAOIsOnTimeRecords.Last().time_ms, FAOIs = new List<FAOI>()};
-            RecordsNew.Add(lastRecord);
+            //var lastRecord = new FAOIsOnTimeRecord() { time_ms = FAOIsOnTimeRecords.Last().time_ms, FAOIs = new List<FAOI>()};
+            //RecordsNew.Add(lastRecord);
 
             return RecordsNew;
         }
