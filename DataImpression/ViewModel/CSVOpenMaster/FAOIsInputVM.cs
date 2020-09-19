@@ -123,6 +123,7 @@ namespace DataImpression.ViewModel
             FAOIsInputListView.SelectedIndex = oldPos + 1;
             OnPropertyChanged("FAOIsVM");
         }
+        
         private void LoadFromXML()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -136,8 +137,23 @@ namespace DataImpression.ViewModel
 
                 using (FileStream fs = new FileStream(filename, FileMode.Open))
                 {
-                    FAOIstmp = (ObservableCollection<FAOIVM>)formatter.Deserialize(fs);
-                    OnPropertyChanged("FAOIsVM");
+
+                    var FAOIstmp_ = (ObservableCollection<FAOIVM>)formatter.Deserialize(fs);
+                    if (!IsApproachFAOIVMCollection(FAOIstmp_))
+                    {
+                        var result =  MessageBox.Show("Список AOI Hit в выбранном файле"  + filename +  " не совпадает со списком AOI Hit в csv-файле. Это может привести к непредсказуемым ошибкам при обработке. Все равно продолжить и загрузить выбранный файл?", "Неверный список AOI hit", MessageBoxButton.OKCancel, MessageBoxImage.Warning );
+                        if (result == MessageBoxResult.OK)
+                        {
+                            FAOIstmp = FAOIstmp_;
+                            OnPropertyChanged("FAOIsVM");
+                        }
+                    }
+                    else 
+                    {
+                        FAOIstmp = FAOIstmp_;
+                        OnPropertyChanged("FAOIsVM");
+                    }
+
                 }
             }
             catch (Exception e)
@@ -145,6 +161,18 @@ namespace DataImpression.ViewModel
                 MessageBox.Show("Ошибка открытия файла " + filename + ". \n Описание ошибки: " + e.Message + "    Stacktrace:" + e.StackTrace);
             }
         }
+
+        private bool IsApproachFAOIVMCollection(IEnumerable<FAOIVM> fAOIVMs)
+        {
+
+            foreach (var item in fAOIVMs.First().AOIHitColumnsVM)
+            {
+                if(!_model.SourceData.CSVAOIHitsColumns.Contains(item.Column)) return false;
+            }
+
+            return true;
+        }
+
         private void SaveToXML()
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
