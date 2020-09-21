@@ -152,6 +152,15 @@ namespace DataImpression.ViewModel
 
             }
         }
+
+        internal bool RecordResultsToModel()
+        {
+            _model.SourceData.OptionalDataCSVColumns.Add("Имя испытуемого", ParticipantNameColumn);
+            _model.SourceData.OptionalDataCSVColumns.Add("Имя записи", RecordingNameColumn);
+            _model.SourceData.OptionalDataCSVColumns.Add("Дата записи", RecordingDateColumn);
+            _model.SourceData.OptionalDataCSVColumns.Add("Время записи", RecordingStartTimeColumn);
+            return true;
+        }
         #endregion
 
         #region Commands
@@ -166,6 +175,8 @@ namespace DataImpression.ViewModel
                 }));
             }
         }
+
+
         #endregion
     }
 }

@@ -12,6 +12,9 @@
             <elements:PropertyViewerEx DataContext="{Binding FullTime}"></elements:PropertyViewerEx>
             <elements:PropertyViewerEx DataContext="{Binding FixationsFullCount}"></elements:PropertyViewerEx>
             <elements:PropertyViewerEx DataContext="{Binding FrequencyRequestsToAnyFAOIPerMinute}"></elements:PropertyViewerEx>
+
+            <ListView ItemsSource="{Binding OptionalParams}"></ListView>
         </StackPanel> 
+        
     </Grid>
 </UserControl>

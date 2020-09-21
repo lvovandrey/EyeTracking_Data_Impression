@@ -240,6 +240,7 @@ namespace DataImpression.ViewModel
 
                 case CSVFileOpenStage.InformationColumnsChoice:
                     {
+                        if (!InformationColumnsChoiceVM.RecordResultsToModel()) return;
                         InputStage = CSVFileOpenStage.AOIHitColumnsChoice;
                         AOIHitColumnsChoiceVM = new AOIHitColumnsChoiceVM(model);
                         break;

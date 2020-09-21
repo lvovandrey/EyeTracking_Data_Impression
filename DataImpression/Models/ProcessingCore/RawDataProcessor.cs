@@ -27,7 +27,7 @@ namespace DataImpression.Models
 
         #region Fields
 
-            
+
         #endregion
 
         #region Properties
@@ -52,12 +52,14 @@ namespace DataImpression.Models
             if (SourceData.CSVColumnsToFAOIsConversionTable == null) throw new Exception("Incomplete data: SourceData.CSVColumnsToFAOIsConversionTable");
             if (SourceData.CSVTimeColumn == null) throw new Exception("Incomplete data: SourceData.CSVTimeColumn");
 
+
+            RawDataProcessorMethods.TobiiCSVReadSecondString(SourceData);
             progress = 0; stage = "Оценка размера файла";
             long countStringsForReading = RawDataProcessorMethods.TobiiCSVCalculateCountOfStrings(SourceData);
             progress = 5; stage = "Считывание файла " + SourceData.CSVFileName;
-            List<TobiiCSVRecord> tobiiCSVRecords = RawDataProcessorMethods.TobiiCSVRead(SourceData, ref progress, 65, countStringsForReading+100);
+            List<TobiiCSVRecord> tobiiCSVRecords = RawDataProcessorMethods.TobiiCSVRead(SourceData, ref progress, 65, countStringsForReading + 100);
             progress = 70; stage = "Сортировка фиксаций по функциональным зонам";
-            List<FAOIsOnTimeRecord> fAOIsOnTimeRecords = RawDataProcessorMethods.ConvertTobiiCSVRecord_To_FAOIsOnTimeRecord(tobiiCSVRecords, 
+            List<FAOIsOnTimeRecord> fAOIsOnTimeRecords = RawDataProcessorMethods.ConvertTobiiCSVRecord_To_FAOIsOnTimeRecord(tobiiCSVRecords,
                                                                                                                             SourceData, ref progress, 15);
             progress = 85; stage = "Сжатие сырых данных";
             Results.TobiiCSVRecordsList = RawDataProcessorMethods.CompactTobiiCSVRecords(tobiiCSVRecords, ref progress, 5);
@@ -79,12 +81,12 @@ namespace DataImpression.Models
     /// </summary>
     public static class RawDataProcessorMethods
     {
-        public static List<TobiiCSVRecord> TobiiCSVRead(ProcessingTaskSourceData SourceData, 
-                                                        ref double progress, 
-                                                        double progress_koef, 
-                                                        long countStringsForReading = 1, 
-                                                        char separator = '\n', 
-                                                        char delimiter = '\t', 
+        public static List<TobiiCSVRecord> TobiiCSVRead(ProcessingTaskSourceData SourceData,
+                                                        ref double progress,
+                                                        double progress_koef,
+                                                        long countStringsForReading = 1,
+                                                        char separator = '\n',
+                                                        char delimiter = '\t',
                                                         long bufferStringsSize = 10000)
         {
             long i = 0;
@@ -93,6 +95,7 @@ namespace DataImpression.Models
             {
                 bool EndOfFile = false;
                 long CountReadedStrings = 0;
+
                 double initialProgress = progress;
 
                 string[] first_string_arr = rd.ReadLine().Split(delimiter); //читаем первую строку - по сути нам просто надо курсор на вторую переместить.
@@ -151,6 +154,17 @@ namespace DataImpression.Models
             return CountReadedStrings;
         }
 
+        public static void TobiiCSVReadSecondString(ProcessingTaskSourceData SourceData)
+        {
+            string s = "";
+            using (StreamReader rd = new StreamReader(new FileStream(SourceData.CSVFileName, FileMode.Open)))
+            {
+                s = rd.ReadLine();
+                s = rd.ReadLine();
+            }
+            SourceData.CSVSecondString = s;
+        }
+
 
         /// <summary>
         /// Преобразовывает записи TobiiCSVRecord в которых указаны колонки с AOIhits (время + AOIhits)
@@ -158,7 +172,7 @@ namespace DataImpression.Models
         /// </summary>
         /// <param name="TobiiCSVRecords"></param>
         /// <returns></returns>
-        public static List<FAOIsOnTimeRecord> ConvertTobiiCSVRecord_To_FAOIsOnTimeRecord(List<TobiiCSVRecord> TobiiCSVRecords, 
+        public static List<FAOIsOnTimeRecord> ConvertTobiiCSVRecord_To_FAOIsOnTimeRecord(List<TobiiCSVRecord> TobiiCSVRecords,
                                                                                          ProcessingTaskSourceData SourceData,
                                                                                          ref double progress,
                                                                                          double progress_koef)
@@ -294,7 +308,7 @@ namespace DataImpression.Models
 
             List<FAOIHitsOnTimeInterval> RecordsNew = new List<FAOIHitsOnTimeInterval>();
 
-            for (int i = 0; i < FAOIsOnTimeRecords.Count()-1; i++)
+            for (int i = 0; i < FAOIsOnTimeRecords.Count() - 1; i++)
             {
                 curI++;
                 progress = initialProgress + progress_koef * ((double)curI / (double)RecordsCount);
@@ -319,7 +333,7 @@ namespace DataImpression.Models
         {
             int curI = 0;
             double initialProgress = progress;
-            int RecordsCount = tobiiCSVRecords.Count()-2;
+            int RecordsCount = tobiiCSVRecords.Count() - 2;
 
             for (int i = 0; i < tobiiCSVRecords.Count - 2; i++)
             {

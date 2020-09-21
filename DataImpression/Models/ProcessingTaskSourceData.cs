@@ -26,6 +26,7 @@ namespace DataImpression.Models
             WorkingTOI = new TOI(CSVFullTimeInterval, CSVFullTimeInterval);
             FAOIs = new List<FAOI>();
             CSVColumnsToFAOIsConversionTable = new XmlSerializableDictionary<Column, FAOI>();
+            OptionalDataCSVColumns = new XmlSerializableDictionary<string, Column>();
         }
 
         #endregion
@@ -45,9 +46,20 @@ namespace DataImpression.Models
         public List<Column> CSVCaption { get; set; }
 
         /// <summary>
+        /// Вторая строка в csv-файле. В ней содержатся всякие имена испытуемых и проч. доп. параметры. Иногда может быть полезной.
+        /// </summary>
+        public string CSVSecondString { get; set; }
+
+        /// <summary>
         /// Колонка в файле csv в которой размещается время
         /// </summary>
         public Column CSVTimeColumn { get; set; }
+
+        /// <summary>
+        /// Коллекция колонок в файле csv в которой размещаются разные дополнительные данные
+        /// </summary>
+        public XmlSerializableDictionary<string, Column> OptionalDataCSVColumns { get; set; }
+
 
         /// <summary>
         /// Коллекция колонок в csv-файле в которых размещаются данные о попадании маркера взгляда в ту или иную AOI(зону)
