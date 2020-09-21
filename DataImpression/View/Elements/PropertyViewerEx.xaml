@@ -5,15 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DataImpression.View.Elements"
              mc:Ignorable="d" 
-             d:DesignHeight="50">
+             d:DesignHeight="25">
     <Grid>
         <Grid x:Name="ThisGrid" Tag="Название">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*" MinWidth="100" />
                 <ColumnDefinition Width="*" MinWidth="100"/>
             </Grid.ColumnDefinitions>
-            <Label Content="{Binding Name}" ToolTip="{Binding Name}"/>
-            <TextBox Text="{Binding Val, Mode=OneWay}" Grid.Column="1" />
+            <Label Content="{Binding Name}" ToolTip="{Binding Name}" VerticalAlignment="Center"/>
+            <TextBox Text="{Binding Val, Mode=OneWay}" Grid.Column="1" VerticalAlignment="Center"  />
         </Grid>
     </Grid>
 </UserControl>

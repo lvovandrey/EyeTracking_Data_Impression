@@ -68,6 +68,18 @@ namespace DataImpression.ViewModel
             }
         }
 
+        public ObservableCollection<object> OptionalParams2
+        {
+            get
+            {
+                var coll = new ObservableCollection<object>();
+                foreach (var item in model.Results.OptionalParameters)
+                    coll.Add( new { Name = item.Key, Val = item.Value.ToString() });
+
+                return coll;
+            }
+        }
+
     }
 
 }
