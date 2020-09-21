@@ -15,6 +15,7 @@ namespace DataImpression.ViewModel
     {
         None,
         TimeColumnChoice,
+        InformationColumnsChoice,
         AOIHitColumnsChoice,
         FAOIsInput,
         ProcessingTask,
@@ -31,6 +32,7 @@ namespace DataImpression.ViewModel
             CSVOpenMasterView = cSVOpenMasterView;
 
             TimeColumnChoiceVM = new TimeColumnChoiceVM(model);
+            InformationColumnsChoiceVM = new InformationColumnsChoiceVM(model);
             AOIHitColumnsChoiceVM = new AOIHitColumnsChoiceVM(model);
             FAOIsInputVM = new FAOIsInputVM(model, CSVOpenMasterView.FAOIsInput.FAOIsInputListView);
             ProcessingTaskVM = new ProcessingTaskVM(model, this);
@@ -52,6 +54,10 @@ namespace DataImpression.ViewModel
         #region Properties
         TimeColumnChoiceVM timeColumnChoiceVM;
         public TimeColumnChoiceVM TimeColumnChoiceVM { get { return timeColumnChoiceVM; } set { timeColumnChoiceVM = value; OnPropertyChanged("TimeColumnChoiceVM"); } }
+
+        InformationColumnsChoiceVM informationColumnsChoiceVM;
+        public InformationColumnsChoiceVM InformationColumnsChoiceVM { get { return informationColumnsChoiceVM; } set { informationColumnsChoiceVM = value; OnPropertyChanged("InformationColumnsChoiceVM "); } }
+
 
         AOIHitColumnsChoiceVM aOIHitColumnsChoiceVM;
         public AOIHitColumnsChoiceVM AOIHitColumnsChoiceVM { get { return aOIHitColumnsChoiceVM; } set { aOIHitColumnsChoiceVM = value; OnPropertyChanged("AOIHitColumnsChoiceVM"); } }
@@ -94,6 +100,11 @@ namespace DataImpression.ViewModel
                     case CSVFileOpenStage.TimeColumnChoice:
                         {
                             return TimeColumnChoiceVM.CanExecuteNextInputStage();
+                            break;
+                        }
+                    case CSVFileOpenStage.InformationColumnsChoice:
+                        {
+                            return InformationColumnsChoiceVM.CanExecuteNextInputStage();
                             break;
                         }
                     case CSVFileOpenStage.AOIHitColumnsChoice:
@@ -139,6 +150,11 @@ namespace DataImpression.ViewModel
                     case CSVFileOpenStage.TimeColumnChoice:
                         {
                             return "Выбор колонки csv-файла с временем";
+                            break;
+                        }
+                    case CSVFileOpenStage.InformationColumnsChoice:
+                        {
+                            return "Выбор колонок с дополнительной информацией";
                             break;
                         }
                     case CSVFileOpenStage.AOIHitColumnsChoice:
@@ -218,6 +234,12 @@ namespace DataImpression.ViewModel
                     }
                 case CSVFileOpenStage.TimeColumnChoice:
                     {
+                        InputStage = CSVFileOpenStage.InformationColumnsChoice;
+                        break;
+                    }
+
+                case CSVFileOpenStage.InformationColumnsChoice:
+                    {
                         InputStage = CSVFileOpenStage.AOIHitColumnsChoice;
                         AOIHitColumnsChoiceVM = new AOIHitColumnsChoiceVM(model);
                         break;
@@ -255,6 +277,10 @@ namespace DataImpression.ViewModel
             if (TimeColumnChoiceVM != null)
                 if (inputStage == CSVFileOpenStage.TimeColumnChoice) TimeColumnChoiceVM.Visibility = Visibility.Visible;
                 else TimeColumnChoiceVM.Visibility = Visibility.Collapsed;
+
+            if (InformationColumnsChoiceVM != null)
+                if (inputStage == CSVFileOpenStage.InformationColumnsChoice) InformationColumnsChoiceVM.Visibility = Visibility.Visible;
+                else InformationColumnsChoiceVM.Visibility = Visibility.Collapsed;
 
             if (AOIHitColumnsChoiceVM != null)
                 if (inputStage == CSVFileOpenStage.AOIHitColumnsChoice) AOIHitColumnsChoiceVM.Visibility = Visibility.Visible;
