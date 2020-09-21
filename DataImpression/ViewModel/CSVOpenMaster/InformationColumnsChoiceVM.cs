@@ -10,18 +10,13 @@ using System.Windows;
 
 namespace DataImpression.ViewModel
 {
-    public class InformationColumnsChoiceVM  : INPCBase
+    public class InformationColumnsChoiceVM : INPCBase
     {
         static Random random = new Random();
         #region ctor
         public InformationColumnsChoiceVM(Model model)
         {
             _model = model;
-            OnPropertyChanged("TEST");
-            TEST = random.Next(1, 100000);
-            //SetDefaultParticipantNameColumn();
-
-
         }
         #endregion
 
@@ -36,63 +31,70 @@ namespace DataImpression.ViewModel
 
 
         #region Properties
-        int test;
-        public int TEST
-        { get { return test; }
-            set { test = value; OnPropertyChanged("TEST"); }
-        }
 
-        public void RaiseAllPropertyChanged()
-        {
-            columnstmp = new ObservableCollection<ColumnAndCheckVM>();
-            foreach (var _column in _model.SourceData.CSVCaption)
-            {
-                bool _isChecked = false;
-                var cc = new ColumnAndCheckVM(_column, _isChecked, (a) => { });
-                columnstmp.Add(cc);
-            }
 
-            //OnPropertyChanged("TEST");
-            //OnPropertyChanged("ColumnsVM");
-            OnPropertyChanged("ParticipantNameColumn");
-        }
 
-        //internal void RaiseOnPropertyChanged(string v)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        ObservableCollection<ColumnAndCheckVM> columnstmp;
-        ObservableCollection<ColumnAndCheckVM> columnsVM
+        ObservableCollection<Column> columnsVM;
+        public ObservableCollection<Column> ColumnsVM
         {
             get
             {
-
-                
-                return columnstmp;
+                if (columnsVM == null || columnsVM.Count == 0) InitColumnsVMAndProperties();
+                return columnsVM;
             }
         }
 
-        public ObservableCollection<ColumnAndCheckVM> ColumnsVM
-        {
-            get { return columnsVM; }
-        }
+
+        
 
 
-        private ColumnAndCheckVM participantNameColumn;
-        public ColumnAndCheckVM ParticipantNameColumn
+        private Column participantNameColumn;
+        public Column ParticipantNameColumn
         {
             get { return participantNameColumn; }
-            set { participantNameColumn = value;
-                OnPropertyChanged("ParticipantNameColumn"); }
-
+            set
+            {
+                participantNameColumn = value;
+                OnPropertyChanged("ParticipantNameColumn");
+            }
         }
-        //public void SetDefaultParticipantNameColumn()
-        //{
-        //    if (TEST > 0) ;
-        //    if (ParticipantNameColumn == null && ColumnsVM.Count>0)
-        //        ParticipantNameColumn = ColumnsVM[0];
-        //}
+
+        private Column recordingNameColumn;
+        public Column RecordingNameColumn
+        {
+            get { return recordingNameColumn; }
+            set
+            {
+                recordingNameColumn = value;
+                OnPropertyChanged("RecordingNameColumn");
+            }
+        }
+
+
+        private Column recordingDateColumn;
+        public Column RecordingDateColumn
+        {
+            get { return recordingDateColumn; }
+            set
+            {
+                recordingDateColumn = value;
+                OnPropertyChanged("RecordingDateColumn");
+            }
+        }
+
+
+        private Column recordingStartTimeColumn;
+        public Column RecordingStartTimeColumn
+        {
+            get { return recordingStartTimeColumn; }
+            set
+            {
+                recordingStartTimeColumn = value;
+                OnPropertyChanged("RecordingStartTimeColumn");
+            }
+        }
+
+
 
         Visibility visibility;
         public Visibility Visibility
@@ -103,24 +105,67 @@ namespace DataImpression.ViewModel
             }
             set
             {
-                //RaiseAllPropertyChanged();
+                var oldVisibility = visibility;
                 visibility = value;
                 OnPropertyChanged("Visibility");
-                RaiseAllPropertyChanged();
-                OnPropertyChanged("ColumnsVM");
+                if (oldVisibility != visibility && visibility == Visibility.Visible)
+                {
+                    InitColumnsVMAndProperties();
+                    RaiseAllPropertyChanged();
+                }
             }
         }
-        #endregion  
+        #endregion
         #region Methods
+        public void RaiseAllPropertyChanged()
+        {
+            OnPropertyChanged("ColumnsVM");
+            OnPropertyChanged("ParticipantNameColumn");
+            OnPropertyChanged("RecordingNameColumn");
+            OnPropertyChanged("RecordingDateColumn");
+            OnPropertyChanged("RecordingStartTimeColumn");
+        }
 
         public bool CanExecuteNextInputStage()
         {
-            return true; 
+            return true;
+        }
+
+
+        private void InitColumnsVMAndProperties()
+        {
+            columnsVM = new ObservableCollection<Column>();
+            columnsVM.Add(new Column(-1, "--В файле нет этой колонки--"));
+            foreach (var _column in _model.SourceData.CSVCaption) columnsVM.Add(_column);
+
+            foreach (var col in columnsVM)
+            {
+                switch (col.Name)
+                {
+                    case "Participant name": ParticipantNameColumn = col; break;
+                    case "Recording name": RecordingNameColumn = col; break;
+                    case "Recording date": RecordingDateColumn = col; break;
+                    case "Recording start time": RecordingStartTimeColumn = col; break;
+
+                    default: break;
+                }
+
+            }
         }
         #endregion
 
         #region Commands
-
+        private RelayCommand setDefaultCommand;
+        public RelayCommand SetDefaultCommand
+        {
+            get
+            {
+                return setDefaultCommand ?? (setDefaultCommand = new RelayCommand(obj =>
+                {
+                    InitColumnsVMAndProperties();
+                }));
+            }
+        }
         #endregion
     }
 }

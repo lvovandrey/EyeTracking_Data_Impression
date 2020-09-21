@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:DataImpression.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Grid Width="400">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
@@ -18,40 +18,68 @@
         <StackPanel>
             <TextBlock Text="Имя испытуемого"/>
             <ComboBox ItemsSource="{Binding ColumnsVM}" 
-                      SelectedItem="{Binding ParticipantNameColumn, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True">
+                      SelectedItem="{Binding ParticipantNameColumn}" >
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Name}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding OrderedNumber}" />
+                            <TextBlock Text="{Binding Name}" Margin="10 0 0 0"/>
+                        </StackPanel>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </StackPanel>
 
         <StackPanel Grid.Row="1">
-            <TextBlock Text="Имя испытуемого"/>
+            <TextBlock Text="Имя записи"/>
             <ComboBox x:Name="box1" ItemsSource="{Binding ColumnsVM}" 
-                      SelectedItem="{Binding ParticipantNameColumn}" IsSynchronizedWithCurrentItem="True">
+                      SelectedItem="{Binding RecordingNameColumn}" >
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Name}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding OrderedNumber}" />
+                            <TextBlock Text="{Binding Name}" Margin="10 0 0 0"/>
+                        </StackPanel>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </StackPanel>
 
         <StackPanel Grid.Row="2">
-            <TextBlock Text="Имя испытуемого"/>
-            <ComboBox ItemsSource="{Binding ColumnsVM}" SelectedItem="{Binding ElementName=box1, Path=SelectedItem}" IsSynchronizedWithCurrentItem="True">
+            <TextBlock Text="Дата записи"/>
+            <ComboBox ItemsSource="{Binding ColumnsVM}" 
+                      SelectedItem="{Binding RecordingDateColumn}" >
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Name}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding OrderedNumber}" />
+                            <TextBlock Text="{Binding Name}" Margin="10 0 0 0"/>
+                        </StackPanel>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </StackPanel>
 
-        <TextBlock Text="{Binding TEST}" Grid.Row="3"/>
+        <StackPanel Grid.Row="3">
+            <TextBlock Text="Время начала записи"/>
+            <ComboBox ItemsSource="{Binding ColumnsVM}" 
+                      SelectedItem="{Binding RecordingStartTimeColumn}" >
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding OrderedNumber}" />
+                            <TextBlock Text="{Binding Name}" Margin="10 0 0 0"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel>
 
-        <Button Click="Button_Click" Content="{Binding ParticipantNameColumn.Name}" Grid.Row="4"/>
+        <StackPanel Grid.Row="4">
+            <Button Content="По умолчанию" HorizontalAlignment="Right" Height="22" Width="100" Command="{Binding SetDefaultCommand}"/>
+        </StackPanel>
+
+
+
     </Grid>
 </UserControl>
