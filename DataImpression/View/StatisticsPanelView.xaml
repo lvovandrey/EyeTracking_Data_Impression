@@ -8,10 +8,20 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" x:Name="This">
     <Grid>
-        <StackPanel Orientation="Vertical">
-            <elements:PropertyViewerEx DataContext="{Binding FullTime}"></elements:PropertyViewerEx>
-            <elements:PropertyViewerEx DataContext="{Binding FixationsFullCount}"></elements:PropertyViewerEx>
-            <elements:PropertyViewerEx DataContext="{Binding FrequencyRequestsToAnyFAOIPerMinute}"></elements:PropertyViewerEx>
-        </StackPanel> 
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <StackPanel Orientation="Vertical" >
+                <elements:PropertyViewerEx DataContext="{Binding FullTime}" Margin="3"/>
+                <elements:PropertyViewerEx DataContext="{Binding FixationsFullCount}" Margin="3"/>
+                <elements:PropertyViewerEx DataContext="{Binding FrequencyRequestsToAnyFAOIPerMinute}" Margin="3"/>
+
+                <ItemsControl ItemsSource="{Binding OptionalParams2}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <elements:PropertyViewerEx Margin="3"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </UserControl>

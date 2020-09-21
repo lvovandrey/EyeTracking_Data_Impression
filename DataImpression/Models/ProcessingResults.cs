@@ -1,4 +1,5 @@
-﻿using DataImpression.Models.ResultTypes;
+﻿using DataImpression.Models.Helpers;
+using DataImpression.Models.ResultTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -82,6 +83,15 @@ namespace DataImpression.Models
         {
             get { return new ScalarParameter<double>("Частота переходов взгляда между функциональными зонами, 1/мин", FrequencyRequestsToAnyFAOIPerMinuteCalculate()); }
         }
+
+        /// <summary>
+        /// Дополнительные параметры - типа имени испытуемого и прочей ерунды
+        /// </summary>
+        public XmlSerializableDictionary<string, object> OptionalParameters
+        {
+            get { return OptionalParametersCalculate(); }
+        }
+
 
 
 
@@ -259,6 +269,27 @@ namespace DataImpression.Models
         {
             return FixationsFullCount.Value / FullTime.Value.TotalMinutes;
         }
+
+
+        /// <summary>
+        /// Функция для чтения дополнительных параметров из csv-файла.
+        /// </summary>
+        /// <returns></returns>
+        private XmlSerializableDictionary<string, object> OptionalParametersCalculate()
+        {
+            char delimiter = '\t';
+            string[] strs = SourceData.CSVSecondString.Split(delimiter);
+            var Params = new XmlSerializableDictionary<string, object>();
+            foreach (var item in SourceData.OptionalDataCSVColumns)
+            {
+                if (item.Value.OrderedNumber < 0) continue;
+                if (strs.Length - 1 < item.Value.OrderedNumber) continue;
+                Params.Add(item.Key, strs[item.Value.OrderedNumber]);
+            }
+
+            return Params;
+        }
+
         #endregion
 
 

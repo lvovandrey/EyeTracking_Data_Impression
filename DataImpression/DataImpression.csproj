@@ -96,6 +96,7 @@
     </Compile>
     <Compile Include="ViewModel\CSVOpenMaster\AOIHitColumnsChoiceVM.cs" />
     <Compile Include="ViewModel\CSVOpenMaster\CSVOpenMasterVM.cs" />
+    <Compile Include="ViewModel\CSVOpenMaster\InformationColumnsChoiceVM.cs" />
     <Compile Include="ViewModel\DocumentBodyVM.cs" />
     <Compile Include="ViewModel\DocumentViewVM.cs" />
     <Compile Include="ViewModel\ResultsView\FAOIDiagramVM.cs" />
@@ -123,6 +124,9 @@
     <Compile Include="ViewModel\AvalonDockHelpers\ToolVM.cs" />
     <Compile Include="View\CSVOpenMaster\CSVOpenMasterView.xaml.cs">
       <DependentUpon>CSVOpenMasterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\CSVOpenMaster\InformatoinColumnsChoiceView.xaml.cs">
+      <DependentUpon>InformatoinColumnsChoiceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DocumentView.xaml.cs">
       <DependentUpon>DocumentView.xaml</DependentUpon>
@@ -198,6 +202,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\CSVOpenMaster\CSVOpenMasterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CSVOpenMaster\InformatoinColumnsChoiceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -27,8 +27,11 @@
                                            />
         <local:ProcessingTaskView  Grid.Row="1"
                                             DataContext="{Binding ProcessingTaskVM}"
-                                            Visibility="{Binding Visibility}"
-                                           />
+                                            Visibility="{Binding Visibility}"/>
+
+        <local:InformatoinColumnsChoiceView Grid.Row="1"
+                                            DataContext="{Binding InformationColumnsChoiceVM}"
+                                            Visibility="{Binding Visibility}"/>
 
         <Button Grid.Row="2" Content="Далее" HorizontalAlignment="Right"  Width="60" Margin="7"
                     Command="{Binding NextInputCommand}"/>
