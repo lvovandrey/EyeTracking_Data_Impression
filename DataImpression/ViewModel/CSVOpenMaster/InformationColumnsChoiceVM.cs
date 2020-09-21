@@ -19,7 +19,9 @@ namespace DataImpression.ViewModel
             _model = model;
             OnPropertyChanged("TEST");
             TEST = random.Next(1, 100000);
-            SetDefaultParticipantNameColumn();
+            //SetDefaultParticipantNameColumn();
+
+
         }
         #endregion
 
@@ -42,28 +44,30 @@ namespace DataImpression.ViewModel
 
         public void RaiseAllPropertyChanged()
         {
-            OnPropertyChanged("TEST");
-            OnPropertyChanged("ColumnsVM");
+            columnstmp = new ObservableCollection<ColumnAndCheckVM>();
+            foreach (var _column in _model.SourceData.CSVCaption)
+            {
+                bool _isChecked = false;
+                var cc = new ColumnAndCheckVM(_column, _isChecked, (a) => { });
+                columnstmp.Add(cc);
+            }
+
+            //OnPropertyChanged("TEST");
+            //OnPropertyChanged("ColumnsVM");
             OnPropertyChanged("ParticipantNameColumn");
         }
 
-        internal void RaiseOnPropertyChanged(string v)
-        {
-            throw new NotImplementedException();
-        }
+        //internal void RaiseOnPropertyChanged(string v)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         ObservableCollection<ColumnAndCheckVM> columnstmp;
         ObservableCollection<ColumnAndCheckVM> columnsVM
         {
             get
             {
-                columnstmp = new ObservableCollection<ColumnAndCheckVM>();
-                foreach (var _column in _model.SourceData.CSVCaption)
-                {
-                    bool _isChecked = false;
-                    var cc = new ColumnAndCheckVM(_column, _isChecked,(a)=> { });
-                    columnstmp.Add(cc);
-                }
+
                 
                 return columnstmp;
             }
@@ -79,15 +83,16 @@ namespace DataImpression.ViewModel
         public ColumnAndCheckVM ParticipantNameColumn
         {
             get { return participantNameColumn; }
-            set { participantNameColumn = value; OnPropertyChanged("ParticipantNameColumn"); }
+            set { participantNameColumn = value;
+                OnPropertyChanged("ParticipantNameColumn"); }
 
         }
-        public void SetDefaultParticipantNameColumn()
-        {
-            if (TEST > 0) ;
-            if (ParticipantNameColumn == null && ColumnsVM.Count>0)
-                ParticipantNameColumn = ColumnsVM[0];
-        }
+        //public void SetDefaultParticipantNameColumn()
+        //{
+        //    if (TEST > 0) ;
+        //    if (ParticipantNameColumn == null && ColumnsVM.Count>0)
+        //        ParticipantNameColumn = ColumnsVM[0];
+        //}
 
         Visibility visibility;
         public Visibility Visibility
@@ -98,10 +103,11 @@ namespace DataImpression.ViewModel
             }
             set
             {
-                RaiseAllPropertyChanged();
+                //RaiseAllPropertyChanged();
                 visibility = value;
                 OnPropertyChanged("Visibility");
                 RaiseAllPropertyChanged();
+                OnPropertyChanged("ColumnsVM");
             }
         }
         #endregion  

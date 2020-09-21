@@ -29,8 +29,8 @@
 
         <StackPanel Grid.Row="1">
             <TextBlock Text="Имя испытуемого"/>
-            <ComboBox ItemsSource="{Binding ColumnsVM}" 
-                      SelectedItem="{Binding ParticipantNameColumn, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True">
+            <ComboBox x:Name="box1" ItemsSource="{Binding ColumnsVM}" 
+                      SelectedItem="{Binding ParticipantNameColumn}" IsSynchronizedWithCurrentItem="True">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Name}"/>
@@ -41,7 +41,7 @@
 
         <StackPanel Grid.Row="2">
             <TextBlock Text="Имя испытуемого"/>
-            <ComboBox ItemsSource="{Binding ColumnsVM}" SelectedItem="{Binding ParticipantNameColumn}" IsSynchronizedWithCurrentItem="True">
+            <ComboBox ItemsSource="{Binding ColumnsVM}" SelectedItem="{Binding ElementName=box1, Path=SelectedItem}" IsSynchronizedWithCurrentItem="True">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Name}"/>

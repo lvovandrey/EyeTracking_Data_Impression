@@ -30,8 +30,9 @@ namespace DataImpression.View
         {
             if (DataContext != null)
             {
+                MessageBox.Show(((InformationColumnsChoiceVM)DataContext).ParticipantNameColumn.Name);
                 ((InformationColumnsChoiceVM)DataContext).RaiseAllPropertyChanged();
-                MessageBox.Show(((InformationColumnsChoiceVM)DataContext).TEST.ToString());
+                MessageBox.Show(((InformationColumnsChoiceVM)DataContext).ParticipantNameColumn.Name);
             }
         }
     }
