@@ -49,10 +49,19 @@
         <ListView ItemsSource="{Binding Path=SelectedFAOIVM.AOIHitColumnsVM}" Grid.Column="1" Margin="10 100 10 10" SelectionMode="Multiple" ScrollViewer.VerticalScrollBarVisibility="Visible" >
             <ListView.View>
                 <GridView>
+
+                    <GridViewColumn Header="Состояние">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=Occupied}"></TextBlock>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    
                     <GridViewColumn Header="Отметка">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox IsChecked="{Binding IsChecked}"></CheckBox>
+                                <CheckBox IsChecked="{Binding IsChecked}" ></CheckBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
