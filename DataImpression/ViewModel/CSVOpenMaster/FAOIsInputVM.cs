@@ -459,6 +459,8 @@ namespace DataImpression.ViewModel
             checkColumn = _checkColumn;
             FAOIsInputVM = fAOIsInputVM;
             FAOIVM = fAOIVM;
+
+            OnPropertyChanged("IsChecked"); OnPropertyChanged("Occupied");
         }
 
         public ColumnAndCheckFAOI_AOIVM()
@@ -472,7 +474,7 @@ namespace DataImpression.ViewModel
         public bool IsChecked
         {
             get { return isChecked; }
-            set { isChecked = value; OnPropertyChanged("IsChecked"); checkColumn?.Invoke(this); }
+            set { isChecked = value; OnPropertyChanged("IsChecked"); OnPropertyChanged("Occupied"); checkColumn?.Invoke(this); }
         }
 
         public void Check(bool ch)
@@ -492,20 +494,21 @@ namespace DataImpression.ViewModel
             get { return Column.OrderedNumber; }
         }
 
-        public string Occupied
+        public bool NotOccupied
         {
             get
             {
+                if (FAOIsInputVM == null || FAOIsInputVM.FAOIsVM == null) return true;
                 foreach (var faoivm in FAOIsInputVM.FAOIsVM)
                 {
                     if (!FAOIVM.Equals(faoivm))
                         foreach (var aoicolumn in faoivm.AOIHitColumnsVM)
                         {
                             if (OrderedNumber == aoicolumn.OrderedNumber && Name == aoicolumn.Name && aoicolumn.IsChecked)
-                                return "Занято, стучаться надо";
+                                return false;
                         }
                 }
-                return "Свободно";
+                return true;
 
             }
         }

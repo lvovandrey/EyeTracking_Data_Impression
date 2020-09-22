@@ -50,18 +50,11 @@
             <ListView.View>
                 <GridView>
 
-                    <GridViewColumn Header="Состояние">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Path=Occupied}"></TextBlock>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
                     
                     <GridViewColumn Header="Отметка">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox IsChecked="{Binding IsChecked}" ></CheckBox>
+                                <CheckBox IsChecked="{Binding IsChecked}" IsEnabled="{Binding NotOccupied}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
