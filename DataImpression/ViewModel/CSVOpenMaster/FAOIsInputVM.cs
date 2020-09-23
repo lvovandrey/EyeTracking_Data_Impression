@@ -77,11 +77,11 @@ namespace DataImpression.ViewModel
         #region Methods
         public bool CanExecuteNextInputStage()
         {
-            if (FAOIsVM?.Count > 0) return true; else return false; 
+            if (FAOIsVM?.Count > 0) return true; else return false;
         }
         void Add()
         {
-            FAOIsVM.Add(new FAOIVM(new FAOI(0, "No name"),_model));
+            FAOIsVM.Add(new FAOIVM(new FAOI(0, "No name"), _model, this));
             OnPropertyChanged("FAOIsVM");
             RegularizeOrderedNumbers();
         }
@@ -123,7 +123,7 @@ namespace DataImpression.ViewModel
             FAOIsInputListView.SelectedIndex = oldPos + 1;
             OnPropertyChanged("FAOIsVM");
         }
-        
+
         private void LoadFromXML()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -141,18 +141,29 @@ namespace DataImpression.ViewModel
                     var FAOIstmp_ = (ObservableCollection<FAOIVM>)formatter.Deserialize(fs);
                     if (!IsApproachFAOIVMCollection(FAOIstmp_))
                     {
-                        var result =  MessageBox.Show("Список AOI Hit в выбранном файле"  + filename +  " не совпадает со списком AOI Hit в csv-файле. Это может привести к непредсказуемым ошибкам при обработке. Все равно продолжить и загрузить выбранный файл?", "Неверный список AOI hit", MessageBoxButton.OKCancel, MessageBoxImage.Warning );
+                        var result = MessageBox.Show("Список AOI Hit в выбранном файле" + filename + " не совпадает со списком AOI Hit в csv-файле. Это может привести к непредсказуемым ошибкам при обработке. Все равно продолжить и загрузить выбранный файл?", "Неверный список AOI hit", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
                         if (result == MessageBoxResult.OK)
                         {
-                            FAOIstmp = FAOIstmp_;
+                            FAOIstmp.Clear();
+                            foreach (var FAOI in FAOIstmp_)
+                            {
+                                FAOIstmp.Add(new FAOIVM(FAOI.fAOI, _model, this));
+                            }
                             OnPropertyChanged("FAOIsVM");
                         }
                     }
-                    else 
+                    else
                     {
-                        FAOIstmp = FAOIstmp_;
+                        FAOIstmp.Clear();
+                        foreach (var FAOIvmtmp_ in FAOIstmp_)
+                        {
+                            var faoinew = new FAOIVM(FAOIvmtmp_.fAOI, _model, this);
+                            faoinew.CopyAOIHitColumnsVMChecking(FAOIvmtmp_);
+                            FAOIstmp.Add(faoinew);
+                        }
                         OnPropertyChanged("FAOIsVM");
                     }
+
 
                 }
             }
@@ -167,7 +178,7 @@ namespace DataImpression.ViewModel
 
             foreach (var item in fAOIVMs.First().AOIHitColumnsVM)
             {
-                if(!_model.SourceData.CSVAOIHitsColumns.Contains(item.Column)) return false;
+                if (!_model.SourceData.CSVAOIHitsColumns.Contains(item.Column)) return false;
             }
 
             return true;
@@ -206,7 +217,7 @@ namespace DataImpression.ViewModel
             FAOIstmp.Clear();
             foreach (var c in _model.SourceData.CSVAOIHitsColumns)
             {
-                FAOIstmp.Add(new FAOIVM(new FAOI(c.OrderedNumber, c.Name.Replace("AOI hit [", "").Replace("]", "")), _model));
+                FAOIstmp.Add(new FAOIVM(new FAOI(c.OrderedNumber, c.Name.Replace("AOI hit [", "").Replace("]", "")), _model, this));
             }
             RegularizeOrderedNumbers();
             OnPropertyChanged("FAOIsVM");
@@ -232,7 +243,7 @@ namespace DataImpression.ViewModel
                 MessageBox.Show("Найдены одно или более одинаковых имен в перечне функциональных зон. Функциональные зоны должны иметь уникальные названия");
                 return false;
             }
-            if (FirstFAOINotLinkedWithAOIhitColumns()!=null)
+            if (FirstFAOINotLinkedWithAOIhitColumns() != null)
             {
                 MessageBox.Show("Не выбрано ни одной размеченной геометрической зоны (AOI-hit колонки) для функциональной зоны " + FirstFAOINotLinkedWithAOIhitColumns().Name);
                 return false;
@@ -253,7 +264,7 @@ namespace DataImpression.ViewModel
                 _model.SourceData.FAOIs.Add(faoi);
                 foreach (var col in fAOIVM.AOIHitColumnsVM)
                 {
-                    if(col.IsChecked)
+                    if (col.IsChecked)
                         _model.SourceData.CSVColumnsToFAOIsConversionTable.Add(col.Column, faoi);
                 }
             }
@@ -266,7 +277,7 @@ namespace DataImpression.ViewModel
             {
                 foreach (var f2 in fAOIVMs)
                 {
-                    if (f!=f2 && f.Name == f2.Name) return true;
+                    if (f != f2 && f.Name == f2.Name) return true;
                 }
             }
             return false;
@@ -344,6 +355,11 @@ namespace DataImpression.ViewModel
                 return loadFromXMLCommand ?? (loadFromXMLCommand = new RelayCommand(obj =>
                 {
                     LoadFromXML();
+                    foreach (var item in FAOIsVM)
+                    {
+                        item.RefreshAOIHitColumnsVMProperties();
+                    }
+
                 }));
             }
         }
@@ -387,24 +403,41 @@ namespace DataImpression.ViewModel
         [NonSerialized]
         Model _model;
 
-        public FAOIVM(FAOI _faoi, Model model)
+        [NonSerialized]
+        FAOIsInputVM FAOIsInputVM;
+
+        public FAOIVM(FAOI _faoi, Model model, FAOIsInputVM fAOIsInputVM)
         {
             fAOI = _faoi;
             _model = model;
+            FAOIsInputVM = fAOIsInputVM;
 
-            AOIHitColumnsVM = new ObservableCollection<ColumnAndCheckVM>();
+            AOIHitColumnsVM = new ObservableCollection<ColumnAndCheckFAOI_AOIVM>();
             foreach (var _column in _model.SourceData.CSVAOIHitsColumns)
             {
                 bool _isChecked = false;
-                var cc = new ColumnAndCheckVM(_column, _isChecked, (e) => { });
+                var cc = new ColumnAndCheckFAOI_AOIVM(_column, _isChecked, (e) => { }, FAOIsInputVM, this);
                 AOIHitColumnsVM.Add(cc);
             }
             OnPropertyChanged("AOIHitColumnsVM");
         }
+
+        public void CopyAOIHitColumnsVMChecking(FAOIVM _faoivm)
+        {
+            foreach (var _AOIHitColumn in _faoivm.AOIHitColumnsVM)
+            {
+                foreach (var AOIHitColumn in this.AOIHitColumnsVM)
+                {
+                    if (AOIHitColumn.OrderedNumber == _AOIHitColumn.OrderedNumber && AOIHitColumn.Name == AOIHitColumn.Name)
+                        AOIHitColumn.IsChecked = _AOIHitColumn.IsChecked;
+                }
+            }
+        }
+
         public FAOIVM()
         {
             fAOI = new FAOI(0, "");
-            AOIHitColumnsVM = new ObservableCollection<ColumnAndCheckVM>();
+            AOIHitColumnsVM = new ObservableCollection<ColumnAndCheckFAOI_AOIVM>();
         }
 
         [NonSerialized]
@@ -423,14 +456,104 @@ namespace DataImpression.ViewModel
         }
 
         [NonSerialized]
-        ObservableCollection<ColumnAndCheckVM> aOIHitColumnsVM;
+        ObservableCollection<ColumnAndCheckFAOI_AOIVM> aOIHitColumnsVM;
 
-        public ObservableCollection<ColumnAndCheckVM> AOIHitColumnsVM
+        public ObservableCollection<ColumnAndCheckFAOI_AOIVM> AOIHitColumnsVM
         {
             get { return aOIHitColumnsVM; }
             set { aOIHitColumnsVM = value; OnPropertyChanged("AOIHitColumnsVM"); }
         }
 
+        public void RefreshAOIHitColumnsVMProperties()
+        {
+            foreach (var item in AOIHitColumnsVM)
+            {
+                item.RaiseOccupiedPropertyChanged();
+            }
+        }
+    }
+
+
+
+    public delegate void AcitonColumnAndCheckFAOI_AOIVMArgument(ColumnAndCheckFAOI_AOIVM newColumnAndCheckVM);
+    /// <summary>
+    /// ЖУТЬ ПРОСТО ЖУТЬ. ВСЕ ПЕРЕПИСАТЬ!
+    /// </summary>
+    [Serializable]
+    public class ColumnAndCheckFAOI_AOIVM : INPCBase
+    {
+        [NonSerialized]
+        FAOIsInputVM FAOIsInputVM;
+
+        [NonSerialized]
+        FAOIVM FAOIVM;
+
+        public ColumnAndCheckFAOI_AOIVM(Column _column, bool _isChecked, AcitonColumnAndCheckFAOI_AOIVMArgument _checkColumn, FAOIsInputVM fAOIsInputVM, FAOIVM fAOIVM)
+        {
+            Column = _column;
+            IsChecked = _isChecked;
+            checkColumn = _checkColumn;
+            FAOIsInputVM = fAOIsInputVM;
+            FAOIVM = fAOIVM;
+
+            RaiseOccupiedPropertyChanged();
+        }
+
+        public ColumnAndCheckFAOI_AOIVM()
+        {
+            Column = new Column();
+            IsChecked = false;
+            checkColumn = null;
+        }
+
+        public bool isChecked;
+        AcitonColumnAndCheckFAOI_AOIVMArgument checkColumn;
+        public bool IsChecked
+        {
+            get { return isChecked; }
+            set { isChecked = value; RaiseOccupiedPropertyChanged(); checkColumn?.Invoke(this); }
+        }
+
+        public void Check(bool ch)
+        {
+            isChecked = ch;
+            RaiseOccupiedPropertyChanged();
+        }
+
+        public void RaiseOccupiedPropertyChanged()
+        {
+            OnPropertyChanged("IsChecked");
+            OnPropertyChanged("NotOccupied");
+        }
+
+        public Column Column;
+        public string Name
+        {
+            get { return Column.Name; }
+        }
+        public int OrderedNumber
+        {
+            get { return Column.OrderedNumber; }
+        }
+
+        public bool NotOccupied
+        {
+            get
+            {
+                if (FAOIsInputVM == null || FAOIsInputVM.FAOIsVM == null) return true;
+                foreach (var faoivm in FAOIsInputVM.FAOIsVM)
+                {
+                    if (!FAOIVM.Equals(faoivm))
+                        foreach (var aoicolumn in faoivm.AOIHitColumnsVM)
+                        {
+                            if (OrderedNumber == aoicolumn.OrderedNumber && Name == aoicolumn.Name && aoicolumn.IsChecked)
+                                return false;
+                        }
+                }
+                return true;
+
+            }
+        }
     }
 
 
