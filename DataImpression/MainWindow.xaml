@@ -18,27 +18,27 @@
             <MenuItem Header="Файл">
                 <MenuItem Header="Новый проект" Command="{Binding NewProjectCommand}" >
                     <MenuItem.Icon>
-                        <Image Source="Images/Document-Spacing.png"></Image>
+                        <Image Source="Images/Document-Spacing.png" Height="16" Width="16"></Image>
                     </MenuItem.Icon>
                 </MenuItem>
 
 
                 <MenuItem Header="Открыть проект" Command="{Binding OpenProjectCommand}" >
                     <MenuItem.Icon>
-                        <Image Source="Images/Folder-Go.png"></Image>
+                        <Image Source="Images/Folder-Go.png" Height="16" Width="16"></Image>
                     </MenuItem.Icon>
                 </MenuItem>
 
                 <MenuItem Header="Сохранить проект" Command="{Binding SaveProjectCommand}">
                     <MenuItem.Icon>
-                        <Image Source="Images/Disk.png"></Image>
+                        <Image Source="Images/Disk.png" Height="16" Width="16"></Image>
                     </MenuItem.Icon>
                 </MenuItem>
 
                 <MenuItem Header="Добавить csv-файл" Command="{Binding OpenCSVFileCommand}">
                     <MenuItem.Icon>
                         <Grid>
-                            <Image Source="Images/TobiiCSVFile.png"/>
+                            <Image Source="Images/TobiiCSVFile.png" Height="16" Width="16"/>
                             <Image Source="Images/Add.png" Width="10" Height="10" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
 
                         </Grid>
