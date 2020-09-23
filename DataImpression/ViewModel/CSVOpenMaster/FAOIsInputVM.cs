@@ -144,15 +144,26 @@ namespace DataImpression.ViewModel
                         var result = MessageBox.Show("Список AOI Hit в выбранном файле" + filename + " не совпадает со списком AOI Hit в csv-файле. Это может привести к непредсказуемым ошибкам при обработке. Все равно продолжить и загрузить выбранный файл?", "Неверный список AOI hit", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
                         if (result == MessageBoxResult.OK)
                         {
-                            FAOIstmp = FAOIstmp_;
+                            FAOIstmp.Clear();
+                            foreach (var FAOI in FAOIstmp_)
+                            {
+                                FAOIstmp.Add(new FAOIVM(FAOI.fAOI, _model, this));
+                            }
                             OnPropertyChanged("FAOIsVM");
                         }
                     }
                     else
                     {
-                        FAOIstmp = FAOIstmp_;
+                        FAOIstmp.Clear();
+                        foreach (var FAOIvmtmp_ in FAOIstmp_)
+                        {
+                            var faoinew = new FAOIVM(FAOIvmtmp_.fAOI, _model, this);
+                            faoinew.CopyAOIHitColumnsVMChecking(FAOIvmtmp_);
+                            FAOIstmp.Add(faoinew);
+                        }
                         OnPropertyChanged("FAOIsVM");
                     }
+
 
                 }
             }
@@ -344,6 +355,11 @@ namespace DataImpression.ViewModel
                 return loadFromXMLCommand ?? (loadFromXMLCommand = new RelayCommand(obj =>
                 {
                     LoadFromXML();
+                    foreach (var item in FAOIsVM)
+                    {
+                        item.RefreshAOIHitColumnsVMProperties();
+                    }
+
                 }));
             }
         }
@@ -405,6 +421,19 @@ namespace DataImpression.ViewModel
             }
             OnPropertyChanged("AOIHitColumnsVM");
         }
+
+        public void CopyAOIHitColumnsVMChecking(FAOIVM _faoivm)
+        {
+            foreach (var _AOIHitColumn in _faoivm.AOIHitColumnsVM)
+            {
+                foreach (var AOIHitColumn in this.AOIHitColumnsVM)
+                {
+                    if (AOIHitColumn.OrderedNumber == _AOIHitColumn.OrderedNumber && AOIHitColumn.Name == AOIHitColumn.Name)
+                        AOIHitColumn.IsChecked = _AOIHitColumn.IsChecked;
+                }
+            }
+        }
+
         public FAOIVM()
         {
             fAOI = new FAOI(0, "");
@@ -435,6 +464,13 @@ namespace DataImpression.ViewModel
             set { aOIHitColumnsVM = value; OnPropertyChanged("AOIHitColumnsVM"); }
         }
 
+        public void RefreshAOIHitColumnsVMProperties()
+        {
+            foreach (var item in AOIHitColumnsVM)
+            {
+                item.RaiseOccupiedPropertyChanged();
+            }
+        }
     }
 
 
@@ -460,7 +496,7 @@ namespace DataImpression.ViewModel
             FAOIsInputVM = fAOIsInputVM;
             FAOIVM = fAOIVM;
 
-            OnPropertyChanged("IsChecked"); OnPropertyChanged("Occupied");
+            RaiseOccupiedPropertyChanged();
         }
 
         public ColumnAndCheckFAOI_AOIVM()
@@ -469,19 +505,25 @@ namespace DataImpression.ViewModel
             IsChecked = false;
             checkColumn = null;
         }
-        bool isChecked;
+
+        public bool isChecked;
         AcitonColumnAndCheckFAOI_AOIVMArgument checkColumn;
         public bool IsChecked
         {
             get { return isChecked; }
-            set { isChecked = value; OnPropertyChanged("IsChecked"); OnPropertyChanged("Occupied"); checkColumn?.Invoke(this); }
+            set { isChecked = value; RaiseOccupiedPropertyChanged(); checkColumn?.Invoke(this); }
         }
 
         public void Check(bool ch)
         {
             isChecked = ch;
+            RaiseOccupiedPropertyChanged();
+        }
+
+        public void RaiseOccupiedPropertyChanged()
+        {
             OnPropertyChanged("IsChecked");
-            OnPropertyChanged("Occupied");
+            OnPropertyChanged("NotOccupied");
         }
 
         public Column Column;

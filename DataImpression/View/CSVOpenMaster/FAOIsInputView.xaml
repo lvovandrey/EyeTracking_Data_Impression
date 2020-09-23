@@ -54,7 +54,7 @@
                     <GridViewColumn Header="Отметка">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox IsChecked="{Binding IsChecked}" IsEnabled="{Binding NotOccupied}" />
+                                <CheckBox IsChecked="{Binding IsChecked}" IsEnabled="{Binding NotOccupied, UpdateSourceTrigger=PropertyChanged}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
