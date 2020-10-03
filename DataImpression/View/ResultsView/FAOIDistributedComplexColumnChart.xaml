@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:DataImpression.View"
                 xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              mc:Ignorable="d" 
-             d:DesignHeight="900" d:DesignWidth="300" x:Name="THIS" >
+             d:DesignHeight="900" d:DesignWidth="300" x:Name="THIS" PreviewMouseWheel="THIS_PreviewMouseWheel" >
     <UserControl.Resources>
         <local:HeightConverter x:Key="HeightConverter"/>
     </UserControl.Resources>
@@ -18,7 +18,7 @@
                     <DataTemplate>
                         <Grid HorizontalAlignment="Stretch">
                             <lvc:CartesianChart Width="{Binding ElementName=ListView1, Path=ActualWidth, UpdateSourceTrigger=PropertyChanged}"
-                                        Height="{Binding ElementName=ListView1, Path=ActualHeight, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource HeightConverter}}"
+                                        
                                         Series="{Binding SeriesCollection}"
                                         MinHeight="100" MinWidth="150"
                                         LegendLocation="None" 
@@ -33,6 +33,12 @@
                                       LabelFormatter="{Binding Formatter}" 
                                       MinValue="0"></lvc:Axis>
                                 </lvc:CartesianChart.AxisY>
+                                <lvc:CartesianChart.Height>
+                                    <MultiBinding Converter="{StaticResource HeightConverter}">
+                                        <Binding ElementName="THIS" Path="ActualHeight" Mode="OneWay"/>
+                                        <Binding ElementName="THIS" Path="Zoom" Mode="OneWay"/>
+                                    </MultiBinding>
+                                </lvc:CartesianChart.Height>
                             </lvc:CartesianChart>
                         </Grid>
                     </DataTemplate>
