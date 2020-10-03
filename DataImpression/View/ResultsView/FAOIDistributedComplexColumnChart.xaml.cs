@@ -25,4 +25,27 @@ namespace DataImpression.View
             InitializeComponent();
         }
     }
+
+
+    /// <summary>
+    /// Конвертер просто делит на 3 высоту
+    /// </summary>
+    public class HeightConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value is double)
+                return (((double)value) / 3)-5;
+
+            return Binding.DoNothing;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+
+
+            return Binding.DoNothing;
+        }
+    }
+
 }
