@@ -192,13 +192,23 @@ namespace DataImpression.ViewModel
         /// <summary>
         /// Метод для команды OpenCSVFileCommand - открывает csv файл и готовится к работе с ним (заполняет CSVCaption и CSVFileName в SourceData в модели). 
         /// </summary>
-        public void OpenCSVFile()
+        public void OpenCSVFile(Model model)
         {
 
 
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == false) return;
+
+            if (model.HaveData)
+            {
+                var res = MessageBox.Show("В проекте уже есть данные. Стереть их и загрузить данные из выбранного файла?",
+                                          "Замена данных в проекте", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                if (res == MessageBoxResult.Cancel) return;
+            }
+
+            model = new Model();
+            model.HaveData = true;
 
             CSVOpenMasterView.Show();
             

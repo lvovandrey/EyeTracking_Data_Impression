@@ -17,6 +17,7 @@ namespace DataImpression.Models
         {
             SourceData = new ProcessingTaskSourceData();
             Results = new ProcessingResults(SourceData);
+            HaveData = false;
         }
         #endregion
 
@@ -24,6 +25,10 @@ namespace DataImpression.Models
         #endregion
 
         #region Properties
+        /// <summary>
+        /// Свойство показывает, что модель не пуста, т.е. что в нее уже какие-то данные загружены
+        /// </summary>
+        public bool HaveData { get; set; }
 
 
         /// <summary>

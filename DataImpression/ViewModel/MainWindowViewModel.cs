@@ -73,7 +73,7 @@ namespace DataImpression.ViewModel
                     CSVOpenMasterView = new CSVOpenMasterView();
                     CSVOpenMasterVM = new CSVOpenMasterVM(_model, CSVOpenMasterView);
                     CSVOpenMasterView.DataContext = this.CSVOpenMasterVM;
-                    CSVOpenMasterVM.OpenCSVFile();
+                    CSVOpenMasterVM.OpenCSVFile(_model);
                     
                 }));
             }
