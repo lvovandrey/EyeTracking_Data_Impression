@@ -26,16 +26,16 @@ namespace DataImpression.ViewModel
     public class CSVOpenMasterVM: INPCBase
     {
         #region ctor
-        public CSVOpenMasterVM(Model _model, CSVOpenMasterView cSVOpenMasterView)
+        public CSVOpenMasterVM(CSVOpenMasterView cSVOpenMasterView)
         {
-            model = _model;
+            
             CSVOpenMasterView = cSVOpenMasterView;
 
-            TimeColumnChoiceVM = new TimeColumnChoiceVM(model);
-            InformationColumnsChoiceVM = new InformationColumnsChoiceVM(model);
-            AOIHitColumnsChoiceVM = new AOIHitColumnsChoiceVM(model);
-            FAOIsInputVM = new FAOIsInputVM(model, CSVOpenMasterView.FAOIsInput.FAOIsInputListView);
-            ProcessingTaskVM = new ProcessingTaskVM(model, this);
+            TimeColumnChoiceVM = new TimeColumnChoiceVM();
+            InformationColumnsChoiceVM = new InformationColumnsChoiceVM();
+            AOIHitColumnsChoiceVM = new AOIHitColumnsChoiceVM();
+            FAOIsInputVM = new FAOIsInputVM(CSVOpenMasterView.FAOIsInput.FAOIsInputListView);
+            ProcessingTaskVM = new ProcessingTaskVM(this);
 
             InputStage = CSVFileOpenStage.None;
         }
@@ -45,7 +45,7 @@ namespace DataImpression.ViewModel
         /// <summary>
         /// Модель данных
         /// </summary>
-        Model model;
+        Model model => Model.GetModel();
 
         CSVOpenMasterView CSVOpenMasterView;
         #endregion
@@ -192,11 +192,8 @@ namespace DataImpression.ViewModel
         /// <summary>
         /// Метод для команды OpenCSVFileCommand - открывает csv файл и готовится к работе с ним (заполняет CSVCaption и CSVFileName в SourceData в модели). 
         /// </summary>
-        public void OpenCSVFile(Model model)
+        public void OpenCSVFile()
         {
-
-
-
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == false) return;
 
@@ -207,7 +204,7 @@ namespace DataImpression.ViewModel
                 if (res == MessageBoxResult.Cancel) return;
             }
 
-            model = new Model();
+            Model.ClearModel();
             model.HaveData = true;
 
             CSVOpenMasterView.Show();
@@ -226,7 +223,7 @@ namespace DataImpression.ViewModel
                 InputStage = CSVFileOpenStage.None;
                 MessageBox.Show("Не удалось считать заголовок csv-файла. Попробуйте открыть файл вручную и убедиться в правильности его формата.");
             }
-            TimeColumnChoiceVM = new TimeColumnChoiceVM(model);
+            TimeColumnChoiceVM = new TimeColumnChoiceVM();
             OnPropertyChanged("TimeColumnChoiceVM");
             
         }
@@ -252,13 +249,13 @@ namespace DataImpression.ViewModel
                     {
                         if (!InformationColumnsChoiceVM.RecordResultsToModel()) return;
                         InputStage = CSVFileOpenStage.AOIHitColumnsChoice;
-                        AOIHitColumnsChoiceVM = new AOIHitColumnsChoiceVM(model);
+                        AOIHitColumnsChoiceVM = new AOIHitColumnsChoiceVM();
                         break;
                     }
                 case CSVFileOpenStage.AOIHitColumnsChoice:
                     {
                         InputStage = CSVFileOpenStage.FAOIsInput;
-                        FAOIsInputVM = new FAOIsInputVM(model, CSVOpenMasterView.FAOIsInput.FAOIsInputListView);
+                        FAOIsInputVM = new FAOIsInputVM(CSVOpenMasterView.FAOIsInput.FAOIsInputListView);
                         break;
                     }
                 case CSVFileOpenStage.FAOIsInput:

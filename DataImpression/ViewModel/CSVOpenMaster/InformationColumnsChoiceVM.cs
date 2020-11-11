@@ -14,9 +14,8 @@ namespace DataImpression.ViewModel
     {
         static Random random = new Random();
         #region ctor
-        public InformationColumnsChoiceVM(Model model)
+        public InformationColumnsChoiceVM()
         {
-            _model = model;
         }
         #endregion
 
@@ -24,7 +23,7 @@ namespace DataImpression.ViewModel
         /// <summary>
         /// Модель данных
         /// </summary>
-        Model _model;
+        Model _model => Model.GetModel();
         #endregion
 
 

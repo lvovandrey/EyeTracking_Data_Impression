@@ -10,9 +10,8 @@ namespace DataImpression.ViewModel
     public class AOIHitColumnsChoiceVM : INPCBase
     {
         #region ctor
-        public AOIHitColumnsChoiceVM(Model model)
+        public AOIHitColumnsChoiceVM()
         {
-            _model = model;
             OnPropertyChanged("ColumnsVM");
         }
         #endregion
@@ -21,7 +20,7 @@ namespace DataImpression.ViewModel
         /// <summary>
         /// Модель данных
         /// </summary>
-        Model _model;
+        Model model => Model.GetModel();
         #endregion
 
 
@@ -36,14 +35,14 @@ namespace DataImpression.ViewModel
                     return columnstmp;
                 }
                 columnstmp = new ObservableCollection<ColumnAndCheckVM>();
-                foreach (var _column in _model.SourceData.CSVCaption)
+                foreach (var _column in model.SourceData.CSVCaption)
                 {
                     bool _isChecked = false;
                     if (_column.Name.Contains("AOI hit")) _isChecked = true;
                     var cc = new ColumnAndCheckVM(_column, _isChecked, OnCheckColumn);
                     columnstmp.Add(cc);
                 }
-                _model.SourceData.CSVAOIHitsColumns = GetCSVAOIHitsColumns();
+                model.SourceData.CSVAOIHitsColumns = GetCSVAOIHitsColumns();
                 return columnstmp;
             }
             //set { }
@@ -51,7 +50,7 @@ namespace DataImpression.ViewModel
 
         void OnCheckColumn(ColumnAndCheckVM newColumnAndCheckVM)
         {
-            _model.SourceData.CSVAOIHitsColumns = GetCSVAOIHitsColumns();
+            model.SourceData.CSVAOIHitsColumns = GetCSVAOIHitsColumns();
         }
 
         private List<Column> GetCSVAOIHitsColumns()

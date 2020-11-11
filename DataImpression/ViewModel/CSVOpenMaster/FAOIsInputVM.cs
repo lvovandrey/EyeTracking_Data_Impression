@@ -17,9 +17,8 @@ namespace DataImpression.ViewModel
     public class FAOIsInputVM : INPCBase
     {
         #region ctor
-        public FAOIsInputVM(Model model, ListView fAOIsInputListView)
+        public FAOIsInputVM(ListView fAOIsInputListView)
         {
-            _model = model;
             FAOIsInputListView = fAOIsInputListView;
             OnPropertyChanged("FAOIsVM");
         }
@@ -29,7 +28,7 @@ namespace DataImpression.ViewModel
         /// <summary>
         /// Модель данных
         /// </summary>
-        Model _model;
+        Model _model => Model.GetModel();
 
         ListView FAOIsInputListView;
         #endregion
@@ -400,8 +399,7 @@ namespace DataImpression.ViewModel
     [Serializable]
     public class FAOIVM : INPCBase
     {
-        [NonSerialized]
-        Model _model;
+        Model _model => Model.GetModel();
 
         [NonSerialized]
         FAOIsInputVM FAOIsInputVM;
@@ -409,7 +407,6 @@ namespace DataImpression.ViewModel
         public FAOIVM(FAOI _faoi, Model model, FAOIsInputVM fAOIsInputVM)
         {
             fAOI = _faoi;
-            _model = model;
             FAOIsInputVM = fAOIsInputVM;
 
             AOIHitColumnsVM = new ObservableCollection<ColumnAndCheckFAOI_AOIVM>();

@@ -16,7 +16,7 @@ namespace DataImpression.ViewModel
     public class FAOIDiagramVM : DocumentBodyVM
     {
         #region ctor
-        public FAOIDiagramVM(Model model) : base(model)
+        public FAOIDiagramVM() : base()
         {
 
         }

@@ -18,12 +18,11 @@ namespace DataImpression.ViewModel
     public class ResultsViewAreaVM: INPCBase, IDocumentVMsCloseable
     {
         #region ctor
-        public ResultsViewAreaVM(Project project, Model model, MainWindowViewModel mainWindowViewModel)
+        public ResultsViewAreaVM(Project project, MainWindowViewModel mainWindowViewModel)
         {
-            _model = model;
             _project = project;
             _this = this;
-            DiagramVM = new FAOIDiagramVM(model);
+            DiagramVM = new FAOIDiagramVM();
             _mainWindowViewModel = mainWindowViewModel;
 
             documentViewVMs.CollectionChanged += (sender,e)=> DocumentViewVMsChanged(sender,e);
@@ -49,7 +48,7 @@ namespace DataImpression.ViewModel
         /// <summary>
         /// Модель данных
         /// </summary>
-        private Model _model;
+        private Model _model => Model.GetModel();
         private Project _project;
         #endregion
 
@@ -134,7 +133,7 @@ namespace DataImpression.ViewModel
 
         internal void ResultViewsAdd(string ParameterName)
         {
-            documentViewVMs.Add(new DocumentViewVM(_model, ParameterName));
+            documentViewVMs.Add(new DocumentViewVM( ParameterName));
             ActiveDocument = documentViewVMs.Last();
         }
 

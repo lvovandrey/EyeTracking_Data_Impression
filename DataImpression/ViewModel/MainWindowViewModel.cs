@@ -13,13 +13,10 @@ namespace DataImpression.ViewModel
     {
 
         #region ctor
-        public MainWindowViewModel(Model model, MainWindow mainWindow)
+        public MainWindowViewModel(MainWindow mainWindow)
         {
-            _model = model;
             MainWindow = mainWindow;
-
-            //  FAOIDiagramVM = new FAOIDiagramVM(_model);
-            ResultsViewAreaVM = new ResultsViewAreaVM(CurrentProject, _model, this);
+            ResultsViewAreaVM = new ResultsViewAreaVM(CurrentProject, this);
             ResultsViewAreaVM.Visibility = Visibility.Visible;
 
         }
@@ -29,11 +26,7 @@ namespace DataImpression.ViewModel
         /// <summary>
         /// Модель данных
         /// </summary>
-        Model _model
-        {
-            get { return CurrentProject.Model; }
-            set { CurrentProject.Model = value; }
-        }
+        Model _model => Model.GetModel();
 
         Project CurrentProject = new Project();
 
@@ -71,9 +64,9 @@ namespace DataImpression.ViewModel
                 {
 
                     CSVOpenMasterView = new CSVOpenMasterView();
-                    CSVOpenMasterVM = new CSVOpenMasterVM(_model, CSVOpenMasterView);
+                    CSVOpenMasterVM = new CSVOpenMasterVM( CSVOpenMasterView);
                     CSVOpenMasterView.DataContext = this.CSVOpenMasterVM;
-                    CSVOpenMasterVM.OpenCSVFile(_model);
+                    CSVOpenMasterVM.OpenCSVFile();
                     
                 }));
             }
@@ -93,9 +86,10 @@ namespace DataImpression.ViewModel
                     bool? res = saveFileDialog.ShowDialog();
                     if (res == null || res == false) return;
                     string filename = saveFileDialog.FileName;
-                    CurrentProject = new Project(new Model(), filename);
+                    Model.ClearModel();
+                    CurrentProject = new Project(filename);
                     ModelSerializer.SaveToXML(CurrentProject, CurrentProject.FilePath);
-                    ResultsViewAreaVM = new ResultsViewAreaVM(CurrentProject, _model, this);
+                    ResultsViewAreaVM = new ResultsViewAreaVM(CurrentProject, this);
                 }));
             }
         }
@@ -109,7 +103,7 @@ namespace DataImpression.ViewModel
                 return saveProjectCommand ?? (saveProjectCommand = new RelayCommand(obj =>
                 {
                     ModelSerializer.SaveToXML(CurrentProject, CurrentProject.FilePath);
-                    ResultsViewAreaVM = new ResultsViewAreaVM(CurrentProject, _model, this);
+                    ResultsViewAreaVM = new ResultsViewAreaVM(CurrentProject, this);
                 }));
             }
         }
@@ -122,7 +116,7 @@ namespace DataImpression.ViewModel
                 return openProjectCommand ?? (openProjectCommand = new RelayCommand(obj =>
                 {
                     ModelSerializer.LoadFromXML(out CurrentProject);
-                    ResultsViewAreaVM = new ResultsViewAreaVM(CurrentProject, _model, this);
+                    ResultsViewAreaVM = new ResultsViewAreaVM(CurrentProject, this);
                 }));
             }
         }

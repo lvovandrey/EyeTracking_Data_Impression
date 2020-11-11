@@ -14,14 +14,13 @@ namespace DataImpression.ViewModel
 {
     public class DocumentViewVM : PaneVM
     {
-        public DocumentViewVM(Model _model, string DocumentType)
+        public DocumentViewVM(string DocumentType)
         {
-            model = _model;
             documentType = DocumentType;
             Title = Path.GetFileName(model.SourceData.CSVFileName);
         }
 
-        private Model model;
+        private Model model => Model.GetModel();
         public string documentType { get; private set; }
 
         #region CONTENT
@@ -48,7 +47,7 @@ namespace DataImpression.ViewModel
                 {
                     var diagram = new FAOIDistributedColumnChartView();
                     SettingsFAOIDistributedColumnChart settings = new SettingsFAOIDistributedColumnChart() { Fill = Brushes.Green };
-                    DocumentBodyVM = new FAOIDistributedColumnChartVM<TimeSpan>(model, model.Results.AverageFixationTimeDistribution, settings);
+                    DocumentBodyVM = new FAOIDistributedColumnChartVM<TimeSpan>(model.Results.AverageFixationTimeDistribution, settings);
                     diagram.DataContext = DocumentBodyVM;
                     Body.Container.Children.Add(diagram);
                 }
@@ -57,7 +56,7 @@ namespace DataImpression.ViewModel
                 {
                     var diagram = new FAOIDistributedColumnChartView();
                     SettingsFAOIDistributedColumnChart settings = new SettingsFAOIDistributedColumnChart() { Fill = Brushes.Orange };
-                    DocumentBodyVM = new FAOIDistributedColumnChartVM<double>(model, model.Results.FrequencyRequestsFAOIDistributionPerMinute, settings);
+                    DocumentBodyVM = new FAOIDistributedColumnChartVM<double>(model.Results.FrequencyRequestsFAOIDistributionPerMinute, settings);
                     diagram.DataContext = DocumentBodyVM;
                     Body.Container.Children.Add(diagram);
                 }
@@ -65,14 +64,14 @@ namespace DataImpression.ViewModel
                 if (documentType == "TimePercentDistribution")
                 {
                     var diagram = new FAOIDiagramView();
-                    DocumentBodyVM = new FAOIDiagramVM(model);
+                    DocumentBodyVM = new FAOIDiagramVM();
                     diagram.DataContext = DocumentBodyVM;
                     Body.Container.Children.Add(diagram);
                 }
 
                 if (documentType == "FixationsTimeline")
                 {
-                    DocumentBodyVM = new FixationsTimelineVM(model);
+                    DocumentBodyVM = new FixationsTimelineVM();
                     var diagram = new FixationsTimelineView();
                     diagram.DataContext = DocumentBodyVM;
                     Body.Container.Children.Add(diagram);
@@ -83,21 +82,21 @@ namespace DataImpression.ViewModel
                 if (documentType == "TimePercentDistribution+AverageFixationTimeDistribution+FrequencyRequestsFAOIDistributionPerMinute")
                 {
                     var complexdiagram = new FAOIDistributedComplexColumnChart(); 
-                    DocumentBodyVM = new FAOIDistributedComplexColumnChartVM<object>(model);
+                    DocumentBodyVM = new FAOIDistributedComplexColumnChartVM<object>();
                     complexdiagram.DataContext = DocumentBodyVM;
 
                     var diagram1 = new FAOIDistributedColumnChartView();
                     SettingsFAOIDistributedColumnChart settings = new SettingsFAOIDistributedColumnChart() { Fill = Brushes.Blue };
-                    var DocumentBodyVM1 = new FAOIDistributedColumnChartVM<double>(model, model.Results.TimePercentDistribution, settings);
+                    var DocumentBodyVM1 = new FAOIDistributedColumnChartVM<double>(model.Results.TimePercentDistribution, settings);
                     
 
                     var diagram2 = new FAOIDistributedColumnChartView();
                     SettingsFAOIDistributedColumnChart settings2 = new SettingsFAOIDistributedColumnChart() { Fill = Brushes.Green };
-                    var DocumentBodyVM2 = new FAOIDistributedColumnChartVM<TimeSpan>(model, model.Results.AverageFixationTimeDistribution, settings2);
+                    var DocumentBodyVM2 = new FAOIDistributedColumnChartVM<TimeSpan>(model.Results.AverageFixationTimeDistribution, settings2);
 
                     var diagram3 = new FAOIDistributedColumnChartView();
                     SettingsFAOIDistributedColumnChart settings3 = new SettingsFAOIDistributedColumnChart() { Fill = Brushes.Orange };
-                    var DocumentBodyVM3 = new FAOIDistributedColumnChartVM<double>(model, model.Results.FrequencyRequestsFAOIDistributionPerMinute, settings3);
+                    var DocumentBodyVM3 = new FAOIDistributedColumnChartVM<double>(model.Results.FrequencyRequestsFAOIDistributionPerMinute, settings3);
 
 
                     Body.Container.Children.Add(complexdiagram);
