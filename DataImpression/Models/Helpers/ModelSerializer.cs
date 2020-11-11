@@ -42,16 +42,19 @@ namespace DataImpression.Models.Helpers
             }
         }
 
-        public static void LoadFromXML(out Project _project)
+        public static void LoadFromXML(ref Project _project)
         {
-            ProcessingResults results;
-            Model.ClearModel();
-            Project project = new Project();
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Etprj-flie(*.Etprj)|*.Etprj";
             bool? res = openFileDialog.ShowDialog();
-            _project = project;
             if (res == null || res == false) return;
+
+            ProcessingResults results;
+            Model.ClearModel();
+            Project project = new Project();
+            _project = project;
+
+
             string filename = openFileDialog.FileName;
             try
             {
