@@ -115,7 +115,7 @@ namespace DataImpression.ViewModel
             {
                 return openProjectCommand ?? (openProjectCommand = new RelayCommand(obj =>
                 {
-                    ModelSerializer.LoadFromXML(out CurrentProject);
+                    ModelSerializer.LoadFromXML(ref CurrentProject);
                     ResultsViewAreaVM = new ResultsViewAreaVM(CurrentProject, this);
                 }));
             }

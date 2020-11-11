@@ -76,6 +76,7 @@
     <Compile Include="Models\FAOIHitsOnTimeInterval.cs" />
     <Compile Include="Models\Helpers\ModelSerializer.cs" />
     <Compile Include="Models\Helpers\XmlSerializableDictionary.cs" />
+    <Compile Include="Models\Helpers\Logger.cs" />
     <Compile Include="Models\ProcessingCore\CSVReader.cs" />
     <Compile Include="Models\ProcessingCore\FAOIsOnTimeRecord.cs" />
     <Compile Include="Models\ProcessingCore\RawDataProcessor.cs" />

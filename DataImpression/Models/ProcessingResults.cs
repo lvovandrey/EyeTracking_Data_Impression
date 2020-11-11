@@ -41,7 +41,19 @@ namespace DataImpression.Models
         /// </summary>
         public FAOIDistributed_Parameter<double> TimePercentDistribution
         {
-            get { return TimePercentDistributionCalculate(); }
+            get 
+            {
+                var timePercentDistribution = new FAOIDistributed_Parameter<double>("Нет данных");
+                try
+                {
+                    timePercentDistribution = TimePercentDistributionCalculate();
+                }
+                catch (Exception e)
+                {
+                    Logger.Write(e.Message);
+                }
+                return timePercentDistribution; 
+            }
         }
 
         /// <summary>
@@ -49,7 +61,19 @@ namespace DataImpression.Models
         /// </summary>
         public FAOIDistributed_Parameter<TimeSpan> AverageFixationTimeDistribution
         {
-            get { return AverageFixationTimeDistributionCalculate(); }
+            get
+            {
+                var averageFixationTimeDistribution = new FAOIDistributed_Parameter<TimeSpan>("Нет данных");
+                try
+                {
+                    averageFixationTimeDistribution = AverageFixationTimeDistributionCalculate();
+                }
+                catch (Exception e)
+                {
+                    Logger.Write(e.Message);
+                }
+                return averageFixationTimeDistribution; 
+            }
         }
 
         /// <summary>
@@ -57,7 +81,19 @@ namespace DataImpression.Models
         /// </summary>
         public FAOIDistributed_Parameter<double> FrequencyRequestsFAOIDistributionPerMinute
         {
-            get { return FrequencyRequestsFAOIDistributionPerMinuteCalculate(); }
+            get 
+            {
+                var frequencyRequestsFAOIDistributionPerMinute = new FAOIDistributed_Parameter<double>("Нет данных");
+                try
+                {
+                    frequencyRequestsFAOIDistributionPerMinute = FrequencyRequestsFAOIDistributionPerMinuteCalculate();
+                }
+                catch (Exception e)
+                {
+                    Logger.Write(e.Message);
+                }
+                return frequencyRequestsFAOIDistributionPerMinute; 
+            }
         }
 
 
@@ -66,7 +102,19 @@ namespace DataImpression.Models
         /// </summary>
         public ScalarParameter<TimeSpan> FullTime
         {
-            get { return new ScalarParameter<TimeSpan>("Полное время анализируемого интервала", FullTimeCalculate()); }
+            get 
+            {
+                var fulltime = TimeSpan.Zero;
+                try
+                {
+                    fulltime = FullTimeCalculate();
+                }
+                catch(Exception e)
+                {
+                    Logger.Write(e.Message);
+                }
+                return new ScalarParameter<TimeSpan>("Полное время анализируемого интервала", fulltime);
+            }
         }
 
         /// <summary>
@@ -74,14 +122,37 @@ namespace DataImpression.Models
         /// </summary>
         public ScalarParameter<int> FixationsFullCount
         {
-            get { return new ScalarParameter<int>("Полное количество переходов взгляда между функциональными зонами", FixationsFullCountCalculate()); }
+            get 
+            {
+                var fixationsFullCount = 0;
+                try
+                {
+                    fixationsFullCount = FixationsFullCountCalculate();
+                }
+                catch (Exception e)
+                {
+                    Logger.Write(e.Message);
+                }
+                return new ScalarParameter<int>("Полное количество переходов взгляда между функциональными зонами", fixationsFullCount); 
+            }
         }
         /// <summary>
         /// Частота переходов взгляда между функциональными зонами,1/мин
         /// </summary>
         public ScalarParameter<double> FrequencyRequestsToAnyFAOIPerMinute
         {
-            get { return new ScalarParameter<double>("Частота переходов взгляда между функциональными зонами, 1/мин", FrequencyRequestsToAnyFAOIPerMinuteCalculate()); }
+            get 
+            {
+                var frequencyRequestsToAnyFAOIPerMinute = 0.0;
+                try
+                {
+                    frequencyRequestsToAnyFAOIPerMinute = FrequencyRequestsToAnyFAOIPerMinuteCalculate();
+                }
+                catch (Exception e)
+                {
+                    Logger.Write(e.Message);
+                }
+                return new ScalarParameter<double>("Частота переходов взгляда между функциональными зонами, 1/мин", frequencyRequestsToAnyFAOIPerMinute); }
         }
 
         /// <summary>
@@ -89,7 +160,19 @@ namespace DataImpression.Models
         /// </summary>
         public XmlSerializableDictionary<string, object> OptionalParameters
         {
-            get { return OptionalParametersCalculate(); }
+            get 
+            {
+                XmlSerializableDictionary<string, object> optionalParameters = new XmlSerializableDictionary<string, object>();
+                try
+                {
+                    optionalParameters = OptionalParametersCalculate();
+                }
+                catch (Exception e)
+                {
+                    Logger.Write(e.Message);
+                }
+                return optionalParameters; 
+            }
         }
 
 
@@ -108,9 +191,6 @@ namespace DataImpression.Models
         /// </summary>
         public List<TobiiCSVRecord> TobiiCSVRecordsList { get; set; }
 
-        #endregion
-
-        #region Methods
         #endregion
 
         #region Fields
@@ -277,6 +357,10 @@ namespace DataImpression.Models
         /// <returns></returns>
         private XmlSerializableDictionary<string, object> OptionalParametersCalculate()
         {
+            if(SourceData.CSVSecondString==null || SourceData.CSVSecondString =="") 
+                throw new Exception("Неполные данные: SourceData.CSVSecondString");
+            if (SourceData.OptionalDataCSVColumns==null || SourceData.OptionalDataCSVColumns.Count==0)
+                throw new Exception("Неполные данные: SourceData.OptionalDataCSVColumns");
             char delimiter = '\t';
             string[] strs = SourceData.CSVSecondString.Split(delimiter);
             var Params = new XmlSerializableDictionary<string, object>();
