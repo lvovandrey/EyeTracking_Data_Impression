@@ -10,9 +10,8 @@ namespace DataImpression.Models
     [Serializable]
     public class Project
     {
-        public Project(Model model, string projectFilePath)
+        public Project(string projectFilePath)
         {
-            Model = model;
             FilePath = projectFilePath;
         }
 
@@ -20,7 +19,7 @@ namespace DataImpression.Models
         {
         }
 
-        public Model Model { get; set; }
+        public Model Model => Model.GetModel();
         public string FilePath { get; set; }
         
         

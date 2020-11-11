@@ -21,7 +21,7 @@ namespace DataImpression.ViewModel
     public class FAOIDistributedColumnChartVM<T>: DocumentBodyVM
     {
         #region ctor
-        public FAOIDistributedColumnChartVM(Model model, FAOIDistributed_Parameter<T> FAOIDistributed_Parameter, SettingsFAOIDistributedColumnChart settings) : base(model)
+        public FAOIDistributedColumnChartVM(FAOIDistributed_Parameter<T> FAOIDistributed_Parameter, SettingsFAOIDistributedColumnChart settings) : base()
         {
             fAOIDistributed_Parameter = FAOIDistributed_Parameter;
             this.settings = settings;

@@ -15,10 +15,8 @@ namespace DataImpression.ViewModel
     public class TimeColumnChoiceVM : INPCBase
     {
         #region ctor
-        public TimeColumnChoiceVM(Model model)
+        public TimeColumnChoiceVM()
         {
-            _model = model;
-
         }
         #endregion
 
@@ -26,7 +24,7 @@ namespace DataImpression.ViewModel
         /// <summary>
         /// Модель данных
         /// </summary>
-        Model _model;
+        Model _model => Model.GetModel();
         #endregion
 
 

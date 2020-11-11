@@ -14,9 +14,8 @@ namespace DataImpression.ViewModel
     public class ProcessingTaskVM : INPCBase
     {
         #region ctor
-        public ProcessingTaskVM(Model model, CSVOpenMasterVM cSVOpenMasterVM)
+        public ProcessingTaskVM(CSVOpenMasterVM cSVOpenMasterVM)
         {
-            _model = model;
             CSVOpenMasterVM = cSVOpenMasterVM;
         }
         #endregion
@@ -25,7 +24,7 @@ namespace DataImpression.ViewModel
         /// <summary>
         /// Модель данных
         /// </summary>
-        Model _model;
+        Model _model => Model.GetModel();
         CSVOpenMasterVM CSVOpenMasterVM;
 
         #endregion

@@ -80,8 +80,9 @@ namespace DataImpression.Tests
                     results = (ProcessingResults)formatter.Deserialize(fs);
                 }
 
-                Model model = new Model() { Results = results, SourceData = results.SourceData };
-                Project project = new Project(model, filename);
+                Model.GetModel().Results = results;
+                Model.GetModel().SourceData = results.SourceData;
+                Project project = new Project(filename);
             }
             catch (Exception e)
             {

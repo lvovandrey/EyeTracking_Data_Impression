@@ -15,9 +15,8 @@ namespace DataImpression.ViewModel
     class FixationsTimelineVM: DocumentBodyVM
     {
         #region ctor
-        public FixationsTimelineVM(Model model):base(model)
+        public FixationsTimelineVM():base()
         {
-            _model = model;
             OnPropertyChanged("FixationsTimelineStepChartVM");
 
             OnPropertyChanged("Bars");
@@ -28,7 +27,7 @@ namespace DataImpression.ViewModel
         /// <summary>
         /// Модель данных
         /// </summary>
-        Model _model;
+        Model _model => Model.GetModel();
         #endregion
 
 

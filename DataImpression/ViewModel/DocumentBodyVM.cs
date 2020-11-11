@@ -5,11 +5,10 @@ namespace DataImpression.ViewModel
 {
     public class DocumentBodyVM : INPCBase, IDocumentBodyVM
     {
-        protected Model model;
+        protected Model model => Model.GetModel();
 
-        public DocumentBodyVM(Model model)
+        public DocumentBodyVM()
         {
-            this.model = model;
         }
 
         string IDocumentBodyVM.Title { get { return model.SourceData.CSVFileName; } }

@@ -22,7 +22,7 @@ namespace DataImpression.ViewModel
         /// <summary>
         /// Модель данных
         /// </summary>
-        Model _model { get { return Project.Model; } set { Project.Model = value; } }
+        Model _model => Model.GetModel();
         MainWindowViewModel _mainWindowViewModel;
         Project Project;
         #endregion

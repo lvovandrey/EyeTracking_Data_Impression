@@ -10,7 +10,7 @@ namespace DataImpression.ViewModel
 {
     public class FAOIDistributedComplexColumnChartVM<T>: DocumentBodyVM
     {
-        public FAOIDistributedComplexColumnChartVM(Model model):base(model)
+        public FAOIDistributedComplexColumnChartVM():base()
         {
             ChartVMs = new ObservableCollection<dynamic>();
         }

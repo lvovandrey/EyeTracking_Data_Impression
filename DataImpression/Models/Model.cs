@@ -7,16 +7,31 @@ using System.Threading.Tasks;
 namespace DataImpression.Models
 {
     /// <summary>
-    /// Основной класс модели.
+    /// Основной класс модели. кстати это синглтон
     /// </summary>
     [Serializable]
     public class Model
     {
         #region ctor
-        public Model()
+
+        private Model()
         {
             SourceData = new ProcessingTaskSourceData();
             Results = new ProcessingResults(SourceData);
+            HaveData = false;
+        }
+
+        private static Model model;
+        public static Model GetModel()
+        {
+            if (model == null)
+                model = new Model();
+            return model;
+        }
+
+        public static void ClearModel()
+        {
+            model = new Model();
         }
         #endregion
 
@@ -24,6 +39,10 @@ namespace DataImpression.Models
         #endregion
 
         #region Properties
+        /// <summary>
+        /// Свойство показывает, что модель не пуста, т.е. что в нее уже какие-то данные загружены
+        /// </summary>
+        public bool HaveData { get; set; }
 
 
         /// <summary>

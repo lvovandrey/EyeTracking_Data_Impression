@@ -45,7 +45,7 @@ namespace DataImpression.Models.Helpers
         public static void LoadFromXML(out Project _project)
         {
             ProcessingResults results;
-            Model model = new Model();
+            Model.ClearModel();
             Project project = new Project();
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Etprj-flie(*.Etprj)|*.Etprj";
@@ -62,8 +62,9 @@ namespace DataImpression.Models.Helpers
                     results = ((Project)formatter.Deserialize(fs)).Model.Results;
                 }
 
-                model = new Model() { Results = results, SourceData = results.SourceData };
-                project = new Project(model, filename);
+                Model.GetModel().Results = results;
+                Model.GetModel().SourceData = results.SourceData;
+                project = new Project(filename);
 
             }
             catch (Exception e)
