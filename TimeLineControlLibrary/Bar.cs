@@ -12,14 +12,16 @@ namespace TimeLineControlLibrary
     {
 
         #region ctor
-        public Bar(TimeSpan timeBegin, TimeSpan timeEnd, string label, double height, Brush fillBrush, Brush strokeBrush)
+        public Bar(TimeSpan timeBegin, TimeSpan timeEnd, string label, double height, Brush fillBrush, Brush strokeBrush, BarsArea barsArea)
         {
+            
             if (timeBegin > timeEnd) //вадидация данных
                 throw new ArgumentException("ctor TimeInterval: Argument timeBegin must be less than timeEnd");
 
             TimeBegin = timeBegin;
             TimeEnd = timeEnd;
 
+            BarsArea = barsArea;
             Label = label;
             Height = height;
             FillBrush = fillBrush;
@@ -33,11 +35,30 @@ namespace TimeLineControlLibrary
             Body.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
             Body.VerticalAlignment = System.Windows.VerticalAlignment.Bottom;
             Body.StrokeThickness = 0;
+
+            Body.MouseEnter += Body_MouseEnter;
+            Body.MouseLeave += Body_MouseLeave;
+        }
+
+        private void Body_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            Body.StrokeThickness = 0;
+            if (BarLabel != null)
+                BarsArea.RemoveBarLabel(BarLabel);
+        }
+
+        private void Body_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            Body.StrokeThickness = 3;
+            BarLabel = new BarLabel(this);
+            BarsArea.AddBarLabel(BarLabel);
         }
         #endregion
 
         #region Fields
         public Rectangle Body;
+        public BarsArea BarsArea;
+        public BarLabel BarLabel;
         #endregion
 
         #region Properties

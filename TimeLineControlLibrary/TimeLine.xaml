@@ -6,13 +6,13 @@
              xmlns:local="clr-namespace:TimeLineControlLibrary"
              
              mc:Ignorable="d" 
-              d:DesignWidth="820" Name="THIS" MouseDown="THIS_MouseDown" PreviewMouseWheel="THIS_PreviewMouseWheel">
+              d:DesignWidth="820" Name="THIS"  PreviewMouseWheel="THIS_PreviewMouseWheel"> 
 
     <Grid Margin="0,0,-20,0" >
         <Grid x:Name="GridMain"   VerticalAlignment="Bottom" >
-            <Grid  VerticalAlignment="Bottom" Margin="0,0,20,0" PreviewMouseDown="Grid_PreviewMouseDown">
+            <Grid  VerticalAlignment="Bottom" Margin="0,0,20,0" ><!--PreviewMouseDown="Grid_PreviewMouseDown"-->
 
-                <local:BarsArea x:Name="BARS"  FullTime="{Binding FullTime}"></local:BarsArea>
+               
                
                 <local:ScaleTime x:Name="T1" ></local:ScaleTime>
                 <local:ScaleTime x:Name="T_Sec" ></local:ScaleTime>
@@ -20,7 +20,7 @@
                 <local:ScaleTime x:Name="T10" ></local:ScaleTime>
                 <local:ScaleTime x:Name="T_Sec_tenth_part"/>
 
-
+                <local:BarsArea x:Name="BARS"  FullTime="{Binding FullTime}" Panel.ZIndex="10"></local:BarsArea>
             </Grid>
 
             <Rectangle HorizontalAlignment="Stretch" Height="1"  VerticalAlignment="Bottom" Margin="0 0 20 10" Fill="Black" />
