@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -12,7 +13,7 @@ namespace TimeLineControlLibrary
     {
 
         #region ctor
-        public Bar(TimeSpan timeBegin, TimeSpan timeEnd, string label, double height, Brush fillBrush, Brush strokeBrush, BarsArea barsArea)
+        public Bar(TimeSpan timeBegin, TimeSpan timeEnd, string label, double height, Brush fillBrush, Brush strokeBrush)
         {
             
             if (timeBegin > timeEnd) //вадидация данных
@@ -21,43 +22,26 @@ namespace TimeLineControlLibrary
             TimeBegin = timeBegin;
             TimeEnd = timeEnd;
 
-            BarsArea = barsArea;
             Label = label;
             Height = height;
             FillBrush = fillBrush;
             StrokeBrush = strokeBrush;
 
-            Body = new Rectangle();
-            Body.Fill = FillBrush;
+            Body = new BarUI();
+            Body.Body.Fill = FillBrush;
             Body.Height = Height;
-            Body.Stroke = StrokeBrush;
+            Body.Body.Stroke = StrokeBrush;
             Body.Width = 10;
             Body.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
             Body.VerticalAlignment = System.Windows.VerticalAlignment.Bottom;
-            Body.StrokeThickness = 0;
-
-            Body.MouseEnter += Body_MouseEnter;
-            Body.MouseLeave += Body_MouseLeave;
+            Body.Body.StrokeThickness = 0;
         }
 
-        private void Body_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            Body.StrokeThickness = 0;
-            if (BarLabel != null)
-                BarsArea.RemoveBarLabel(BarLabel);
-        }
 
-        private void Body_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            Body.StrokeThickness = 3;
-            BarLabel = new BarLabel(this);
-            BarsArea.AddBarLabel(BarLabel);
-        }
         #endregion
 
         #region Fields
-        public Rectangle Body;
-        public BarsArea BarsArea;
+        public BarUI Body;
         public BarLabel BarLabel;
         #endregion
 

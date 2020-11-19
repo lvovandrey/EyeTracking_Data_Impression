@@ -24,9 +24,10 @@ namespace TimeLineControlLibrary
         {
             InitializeComponent();
 
-            
+            this.HorizontalAlignment = HorizontalAlignment.Left;
+            this.VerticalAlignment = VerticalAlignment.Top;
             this.Margin = bar.Body.Margin;
-            Panel.SetZIndex(this, Panel.GetZIndex(bar.Body) + 1);
+            Panel.SetZIndex(this, Panel.GetZIndex(bar.Body) - 1);
         }
     }
 }

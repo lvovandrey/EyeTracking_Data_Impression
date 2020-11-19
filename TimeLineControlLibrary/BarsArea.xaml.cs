@@ -68,17 +68,6 @@ namespace TimeLineControlLibrary
             GridMain.Children.Clear();
         }
 
-        internal void RemoveBarLabel(BarLabel barLabel)
-        {
-            GridMain.Children.Remove(barLabel);
-            barLabel = null;
-        }
-
-        internal void AddBarLabel(BarLabel barLabel)
-        {
-            GridMain.Children.Add(barLabel);
-        }
-
         #region mvvm
         public event PropertyChangedEventHandler PropertyChanged;
 
