@@ -35,6 +35,7 @@ namespace TimeLineControlLibrary
             Body.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
             Body.VerticalAlignment = System.Windows.VerticalAlignment.Bottom;
             Body.Body.StrokeThickness = 0;
+            Body.DataContext = this;
         }
 
 
@@ -55,6 +56,18 @@ namespace TimeLineControlLibrary
         /// Граница конца временного интервала
         /// </summary>
         public TimeSpan TimeEnd { get; set; }
+
+        /// <summary>
+        /// Длительность временного интервала
+        /// </summary>
+        /// <returns></returns>
+        public TimeSpan TimeDuration
+        {
+            get
+            {
+                return Duration();
+            }
+        }
 
         /// <summary>
         /// Название столбца

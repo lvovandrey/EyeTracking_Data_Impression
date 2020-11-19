@@ -7,10 +7,24 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <ToolTip x:Key="tooltip" Content="Tooltip"/>
+        
     </UserControl.Resources>
     <Grid>
-        <Rectangle x:Name="Body" MouseEnter="Body_MouseEnter" MouseLeave="Body_MouseLeave"></Rectangle>
+        <Rectangle x:Name="Body" MouseEnter="Body_MouseEnter" MouseLeave="Body_MouseLeave">
+            <Rectangle.ToolTip>
+                <ToolTip>
+                    <StackPanel Orientation="Horizontal" >
+                        <TextBlock Text="{Binding OrderNumber, StringFormat=Зона №{0} }" Margin="5,5,5,5"/>
+                        <TextBlock Text="{Binding Label}" Margin="0,5,5,5"/>
+                        <TextBlock Text="{Binding TimeBegin, StringFormat=hh\\:mm\\:ss\\.ff}" Margin="5,5,0,5"/>
+                        <TextBlock Text="---" Margin="0,5,0,5"/>
+                        <TextBlock Text="{Binding TimeEnd, StringFormat=hh\\:mm\\:ss\\.ff}" Margin="0,5,5,5"/>
+                        <TextBlock Text="Длит-ть:" Margin="5,5,5,5"/>
+                        <TextBlock Text="{Binding TimeDuration, StringFormat= mm\\:ss\\.ff}" Margin="0,5,5,5"/>
+                    </StackPanel>
+                </ToolTip>
+            </Rectangle.ToolTip>
+        </Rectangle>
         
     </Grid>
 </UserControl>
