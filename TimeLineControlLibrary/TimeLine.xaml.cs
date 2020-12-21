@@ -346,15 +346,19 @@ namespace TimeLineControlLibrary
 
         private void THIS_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            RefreshDashes();
+            //RefreshDashes();
 
-            BARS.ClearBars();
-            foreach (var bar in Bars)
-            {
-                BARS.AddBar(bar);
-            }
+            //BARS.ClearBars();
+            //foreach (var bar in Bars)
+            //{
+            //    BARS.AddBar(bar);
+            //}
 
-            if (DataContext != null) ;
+            //if (DataContext != null) ;
+
+
+
+
             //BARS.ClearBars();
             //Bars.Clear();
             //Random random = new Random();

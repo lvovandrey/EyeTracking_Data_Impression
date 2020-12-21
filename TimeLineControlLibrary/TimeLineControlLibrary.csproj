@@ -49,8 +49,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bar.cs" />
+    <Compile Include="BarLabel.xaml.cs">
+      <DependentUpon>BarLabel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="BarsArea.xaml.cs">
       <DependentUpon>BarsArea.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BarUI.xaml.cs">
+      <DependentUpon>BarUI.xaml</DependentUpon>
     </Compile>
     <Compile Include="Cursor.xaml.cs">
       <DependentUpon>Cursor.xaml</DependentUpon>
@@ -88,7 +94,15 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="BarLabel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="BarsArea.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BarUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

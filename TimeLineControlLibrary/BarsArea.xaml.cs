@@ -53,6 +53,8 @@ namespace TimeLineControlLibrary
             bar.Body.Margin = new Thickness((bar.TimeBegin.TotalMinutes / FullTime.TotalMinutes) * widthFull, 0, 0, 10);
         }
 
+
+
         public void AddBar(Bar bar)
         {
             CalcBarPosition(bar);
@@ -65,8 +67,6 @@ namespace TimeLineControlLibrary
             Bars.Clear();
             GridMain.Children.Clear();
         }
-
-
 
         #region mvvm
         public event PropertyChangedEventHandler PropertyChanged;
