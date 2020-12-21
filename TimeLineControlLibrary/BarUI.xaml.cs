@@ -42,5 +42,37 @@ namespace TimeLineControlLibrary
             //((Panel)Body.Parent).Children.Add(BarLabel);
         }
 
+
+        private void MenuItemCopyTimeDuration_Click(object sender, RoutedEventArgs e)
+        {
+            Bar bar = DataContext as Bar;
+            if (bar == null) return;
+            string text = bar.TimeDuration.ToString(@"mm\:ss\,ff");
+            Clipboard.SetText(text);
+        }
+
+        private void MenuItemCopyTimeEnd_Click(object sender, RoutedEventArgs e)
+        {
+            Bar bar = DataContext as Bar;
+            if (bar == null) return;
+            string text = bar.TimeEnd.ToString(@"hh\:mm\:ss\,ff");
+            Clipboard.SetText(text);
+        }
+
+        private void MenuItemCopyTimeBegin_Click(object sender, RoutedEventArgs e)
+        {
+            Bar bar = DataContext as Bar;
+            if (bar == null) return;
+            string text = bar.TimeBegin.ToString(@"hh\:mm\:ss\,ff");
+            Clipboard.SetText(text);
+        }
+
+        private void MenuItemCopyAll_Click(object sender, RoutedEventArgs e)
+        {
+            Bar bar = DataContext as Bar;
+            if (bar == null) return;
+            string text = bar.ToString();
+            Clipboard.SetText(text);
+        }
     }
 }

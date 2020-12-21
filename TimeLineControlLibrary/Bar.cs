@@ -13,7 +13,7 @@ namespace TimeLineControlLibrary
     {
 
         #region ctor
-        public Bar(TimeSpan timeBegin, TimeSpan timeEnd, string label, double height, Brush fillBrush, Brush strokeBrush)
+        public Bar(TimeSpan timeBegin, TimeSpan timeEnd, string label, int orderNumber, double height, Brush fillBrush, Brush strokeBrush)
         {
             
             if (timeBegin > timeEnd) //вадидация данных
@@ -26,6 +26,7 @@ namespace TimeLineControlLibrary
             Height = height;
             FillBrush = fillBrush;
             StrokeBrush = strokeBrush;
+            OrderNumber = orderNumber;
 
             Body = new BarUI();
             Body.Body.Fill = FillBrush;
@@ -105,6 +106,17 @@ namespace TimeLineControlLibrary
         public TimeSpan Duration()
         {
             return TimeEnd - TimeBegin;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("Зона №" + OrderNumber+"\t");
+            sb.Append(Label + "\t");
+            sb.Append(TimeBegin.ToString(@"hh\:mm\:ss\,ff") + "\t");
+            sb.Append(TimeEnd.ToString(@"hh\:mm\:ss\,ff") + "\t");
+            sb.Append(TimeDuration.ToString(@"mm\:ss\,ff"));
+            return sb.ToString();
         }
         #endregion
 

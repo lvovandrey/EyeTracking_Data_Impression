@@ -10,7 +10,15 @@
         
     </UserControl.Resources>
     <Grid>
-        <Rectangle x:Name="Body" MouseEnter="Body_MouseEnter" MouseLeave="Body_MouseLeave">
+        <Rectangle x:Name="Body" MouseEnter="Body_MouseEnter" MouseLeave="Body_MouseLeave" >
+            <Rectangle.ContextMenu>
+                <ContextMenu>
+                    <MenuItem  Click="MenuItemCopyTimeBegin_Click" Header="Копировать время начала"/>
+                    <MenuItem  Click="MenuItemCopyTimeEnd_Click" Header="Копировать время окончания"/>
+                    <MenuItem  Click="MenuItemCopyTimeDuration_Click" Header="Копировать продолжительность"/>
+                    <MenuItem  Click="MenuItemCopyAll_Click" Header="Копировать все"/>
+                </ContextMenu>
+            </Rectangle.ContextMenu>
             <Rectangle.ToolTip>
                 <ToolTip>
                     <StackPanel Orientation="Horizontal" >
