@@ -335,11 +335,11 @@ namespace TimeLineControlLibrary
         {
             if(e.Delta>0)
             {
-                THIS.Width = THIS.ActualWidth * ZoomKoef;
+                GridMain.Width = GridMain.ActualWidth * ZoomKoef;
             }
             else
             {
-                THIS.Width = THIS.ActualWidth / ZoomKoef;
+                GridMain.Width = GridMain.ActualWidth / ZoomKoef;
             }
 
             Zoom?.Invoke(Mouse.GetPosition(THIS).X, ZoomKoef);
