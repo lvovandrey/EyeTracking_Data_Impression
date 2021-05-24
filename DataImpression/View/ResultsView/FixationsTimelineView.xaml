@@ -9,9 +9,6 @@
              mc:Ignorable="d" 
             >
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Visible">
             <timline:TimeLine Width="1000"  FullTime="{Binding FullTime}" Bars="{Binding Bars}" Zoom="TimeLine_Zoom"/>
-        </ScrollViewer>
-        <Button Height="10" Width="30" VerticalAlignment="Top"  Click="Button_Click"></Button>
     </Grid>
 </UserControl>
