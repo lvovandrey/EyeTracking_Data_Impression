@@ -16,39 +16,25 @@ namespace TimeLineControlLibrary
     /// </summary>
     public partial class TimeLine : UserControl, INotifyPropertyChanged
     {
-       
+
+        public event Action<double, double> Zoom;
+        public double ZoomKoef = 1.3;
 
         public TimeLine()
         {
-
-
             InitializeComponent();
-            //DataContext = this;
-//            Bars = new List<Bar>();
-      //      FullTime = TimeSpan.FromSeconds(3600);
-
-
-
 
             T1.T_full = FullTime;
             T1.T_el = TimeSpan.FromSeconds(60);
             T1.ChangeDashesHeight(20);
             T1.ChangeDashesWidth(2);
-
-
-           // T10.ChangeDashesHeight(30);
-
-
-
             T_tenSec.T_full = FullTime;
             T_tenSec.T_el = TimeSpan.FromSeconds(10);
             T_tenSec.ChangeDashesHeight(10);
 
             Cursor1.Container = this;
 
-
             Binding binding = new Binding();
-
             binding.ElementName = "Cursor1"; // элемент-источник
             binding.Path = new PropertyPath("CRPosition"); // свойство элемента-источника
             binding.Mode = BindingMode.TwoWay;
@@ -62,7 +48,6 @@ namespace TimeLineControlLibrary
             Cursor1.OnEndDrag += Cursor1_OnEndDrag;
 
             SizeChanged += (d, e) => { RefreshCusorPosition(); };
-
         }
 
 
@@ -321,18 +306,11 @@ namespace TimeLineControlLibrary
 
         #endregion
 
-
-
-
-
-
         private void Grid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             //Перемещаем курсор в точку клика на таймлайне
             Cursor1.SetPosition(0, e);
-
         }
-
 
         #region mvvm
         public event PropertyChangedEventHandler PropertyChanged;
@@ -346,61 +324,23 @@ namespace TimeLineControlLibrary
 
         private void THIS_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            //RefreshDashes();
 
-            //BARS.ClearBars();
-            //foreach (var bar in Bars)
-            //{
-            //    BARS.AddBar(bar);
-            //}
-
-            //if (DataContext != null) ;
-
-
-
-
-            //BARS.ClearBars();
-            //Bars.Clear();
-            //Random random = new Random();
-            //Bar OldBar = new Bar(
-            //                    TimeSpan.FromSeconds(0),
-            //                    TimeSpan.FromSeconds(((double)random.Next(100, 2000)) / 1000),
-            //                    "Bar#1",
-            //                    5 * random.Next(5, 50) / 5,
-            //                    new SolidColorBrush(Colors.Green),
-            //                    new SolidColorBrush(Colors.Black));
-            //for (int i = 0; i < 3000; i++)
-            //{
-            //    Bar NewBar = new Bar(
-            //        OldBar.TimeEnd,
-            //        TimeSpan.FromSeconds(OldBar.TimeEnd.TotalSeconds + ((double)random.Next(100, 2000)) / 1000),
-            //        "Bar#1",
-            //        5 * random.Next(5, 50) / 5,
-            //        new SolidColorBrush(Colors.Green),
-            //        new SolidColorBrush(Colors.Black));
-
-
-            //    Bars.Add(OldBar);
-            //    OldBar = NewBar;
-            //}
-
-            //foreach (var bar in Bars)
-            //{
-            //    BARS.AddBar(bar);
-            //}
         }
+
+
 
         private void THIS_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             if(e.Delta>0)
             {
-                THIS.Width = THIS.ActualWidth * 1.3;
+                THIS.Width = THIS.ActualWidth * ZoomKoef;
             }
             else
             {
-                THIS.Width = THIS.ActualWidth / 1.3;
+                THIS.Width = THIS.ActualWidth / ZoomKoef;
             }
 
+            Zoom?.Invoke(Mouse.GetPosition(THIS).X, ZoomKoef);
         }
     }
 }
