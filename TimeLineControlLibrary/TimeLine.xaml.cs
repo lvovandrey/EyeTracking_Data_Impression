@@ -11,13 +11,15 @@ using System.Windows.Media;
 
 namespace TimeLineControlLibrary
 {
+    public delegate void ZoomDelegate(double MousePositionX, double ZoomKoef);
+
     /// <summary>
     /// Логика взаимодействия для TimeLine.xaml
     /// </summary>
     public partial class TimeLine : UserControl, INotifyPropertyChanged
     {
 
-        public event Action<double, double> Zoom;
+        public event ZoomDelegate Zoom;
         public double ZoomKoef = 1.3;
 
         public TimeLine()

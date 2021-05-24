@@ -29,5 +29,11 @@ namespace DataImpression.View
         {
             if (DataContext != null) ;
         }
+
+        
+        private void TimeLine_Zoom(double MousePositionX, double ZoomKoef)
+        {
+            Console.WriteLine("Zoom X={0} Koef={1}", MousePositionX, ZoomKoef);
+        }
     }
 }
