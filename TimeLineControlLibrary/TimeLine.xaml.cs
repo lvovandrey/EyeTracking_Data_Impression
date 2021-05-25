@@ -19,7 +19,6 @@ namespace TimeLineControlLibrary
     public partial class TimeLine : UserControl, INotifyPropertyChanged
     {
 
-        public event ZoomDelegate Zoom;
         public double ZoomKoef = 1.3;
 
         public TimeLine()
@@ -350,7 +349,6 @@ namespace TimeLineControlLibrary
                 ScrollViewerMain.ScrollToHorizontalOffset(ScrollViewerMain.HorizontalOffset - offset);
             }
 
-            Zoom?.Invoke(Mouse.GetPosition(GridMain).X, ZoomKoef);
         }
     }
 }
