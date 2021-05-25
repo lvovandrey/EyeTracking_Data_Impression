@@ -19,7 +19,8 @@ namespace TimeLineControlLibrary
     public partial class TimeLine : UserControl, INotifyPropertyChanged
     {
 
-        public double ZoomKoef = 1.3;
+
+
 
         public TimeLine()
         {
@@ -146,6 +147,21 @@ namespace TimeLineControlLibrary
             RefreshDashes();
         }
 
+        private double zoomKoef = 1.3;
+        public double ZoomKoef
+        { 
+            get { return zoomKoef; }
+            set { if (value <= 1) throw new Exception("Try set to zoom koefficient incorrect value"); zoomKoef = value; }
+        }
+
+
+        private TimeSpan TimeBeginViewport;
+        private TimeSpan TimeEndViewport;
+        private TimeSpan TimeIntervalViewport;
+        private double OffsetViewport;
+        private double WidthViewport;
+        private double WidthGridMain;
+
 
 
         //DependencyProperty Bars  - чтобы можно было подписаться на него
@@ -187,6 +203,7 @@ namespace TimeLineControlLibrary
         }
 
 
+        
 
 
         void RefreshDashes()
