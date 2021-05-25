@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -153,15 +154,19 @@ namespace TimeLineControlLibrary
             get { return zoomKoef; }
             set { if (value <= 1) throw new Exception("Try set to zoom koefficient incorrect value"); zoomKoef = value; }
         }
+        
+        
+        private double OffsetViewport { get { return ScrollViewerMain.HorizontalOffset; } }
+        private double WidthViewport { get { return GridViewport.ActualWidth; } }
+        private double WidthGridMain { get { return GridMain.ActualWidth; } }
+        private TimeSpan TimeIntervalViewport { get { return TimeSpan.FromSeconds(FullTime.TotalSeconds * WidthViewport / WidthGridMain); } }
+        private TimeSpan TimeBeginViewport { get { return TimeSpan.FromSeconds(FullTime.TotalSeconds * OffsetViewport / WidthGridMain); } }
+        private TimeSpan TimeEndViewport { get { return TimeBeginViewport + TimeIntervalViewport; } }
 
-
-        private TimeSpan TimeBeginViewport;
-        private TimeSpan TimeEndViewport;
-        private TimeSpan TimeIntervalViewport;
-        private double OffsetViewport;
-        private double WidthViewport;
-        private double WidthGridMain;
-
+        private void GetBarsInViewport()
+        {
+            var listItems = Bars.Where(i => (i.TimeBegin>));
+        }
 
 
         //DependencyProperty Bars  - чтобы можно было подписаться на него
