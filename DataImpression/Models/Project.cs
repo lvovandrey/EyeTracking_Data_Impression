@@ -19,7 +19,12 @@ namespace DataImpression.Models
         {
         }
 
-        public Model Model => Model.GetModel();
+        public Model Model
+        {
+            get { return Model.GetModel(); }
+            set { Model.SetModel(value); }
+        }
+
         public string FilePath { get; set; }
         
         
@@ -31,7 +36,7 @@ namespace DataImpression.Models
                     return Path.GetFileNameWithoutExtension(FilePath);
                 else
                     return "Файл проекта не найден: " + FilePath;
-            } 
+            }
         }
     }
 }

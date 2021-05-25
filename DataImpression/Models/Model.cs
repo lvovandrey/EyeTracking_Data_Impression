@@ -28,6 +28,11 @@ namespace DataImpression.Models
                 model = new Model();
             return model;
         }
+        public static void SetModel(Model newModel)
+        {
+             model = newModel;
+        }
+
 
         public static void ClearModel()
         {
