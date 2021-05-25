@@ -9,6 +9,6 @@
              mc:Ignorable="d" 
             >
     <Grid>
-            <timline:TimeLine Width="1000"  FullTime="{Binding FullTime}" Bars="{Binding Bars}" Zoom="TimeLine_Zoom"/>
+            <timline:TimeLine FullTime="{Binding FullTime}" Bars="{Binding Bars}" Zoom="TimeLine_Zoom"/>
     </Grid>
 </UserControl>
