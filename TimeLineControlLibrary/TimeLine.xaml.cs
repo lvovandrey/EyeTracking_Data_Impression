@@ -333,16 +333,20 @@ namespace TimeLineControlLibrary
 
         private void THIS_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if(e.Delta>0)
+            double offset = Mouse.GetPosition(GridMain).X * (ZoomKoef - 1);
+
+            if (e.Delta>0)
             {
                 GridMain.Width = GridMain.ActualWidth * ZoomKoef;
+                ScrollViewerMain.ScrollToHorizontalOffset(ScrollViewerMain.HorizontalOffset + offset);
             }
             else
             {
                 GridMain.Width = GridMain.ActualWidth / ZoomKoef;
+                ScrollViewerMain.ScrollToHorizontalOffset(ScrollViewerMain.HorizontalOffset - offset);
             }
 
-            Zoom?.Invoke(Mouse.GetPosition(THIS).X, ZoomKoef);
+            Zoom?.Invoke(Mouse.GetPosition(GridMain).X, ZoomKoef);
         }
     }
 }
