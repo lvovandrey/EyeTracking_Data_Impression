@@ -24,10 +24,10 @@ namespace DataImpression.View
         {
             InitializeComponent();
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
+                                      
+        private void TimeLine_Zoom(double MousePositionX, double ZoomKoef)
         {
-            if (DataContext != null) ;
+            Console.WriteLine("Zoom X={0} Koef={1}", MousePositionX, ZoomKoef);
         }
     }
 }
