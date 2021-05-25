@@ -9,11 +9,11 @@
               d:DesignWidth="820" Name="THIS"  PreviewMouseWheel="THIS_PreviewMouseWheel">
 
     <Grid >
-            <Grid Margin="0,0,-20,0" Background="Blue">
+            <Grid Margin="0,0,0,0" Background="Blue">
             <ScrollViewer x:Name="ScrollViewerMain" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" >
 
                 <Grid x:Name="GridMain" Width="800" Background="Aqua"   VerticalAlignment="Bottom" >
-                    <Grid  Margin="0,0,20,0" VerticalAlignment="Bottom" >
+                    <Grid  Margin="0,0,0,0" VerticalAlignment="Bottom" >
 
                         <Grid Height="20"  VerticalAlignment="Bottom" Background="Azure" Panel.ZIndex="11" >
                         <local:ScaleTime x:Name="T1" Panel.ZIndex="11"></local:ScaleTime>
