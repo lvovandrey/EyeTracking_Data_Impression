@@ -389,7 +389,8 @@ namespace TimeLineControlLibrary
             RefreshVisibleBars();
         }
 
-        private void ScrollViewerMain_ManipulationDelta(object sender, ManipulationDeltaEventArgs e)
+
+        private void ScrollViewerMain_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             Console.WriteLine("SCROLL");
             RefreshVisibleBars();
