@@ -10,7 +10,7 @@
 
     <Grid >
             <Grid Margin="0,0,0,0" Background="Blue" x:Name="GridViewport">
-            <ScrollViewer x:Name="ScrollViewerMain" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" >
+            <ScrollViewer x:Name="ScrollViewerMain" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" ManipulationDelta="ScrollViewerMain_ManipulationDelta"  >
 
                 <Grid x:Name="GridMain" Width="800" Background="Aqua"   VerticalAlignment="Bottom" >
                     <Grid  Margin="0,0,0,0" VerticalAlignment="Bottom" >
@@ -22,7 +22,7 @@
                         <local:ScaleTime x:Name="T10" Panel.ZIndex="11"></local:ScaleTime>
                         <local:ScaleTime x:Name="T_Sec_tenth_part" Panel.ZIndex="11"/>
                         </Grid>
-                        <local:BarsArea x:Name="BARS"  FullTime="{Binding FullTime}" Panel.ZIndex="9"></local:BarsArea>
+                        <local:BarsArea x:Name="BarsArea"  FullTime="{Binding FullTime}" Panel.ZIndex="9"></local:BarsArea>
                     </Grid>
 
                     <Rectangle HorizontalAlignment="Stretch" Height="1"  VerticalAlignment="Bottom" Margin="0 0 20 10" Fill="Black" />

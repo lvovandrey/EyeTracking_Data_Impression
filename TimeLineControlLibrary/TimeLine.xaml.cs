@@ -162,10 +162,24 @@ namespace TimeLineControlLibrary
         private TimeSpan TimeIntervalViewport { get { return TimeSpan.FromSeconds(FullTime.TotalSeconds * WidthViewport / WidthGridMain); } }
         private TimeSpan TimeBeginViewport { get { return TimeSpan.FromSeconds(FullTime.TotalSeconds * OffsetViewport / WidthGridMain); } }
         private TimeSpan TimeEndViewport { get { return TimeBeginViewport + TimeIntervalViewport; } }
+        private List<Bar> BarsInViewport { get { return GetBarsInViewport(); } }
 
-        private void GetBarsInViewport()
+
+        private List<Bar> GetBarsInViewport()
         {
-            var listItems = Bars.Where(i => (i.TimeBegin>));
+            var t1 = TimeBeginViewport;
+            var t2 = TimeEndViewport;
+
+            var barsInViewport = Bars.Where(i => 
+            {
+                var a = i.TimeBegin;
+                var b = i.TimeEnd;
+                if ((b > t1 && b<t2) || (a>t1 && a<t2) || (a<t1 && b>t2)) //если bar пересекает одну из границ вьюпорта или заполняет его весь условие выполнится
+                { return true; }
+                return false;
+            }
+            ).ToList();
+            return barsInViewport;
         }
 
 
@@ -196,17 +210,18 @@ namespace TimeLineControlLibrary
         {
             RefreshDashes();
 
-            BARS.ClearBars();
-            //Bars.Clear();
-            //Random random = new Random();
-
-            foreach (var bar in Bars)
-            {
-                BARS.AddBar(bar);
-            }
-
+            RefreshVisibleBars();
         }
 
+        void RefreshVisibleBars()
+        {
+            BarsArea.ClearBars();
+
+            foreach (var bar in BarsInViewport)
+            {
+                BarsArea.AddBar(bar);
+            }
+        }
 
         
 
@@ -371,6 +386,13 @@ namespace TimeLineControlLibrary
                 ScrollViewerMain.ScrollToHorizontalOffset(ScrollViewerMain.HorizontalOffset - offset);
             }
 
+            RefreshVisibleBars();
+        }
+
+        private void ScrollViewerMain_ManipulationDelta(object sender, ManipulationDeltaEventArgs e)
+        {
+            Console.WriteLine("SCROLL");
+            RefreshVisibleBars();
         }
     }
 }
