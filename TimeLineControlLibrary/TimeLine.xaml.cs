@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,8 +20,8 @@ namespace TimeLineControlLibrary
     public partial class TimeLine : UserControl, INotifyPropertyChanged
     {
 
-        public event ZoomDelegate Zoom;
-        public double ZoomKoef = 1.3;
+
+
 
         public TimeLine()
         {
@@ -147,6 +148,39 @@ namespace TimeLineControlLibrary
             RefreshDashes();
         }
 
+        private double zoomKoef = 1.3;
+        public double ZoomKoef
+        { 
+            get { return zoomKoef; }
+            set { if (value <= 1) throw new Exception("Try set to zoom koefficient incorrect value"); zoomKoef = value; }
+        }
+        
+        
+        private double OffsetViewport { get { return ScrollViewerMain.HorizontalOffset; } }
+        private double WidthViewport { get { return GridViewport.ActualWidth; } }
+        private double WidthGridMain { get { return GridMain.ActualWidth; } }
+        private TimeSpan TimeIntervalViewport { get { return TimeSpan.FromSeconds(FullTime.TotalSeconds * WidthViewport / WidthGridMain); } }
+        private TimeSpan TimeBeginViewport { get { return TimeSpan.FromSeconds(FullTime.TotalSeconds * OffsetViewport / WidthGridMain); } }
+        private TimeSpan TimeEndViewport { get { return TimeBeginViewport + TimeIntervalViewport; } }
+        private List<Bar> BarsInViewport { get { return GetBarsInViewport(); } }
+
+
+        private List<Bar> GetBarsInViewport()
+        {
+            var t1 = TimeBeginViewport;
+            var t2 = TimeEndViewport;
+
+            var barsInViewport = Bars.Where(i => 
+            {
+                var a = i.TimeBegin;
+                var b = i.TimeEnd;
+                if ((b > t1 && b<t2) || (a>t1 && a<t2) || (a<t1 && b>t2)) //если bar пересекает одну из границ вьюпорта или заполняет его весь условие выполнится
+                { return true; }
+                return false;
+            }
+            ).ToList();
+            return barsInViewport;
+        }
 
 
         //DependencyProperty Bars  - чтобы можно было подписаться на него
@@ -176,18 +210,20 @@ namespace TimeLineControlLibrary
         {
             RefreshDashes();
 
-            BARS.ClearBars();
-            //Bars.Clear();
-            //Random random = new Random();
-
-            foreach (var bar in Bars)
-            {
-                BARS.AddBar(bar);
-            }
-
+            RefreshVisibleBars();
         }
 
+        void RefreshVisibleBars()
+        {
+            BarsArea.ClearBars(); //Ненужный комментарий
 
+            foreach (var bar in BarsInViewport)
+            {
+                BarsArea.AddBar(bar);
+            }
+        }
+
+        
 
 
         void RefreshDashes()
@@ -350,7 +386,14 @@ namespace TimeLineControlLibrary
                 ScrollViewerMain.ScrollToHorizontalOffset(ScrollViewerMain.HorizontalOffset - offset);
             }
 
-            Zoom?.Invoke(Mouse.GetPosition(GridMain).X, ZoomKoef);
+            RefreshVisibleBars();
+        }
+
+
+        private void ScrollViewerMain_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            Console.WriteLine("SCROLL");
+            RefreshVisibleBars();
         }
     }
 }
