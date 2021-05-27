@@ -215,7 +215,7 @@ namespace TimeLineControlLibrary
 
         void RefreshVisibleBars()
         {
-            BarsArea.ClearBars(); //Ненужный комментарий
+            BarsArea.ClearBars(); //Ненужный комментарий Еще один комментарий
 
             foreach (var bar in BarsInViewport)
             {
