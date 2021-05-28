@@ -27,6 +27,8 @@ namespace TimeLineControlLibrary
         {
             InitializeComponent();
 
+
+
             T1.T_full = FullTime;
             T1.T_el = TimeSpan.FromSeconds(60);
             T1.ChangeDashesHeight(20);
@@ -53,6 +55,10 @@ namespace TimeLineControlLibrary
             SizeChanged += (d, e) => { RefreshCusorPosition(); };
         }
 
+        private void THIS_Loaded(object sender, RoutedEventArgs e)
+        {
+            GridMain.Width = DefaultGridMainWidth;
+        }
 
 
 
@@ -150,12 +156,12 @@ namespace TimeLineControlLibrary
 
         private double zoomKoef = 1.3;
         public double ZoomKoef
-        { 
+        {
             get { return zoomKoef; }
             set { if (value <= 1) throw new Exception("Try set to zoom koefficient incorrect value"); zoomKoef = value; }
         }
-        
-        
+
+
         private double OffsetViewport { get { return ScrollViewerMain.HorizontalOffset; } }
         private double WidthViewport { get { return GridViewport.ActualWidth; } }
         private double WidthGridMain { get { return GridMain.ActualWidth; } }
@@ -163,12 +169,26 @@ namespace TimeLineControlLibrary
         private TimeSpan TimeBeginViewport { get { return TimeSpan.FromSeconds(FullTime.TotalSeconds * OffsetViewport / WidthGridMain); } }
         private TimeSpan TimeEndViewport { get { return TimeBeginViewport + TimeIntervalViewport; } }
         private List<Bar> BarsInViewport { get { return GetBarsInViewport(); } }
+        private TimeSpan ViewportStockRatioTime { get { return TimeIntervalViewport; } }
+        private TimeSpan DefaultViewportTimeInterval
+        {
+            get
+            {
+                if (FullTime > TimeSpan.FromMinutes(1)) return TimeSpan.FromMinutes(1);
+                else return FullTime;
+            }
+        }
+        private double DefaultGridMainWidth
+        {
+            get { return GridViewport.ActualWidth * (FullTime.TotalSeconds / DefaultViewportTimeInterval.TotalSeconds); }
+        }
+
 
 
         private List<Bar> GetBarsInViewport()
         {
-            var t1 = TimeBeginViewport;
-            var t2 = TimeEndViewport;
+            var t1 = TimeBeginViewport - ViewportStockRatioTime; if (t1 < TimeSpan.Zero) t1 = TimeSpan.Zero;
+            var t2 = TimeEndViewport + ViewportStockRatioTime; if (t2 > FullTime) t2 = FullTime;
 
             var barsInViewport = Bars.Where(i => 
             {
@@ -395,6 +415,8 @@ namespace TimeLineControlLibrary
             Console.WriteLine("SCROLL");
             RefreshVisibleBars();
         }
+
+ 
     }
 }
 
