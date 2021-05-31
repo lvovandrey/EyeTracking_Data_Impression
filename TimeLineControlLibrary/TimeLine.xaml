@@ -11,20 +11,20 @@
              PreviewMouseWheel="THIS_PreviewMouseWheel">
 
     <Grid >
-            <Grid Margin="0,0,0,0" Background="Blue" x:Name="GridViewport">
+            <Grid Margin="0,0,0,0" x:Name="GridViewport">
             <ScrollViewer x:Name="ScrollViewerMain" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" ScrollChanged="ScrollViewerMain_ScrollChanged"  >
 
-                <Grid x:Name="GridMain" Width="800" Background="Aqua"   VerticalAlignment="Bottom" >
+                <Grid x:Name="GridMain" Width="800"  VerticalAlignment="Bottom" >
                     <Grid  Margin="0,0,0,0" VerticalAlignment="Bottom" >
 
-                        <Grid Height="20"  VerticalAlignment="Bottom" Background="Azure" Panel.ZIndex="11" >
+                        <Grid Height="35"  VerticalAlignment="Bottom" Panel.ZIndex="11" >
                         <local:ScaleTime x:Name="T1" Panel.ZIndex="11"></local:ScaleTime>
                         <local:ScaleTime x:Name="T_Sec" Panel.ZIndex="11"></local:ScaleTime>
                         <local:ScaleTime x:Name="T_tenSec" Panel.ZIndex="11"></local:ScaleTime>
                         <local:ScaleTime x:Name="T10" Panel.ZIndex="11"></local:ScaleTime>
                         <local:ScaleTime x:Name="T_Sec_tenth_part" Panel.ZIndex="11"/>
                         </Grid>
-                        <local:BarsArea x:Name="BarsArea"  FullTime="{Binding FullTime}" Panel.ZIndex="9"></local:BarsArea>
+                        <local:BarsArea x:Name="BarsArea"  FullTime="{Binding FullTime}" Panel.ZIndex="9" Margin="0 0 0 26"></local:BarsArea>
                     </Grid>
 
                     <Rectangle HorizontalAlignment="Stretch" Height="1"  VerticalAlignment="Bottom" Margin="0 0 20 10" Fill="Black" />

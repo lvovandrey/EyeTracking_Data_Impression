@@ -20,14 +20,9 @@ namespace TimeLineControlLibrary
     public partial class TimeLine : UserControl, INotifyPropertyChanged
     {
 
-
-
-
         public TimeLine()
         {
             InitializeComponent();
-
-
 
             T1.T_full = FullTime;
             T1.T_el = TimeSpan.FromSeconds(60);
@@ -170,6 +165,8 @@ namespace TimeLineControlLibrary
         private TimeSpan TimeEndViewport { get { return TimeBeginViewport + TimeIntervalViewport; } }
         private List<Bar> BarsInViewport { get { return GetBarsInViewport(); } }
         private TimeSpan ViewportStockRatioTime { get { return TimeIntervalViewport; } }
+        private double ViewportScalePxInSecond { get { return WidthViewport / TimeIntervalViewport.TotalSeconds; } }
+
         private TimeSpan DefaultViewportTimeInterval
         {
             get
@@ -190,11 +187,11 @@ namespace TimeLineControlLibrary
             var t1 = TimeBeginViewport - ViewportStockRatioTime; if (t1 < TimeSpan.Zero) t1 = TimeSpan.Zero;
             var t2 = TimeEndViewport + ViewportStockRatioTime; if (t2 > FullTime) t2 = FullTime;
 
-            var barsInViewport = Bars.Where(i => 
+            var barsInViewport = Bars.Where(i =>
             {
                 var a = i.TimeBegin;
                 var b = i.TimeEnd;
-                if ((b > t1 && b<t2) || (a>t1 && a<t2) || (a<t1 && b>t2)) //если bar пересекает одну из границ вьюпорта или заполняет его весь условие выполнится
+                if ((b > t1 && b < t2) || (a > t1 && a < t2) || (a < t1 && b > t2)) //если bar пересекает одну из границ вьюпорта или заполняет его весь условие выполнится
                 { return true; }
                 return false;
             }
@@ -231,11 +228,12 @@ namespace TimeLineControlLibrary
             RefreshDashes();
 
             RefreshVisibleBars();
+            ScaleDashes();
         }
 
         void RefreshVisibleBars()
         {
-            BarsArea.ClearBars(); 
+            BarsArea.ClearBars();
 
             foreach (var bar in BarsInViewport)
             {
@@ -243,8 +241,55 @@ namespace TimeLineControlLibrary
             }
         }
 
-        
 
+        void HideAllDashes()
+        {
+            T_Sec_tenth_part.TimeLabelVisibility = Visibility.Hidden;
+            T_Sec_tenth_part.Visibility = Visibility.Hidden;
+            T_Sec.TimeLabelVisibility = Visibility.Hidden;
+            T_Sec.Visibility = Visibility.Hidden;
+            T_tenSec.TimeLabelVisibility = Visibility.Hidden;
+            T_tenSec.Visibility = Visibility.Hidden;
+            T1.TimeLabelVisibility = Visibility.Hidden;
+            T1.Visibility = Visibility.Hidden;
+            T10.TimeLabelVisibility = Visibility.Hidden;
+            T10.Visibility = Visibility.Hidden;
+        }
+
+        void ScaleDashes()
+        {
+            HideAllDashes();
+            var Sc = ViewportScalePxInSecond;
+            if (Sc > 200)
+            {
+                T_Sec_tenth_part.TimeLabelVisibility = Visibility.Visible;
+            }
+            if (Sc > 50)
+            {
+                T_Sec_tenth_part.Visibility = Visibility.Visible;
+                T_Sec.TimeLabelVisibility = Visibility.Visible;
+            }
+            if (Sc > 5)
+            {
+                T_Sec.Visibility = Visibility.Visible;
+                T_tenSec.TimeLabelVisibility = Visibility.Visible;
+            }
+            if (Sc > 0.5)
+            {
+                T_tenSec.Visibility = Visibility.Visible;
+                T1.TimeLabelVisibility = Visibility.Visible;
+            }
+            if (Sc > (1 / 12))
+            {
+                T1.Visibility = Visibility.Visible;
+                T10.TimeLabelVisibility = Visibility.Visible;
+            }
+            if (Sc > (1 / 120))
+            {
+                T10.Visibility = Visibility.Visible;
+            }
+
+        }
 
         void RefreshDashes()
         {
@@ -278,7 +323,7 @@ namespace TimeLineControlLibrary
                 T_Sec.FillDashes(N);
             }
 
-            if (FullTime.TotalSeconds < 60)
+            if (FullTime.TotalSeconds < 120)
             {
                 N = (int)Math.Round((FullTime.TotalSeconds / T_Sec_tenth_part.T_el.TotalSeconds)) + 2;
                 T_Sec_tenth_part.ClearDashes();
@@ -292,16 +337,17 @@ namespace TimeLineControlLibrary
 
 
             T1.ChangeDashesHeight(20);
-            T1.ChangeDashesWidth(1);
+            T1.ChangeDashesWidth(2);
 
             T_tenSec.ChangeDashesHeight(14);
-
+            T_tenSec.ChangeDashesWidth(1.5);
             T_Sec.ChangeDashesHeight(10);
 
             T_Sec_tenth_part.ChangeDashesHeight(5);
 
             T10.ChangeDashesHeight(26);
-            T10.ChangeDashesWidth(2);
+            T10.ChangeDashesWidth(3);
+
 
             T1.Visibility = Visibility.Visible;
             T_tenSec.Visibility = Visibility.Visible;
@@ -389,9 +435,9 @@ namespace TimeLineControlLibrary
 
         private void THIS_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            
-           // Console.WriteLine("offset={0} x={1} horOffset={2}", offset, Mouse.GetPosition(GridMain).X, ScrollViewerMain.HorizontalOffset);
-            if (e.Delta>0)
+
+            // Console.WriteLine("offset={0} x={1} horOffset={2}", offset, Mouse.GetPosition(GridMain).X, ScrollViewerMain.HorizontalOffset);
+            if (e.Delta > 0)
             {
                 GridMain.Width = GridMain.ActualWidth * ZoomKoef;
 
@@ -402,21 +448,22 @@ namespace TimeLineControlLibrary
             {
                 GridMain.Width = GridMain.ActualWidth / ZoomKoef;
 
-                double offset = Mouse.GetPosition(GridMain).X * (1- (1/ZoomKoef));
+                double offset = Mouse.GetPosition(GridMain).X * (1 - (1 / ZoomKoef));
                 ScrollViewerMain.ScrollToHorizontalOffset(ScrollViewerMain.HorizontalOffset - offset);
             }
 
             RefreshVisibleBars();
+            ScaleDashes();
         }
 
 
         private void ScrollViewerMain_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            Console.WriteLine("SCROLL");
             RefreshVisibleBars();
+            ScaleDashes();
         }
 
- 
+
     }
 }
 
