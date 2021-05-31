@@ -27,10 +27,6 @@ namespace TimeLineControlLibrary
         {
             InitializeComponent();
             Dashes = new ObservableCollection<Dash>();
-            for (int i = 1; i < 100; i++)
-            {
-                addDash(i);
-            }
         }
 
 
@@ -90,9 +86,6 @@ namespace TimeLineControlLibrary
         }
 
 
-        public void SetCurTime(TimeSpan time)
-        {
-        }
 
         private void CalcDashesPosition()
         {
@@ -209,14 +202,7 @@ namespace TimeLineControlLibrary
             }
         }
 
-        private void MainGrid_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            //if (e.ChangedButton == System.Windows.Input.MouseButton.Left)
-            //    Scale *= 1.1;
-            //else 
-            //    Scale /= 1.1;
 
-        }
 
         double scale = 1;
         public double Scale
