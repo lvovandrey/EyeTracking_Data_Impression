@@ -426,12 +426,6 @@ namespace TimeLineControlLibrary
         }
         #endregion
 
-        private void THIS_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-
 
         private void THIS_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
