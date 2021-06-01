@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -174,19 +175,33 @@ namespace TimeLineControlLibrary
         private void TimeLineEx_OnBarsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             RefreshDashes();
-
             RefreshVisibleBars();
             ScaleDashes();
         }
 
         void RefreshVisibleBars()
         {
-            BarsArea.ClearBars();
 
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+
+            BarsArea.ClearBars();
             foreach (var bar in BarsInViewport)
             {
                 BarsArea.AddBar(bar);
             }
+
+            stopWatch.Stop();
+            // Get the elapsed time as a TimeSpan value.
+            TimeSpan ts = stopWatch.Elapsed;
+
+            // Format and display the TimeSpan value.
+            string elapsedTime = String.Format("Bars   time {0}ms    fulltime {1} sec",
+                ts.TotalMilliseconds, TimeIntervalViewport.TotalSeconds);
+            Console.WriteLine("RunTime " + elapsedTime);
+
+
+
         }
 
 
@@ -212,6 +227,11 @@ namespace TimeLineControlLibrary
 
         void RefreshDashes()
         {
+            if (T_Sec.Visibility != Visibility.Visible) return;
+
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+
             T_Sec.ClearAllDashes();
             T_Sec.T_full = FullTime;
             T_Sec.T_el = TimeSpan.FromSeconds(1);
@@ -221,6 +241,17 @@ namespace TimeLineControlLibrary
             T_Sec.TimeLabelVisibility = Visibility.Visible;
 
             T_Sec.PaintAllDashesInInterval(TimeBeginViewport, TimeEndViewport);
+
+            stopWatch.Stop();
+            // Get the elapsed time as a TimeSpan value.
+            TimeSpan ts = stopWatch.Elapsed;
+
+            // Format and display the TimeSpan value.
+            string elapsedTime = String.Format("time {0}ms    fulltime {1} sec",
+                ts.TotalMilliseconds, TimeIntervalViewport.TotalSeconds);
+            Console.WriteLine("RunTime " + elapsedTime);
+
+
         }
 
 
