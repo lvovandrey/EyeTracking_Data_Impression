@@ -158,12 +158,14 @@ namespace TimeLineControlLibrary
 
         public void EraseDashesInInterval(TimeSpan timeBegin, TimeSpan timeEnd)
         {
-            List<Dash> dashes = FindDashesInTimeInterval(timeBegin, timeEnd);
+            List<Dash> dashes = FindDashesInInterval(timeBegin, timeEnd);
             foreach (var dash in dashes)
             {
                 RemoveDash(dash);
             }
         }
+
+
 
         public List<Dash> FindDashesInInterval(TimeSpan timeBegin, TimeSpan timeEnd)
         {
@@ -191,7 +193,7 @@ namespace TimeLineControlLibrary
                 scale = value;
                 foreach (Dash dash in Dashes)
                 {
-                    double nextwidth = scale * this.ActualWidth / N_el;
+                    double nextwidth = scale * this.ActualWidth / Dashes.Count();
                     ScaleAnimation(dash, dash.ActualWidth, nextwidth, (s, ee) =>
                     {
                         RefreshBinding(dash);

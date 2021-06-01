@@ -28,9 +28,9 @@ namespace TimeLineControlLibrary
             InitializeComponent();
 
 
-            T_tenSec.T_full = FullTime;
-            T_tenSec.T_el = TimeSpan.FromSeconds(10);
-            T_tenSec.ChangeDashesHeight(10);
+            T_Sec.T_full = FullTime;
+            T_Sec.T_el = TimeSpan.FromSeconds(1);
+            T_Sec.ChangeDashesHeight(10);
 
             OnFullTimeChanged += TimeLineEx_OnFullTimeChanged;
             OnBarsChanged += TimeLineEx_OnBarsChanged;
@@ -197,8 +197,8 @@ namespace TimeLineControlLibrary
 
         void HideAllDashes()
         {
-            T_tenSec.TimeLabelVisibility = Visibility.Hidden;
-            T_tenSec.Visibility = Visibility.Hidden;
+            T_Sec.TimeLabelVisibility = Visibility.Hidden;
+            T_Sec.Visibility = Visibility.Hidden;
         }
 
         void ScaleDashes()
@@ -207,22 +207,25 @@ namespace TimeLineControlLibrary
             var Sc = ViewportScalePxInSecond;
             if (Sc > 5)
             {
-                T_tenSec.TimeLabelVisibility = Visibility.Visible;
+                T_Sec.TimeLabelVisibility = Visibility.Visible;
             }
             if (Sc > 0.5)
             {
-                T_tenSec.Visibility = Visibility.Visible;
+                T_Sec.Visibility = Visibility.Visible;
             }
         }
 
         void RefreshDashes()
         {
-            T_tenSec.T_full = FullTime;
-            T_tenSec.T_el = TimeSpan.FromSeconds(10);
-            T_tenSec.ChangeDashesHeight(14);
-            T_tenSec.ChangeDashesWidth(1.5);
-            T_tenSec.Visibility = Visibility.Visible;
-            T_tenSec.TimeLabelVisibility = Visibility.Visible;
+            T_Sec.ClearAllDashes();
+            T_Sec.T_full = FullTime;
+            T_Sec.T_el = TimeSpan.FromSeconds(1);
+            T_Sec.ChangeDashesHeight(14);
+            T_Sec.ChangeDashesWidth(1.5);
+            T_Sec.Visibility = Visibility.Visible;
+            T_Sec.TimeLabelVisibility = Visibility.Visible;
+
+            T_Sec.PaintAllDashesInInterval(TimeBeginViewport, TimeEndViewport);
         }
 
 
@@ -263,6 +266,7 @@ namespace TimeLineControlLibrary
                 ScrollViewerMain.ScrollToHorizontalOffset(ScrollViewerMain.HorizontalOffset - offset);
             }
 
+            RefreshDashes();
             RefreshVisibleBars();
             ScaleDashes();
         }
@@ -270,6 +274,7 @@ namespace TimeLineControlLibrary
 
         private void ScrollViewerMain_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
+            RefreshDashes();
             RefreshVisibleBars();
             ScaleDashes();
         }
@@ -277,4 +282,4 @@ namespace TimeLineControlLibrary
 
     }
 }
-}
+
