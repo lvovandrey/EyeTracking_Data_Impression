@@ -42,30 +42,7 @@ namespace TimeLineControlLibrary
 
 
 
-        #region DependencyProperty POS - позиция на видео для биндинга к видеоплееру
-        public static readonly DependencyProperty POSProperty = DependencyProperty.Register("POS",
-         typeof(double), typeof(TimeLineEx),
-         new FrameworkPropertyMetadata(new PropertyChangedCallback(POSPropertyChangedCallback)));
-
-        public double POS
-        {
-            get { return (double)GetValue(POSProperty); }
-            set { SetValue(POSProperty, value); }
-        }
-
-
-        public event PropertyChanged OnPOSChanged;
-
-
-        static void POSPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (((TimeLineEx)d).OnPOSChanged != null)
-                ((TimeLineEx)d).OnPOSChanged(d, e);
-        }
-
-
-
-        #endregion
+       
 
 
         #region intervalsOperations
@@ -104,17 +81,17 @@ namespace TimeLineControlLibrary
         }
 
 
-        private double OffsetViewport { get { return ScrollViewerMain.HorizontalOffset; } }
-        private double WidthViewport { get { return GridViewport.ActualWidth; } }
-        private double WidthGridMain { get { return GridMain.ActualWidth; } }
-        private TimeSpan TimeIntervalViewport { get { return TimeSpan.FromSeconds(FullTime.TotalSeconds * WidthViewport / WidthGridMain); } }
-        private TimeSpan TimeBeginViewport { get { return TimeSpan.FromSeconds(FullTime.TotalSeconds * OffsetViewport / WidthGridMain); } }
-        private TimeSpan TimeEndViewport { get { return TimeBeginViewport + TimeIntervalViewport; } }
-        private List<Bar> BarsInViewport { get { return GetBarsInViewport(); } }
-        private TimeSpan ViewportStockRatioTime { get { return TimeIntervalViewport; } }
-        private double ViewportScalePxInSecond { get { return WidthViewport / TimeIntervalViewport.TotalSeconds; } }
+        public double OffsetViewport { get { return ScrollViewerMain.HorizontalOffset; } }
+        public double WidthViewport { get { return GridViewport.ActualWidth; } }
+        public double WidthGridMain { get { return GridMain.ActualWidth; } }
+        public TimeSpan TimeIntervalViewport { get { return TimeSpan.FromSeconds(FullTime.TotalSeconds * WidthViewport / WidthGridMain); } }
+        public TimeSpan TimeBeginViewport { get { return TimeSpan.FromSeconds(FullTime.TotalSeconds * OffsetViewport / WidthGridMain); } }
+        public TimeSpan TimeEndViewport { get { return TimeBeginViewport + TimeIntervalViewport; } }
+        public List<Bar> BarsInViewport { get { return GetBarsInViewport(); } }
+        public TimeSpan ViewportStockRatioTime { get { return TimeIntervalViewport; } }
+        public double ViewportScalePxInSecond { get { return WidthViewport / TimeIntervalViewport.TotalSeconds; } }
 
-        private TimeSpan DefaultViewportTimeInterval
+        public TimeSpan DefaultViewportTimeInterval
         {
             get
             {
@@ -122,14 +99,14 @@ namespace TimeLineControlLibrary
                 else return FullTime;
             }
         }
-        private double DefaultGridMainWidth
+        public double DefaultGridMainWidth
         {
             get { return GridViewport.ActualWidth * (FullTime.TotalSeconds / DefaultViewportTimeInterval.TotalSeconds); }
         }
 
 
 
-        private List<Bar> GetBarsInViewport()
+        public List<Bar> GetBarsInViewport()
         {
             var t1 = TimeBeginViewport - ViewportStockRatioTime; if (t1 < TimeSpan.Zero) t1 = TimeSpan.Zero;
             var t2 = TimeEndViewport + ViewportStockRatioTime; if (t2 > FullTime) t2 = FullTime;
@@ -145,6 +122,8 @@ namespace TimeLineControlLibrary
             ).ToList();
             return barsInViewport;
         }
+
+
 
 
         //DependencyProperty Bars  - чтобы можно было подписаться на него
@@ -222,6 +201,26 @@ namespace TimeLineControlLibrary
             }
         }
 
+        VirtualizationBuffer VirtualizationBuffer;
+        VirtualizationBuffer OldVirtualizationBuffer;
+
+        void VirtualizationDrawRun()
+        {
+            VirtualizationBuffer = new VirtualizationBuffer(this, 1, OldVirtualizationBuffer);
+
+            VirtualizationBuffer.FindUnusedIntervals();
+            VirtualizationBuffer.FindNewIntervals();
+            foreach (var interval in VirtualizationBuffer.UnusedIntervals)
+                T_Sec.EraseDashesInInterval(interval.Begin, interval.End);
+            foreach (var interval in VirtualizationBuffer.NewIntervals)
+                T_Sec.DrawAllDashesInInterval(interval.Begin, interval.End);
+            if(OldVirtualizationBuffer==null)//если буфера нет - значит это первая прорисовка и нужно отрисовать вообще все
+                T_Sec.DrawAllDashesInInterval(VirtualizationBuffer.Interval.Begin, VirtualizationBuffer.Interval.End);
+
+
+            OldVirtualizationBuffer = VirtualizationBuffer;
+        }
+
         void RefreshDashes()
         {
             if (T_Sec.Visibility != Visibility.Visible) return;
@@ -229,7 +228,7 @@ namespace TimeLineControlLibrary
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
 
-            T_Sec.ClearAllDashes();
+            
             T_Sec.T_full = FullTime;
             T_Sec.T_el = TimeSpan.FromSeconds(1);
             T_Sec.ChangeDashesHeight(14);
@@ -237,7 +236,9 @@ namespace TimeLineControlLibrary
             T_Sec.Visibility = Visibility.Visible;
             T_Sec.TimeLabelVisibility = Visibility.Visible;
 
-            T_Sec.PaintAllDashesInInterval(TimeBeginViewport, TimeEndViewport);
+            VirtualizationDrawRun();
+
+
 
             stopWatch.Stop();
             // Get the elapsed time as a TimeSpan value.
@@ -258,7 +259,13 @@ namespace TimeLineControlLibrary
 
         #endregion
 
-       
+        #region Buffer for virtualization
+
+
+
+        #endregion
+
+
         #region mvvm
         public event PropertyChangedEventHandler PropertyChanged;
 

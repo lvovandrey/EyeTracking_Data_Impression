@@ -83,6 +83,7 @@
     <Compile Include="TimeDashesArea.xaml.cs">
       <DependentUpon>TimeDashesArea.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TimeInterval.cs" />
     <Compile Include="TimeLine.xaml.cs">
       <DependentUpon>TimeLine.xaml</DependentUpon>
     </Compile>
@@ -90,6 +91,7 @@
       <DependentUpon>TimeLineEx.xaml</DependentUpon>
     </Compile>
     <Compile Include="ToolsTimer.cs" />
+    <Compile Include="VirtualizationBuffer.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

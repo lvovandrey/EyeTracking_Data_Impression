@@ -108,7 +108,7 @@ namespace TimeLineControlLibrary
                         d.Opacity = 0;
         }
 
-        public void PaintDash(TimeSpan time)
+        public void DrawDash(TimeSpan time)
         {
             if (Dashes.Where(dash => dash.Time == time).Count() > 0) return;
             Dash d = new Dash();
@@ -143,7 +143,7 @@ namespace TimeLineControlLibrary
             return new Thickness(horisontal_offset, 0, 0, 0);
         }
 
-        public void PaintAllDashesInInterval(TimeSpan timeBegin, TimeSpan timeEnd)
+        public void DrawAllDashesInInterval(TimeSpan timeBegin, TimeSpan timeEnd)
         {
             TimeSpan timeFirst = timeBegin - TimeSpan.FromSeconds(timeBegin.TotalSeconds % T_el.TotalSeconds) + T_el; //время первого видимого dash в интервале
             TimeSpan timeLast = timeEnd - TimeSpan.FromSeconds(timeEnd.TotalSeconds % T_el.TotalSeconds); //время последнего видимого dash в интервале
@@ -152,7 +152,7 @@ namespace TimeLineControlLibrary
             for (int i = 0; i < NDashes; i++)
             {
                 TimeSpan timeCurDash = TimeSpan.FromSeconds(i * T_el.TotalSeconds + timeFirst.TotalSeconds);
-                PaintDash(timeCurDash);
+                DrawDash(timeCurDash);
             }
         }
 
