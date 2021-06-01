@@ -77,7 +77,6 @@ namespace TimeLineControlLibrary
             set
             {
                 SetValue(FullTimeProperty, value);
-                RefreshDashes();
                 OnPropertyChanged("FullTime");
             }
         }
@@ -95,7 +94,6 @@ namespace TimeLineControlLibrary
 
         private void TimeLineEx_OnFullTimeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            RefreshDashes();
         }
 
         private double zoomKoef = 1.3;
@@ -156,7 +154,6 @@ namespace TimeLineControlLibrary
             set
             {
                 SetValue(BarsProperty, value);
-                RefreshDashes();
                 OnPropertyChanged("Bars");
             }
         }
@@ -174,9 +171,9 @@ namespace TimeLineControlLibrary
 
         private void TimeLineEx_OnBarsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            RefreshDashes();
-            RefreshVisibleBars();
-            ScaleDashes();
+            //RefreshDashes();
+            //RefreshVisibleBars();
+            //ScaleDashes();
         }
 
         void RefreshVisibleBars()

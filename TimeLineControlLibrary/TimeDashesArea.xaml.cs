@@ -177,54 +177,8 @@ namespace TimeLineControlLibrary
             return FindedDashes;
         }
 
-
-
-        //double scale = 1;
-        //public double Scale
-        //{
-        //    get
-        //    {
-        //        return scale;
-        //    }
-
-        //    set
-        //    {
-        //        if (value <= 0.001) return;
-        //        scale = value;
-        //        foreach (Dash dash in Dashes)
-        //        {
-        //            double nextwidth = scale * this.ActualWidth / Dashes.Count();
-        //            ScaleAnimation(dash, dash.ActualWidth, nextwidth, (s, ee) =>
-        //            {
-        //                RefreshBinding(dash);
-
-        //                dash.BeginAnimation(Dash.WidthProperty, null);
-        //            });
-
-        //        }
-
-        //    }
-        //}
-        //void ScaleAnimation(Dash d, double From, double To, EventHandler eventHandler)
-        //{
-        //    DoubleAnimation a = new DoubleAnimation();
-        //    a.From = From;
-        //    a.To = To;
-        //    a.Duration = TimeSpan.FromSeconds(0.1);
-        //    a.Completed += eventHandler;
-        //    d.BeginAnimation(Dash.WidthProperty, a);
-        //}
-
-
-
         void RefreshBinding(Dash dash)
         {
-            //Binding binding = new Binding();
-            //binding.Source = this;  // элемент-источник
-            //binding.Converter = new WidthConverteEx();
-            //binding.ConverterParameter = new WidthConverterParameterEx(this);
-            //binding.Path = new PropertyPath("ActualWidth"); // свойство элемента-источника
-            //dash.SetBinding(Dash.WidthProperty, binding); // установка привязки для элемента-приемника
 
             Binding bindingTimeLabelVis = new Binding();
             bindingTimeLabelVis.Source = this;  // элемент-источник
@@ -232,46 +186,6 @@ namespace TimeLineControlLibrary
             dash.SetBinding(Dash.TimeLabelVisibilityProperty, bindingTimeLabelVis); // установка привязки для элемента-приемника
 
         }
-
-
-
-        //class WidthConverteEx : IValueConverter
-        //{
-        //    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        //    {
-        //        return (((WidthConverterParameterEx)parameter).Scale * (double)value / (((WidthConverterParameterEx)parameter).ElementsCount));
-        //    }
-
-        //    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        //    {
-        //        return DependencyProperty.UnsetValue;
-        //    }
-        //}
-
     }
 
-
-    //public class WidthConverterParameterEx
-    //{
-    //    TimeDashesArea TimeLine;
-    //    public WidthConverterParameterEx(TimeDashesArea timeLine)
-    //    {
-    //        TimeLine = timeLine;
-    //    }
-
-    //    public double ElementsCount
-    //    {
-    //        get
-    //        {
-    //            return TimeLine.Dashes.Count;
-    //        }
-    //    }
-    //    public double Scale
-    //    {
-    //        get
-    //        {
-    //            return TimeLine.Scale;
-    //        }
-    //    }
-    //}
 }

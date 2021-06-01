@@ -429,8 +429,6 @@ namespace TimeLineControlLibrary
 
         private void THIS_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-
-            // Console.WriteLine("offset={0} x={1} horOffset={2}", offset, Mouse.GetPosition(GridMain).X, ScrollViewerMain.HorizontalOffset);
             if (e.Delta > 0)
             {
                 GridMain.Width = GridMain.ActualWidth * ZoomKoef;
