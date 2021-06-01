@@ -26,7 +26,7 @@ namespace TimeLineControlLibrary
         public TimeDashesArea()
         {
             InitializeComponent();
-            Dashes = new ObservableCollection<Dash>();
+            Dashes = new List<Dash>();
         }
 
 
@@ -58,7 +58,7 @@ namespace TimeLineControlLibrary
         public event PropertyChanged OnCurTimeChanged;
         public event PropertyChanged OnTimeLabelVisibilityChanged;
 
-        public ObservableCollection<Dash> Dashes;
+        public List<Dash> Dashes;
 
 
         static void PositionPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -85,85 +85,19 @@ namespace TimeLineControlLibrary
                 ((TimeDashesArea)d).OnTimeLabelVisibilityChanged(d, e);
         }
 
-
-
-        private void CalcDashesPosition()
-        {
-            int NDashes;
-            NDashes = (int)Duration.TotalMinutes;
-            Dashes = new ObservableCollection<Dash>();
-            double width = this.ActualWidth;
-            double dashIntervals = width / Duration.TotalMinutes;
-            double curDashLeftCoord = 0;
-            for (int i = 1; i <= NDashes; i++)
-            {
-                Dash dash = new Dash();
-                dash.Margin = new Thickness(curDashLeftCoord, 0, 0, 0); //TODO: где-то тут механизм расчета положения дашей - его нужно поменять в этом элементе
-                Dashes.Add(dash);
-                curDashLeftCoord += dashIntervals;
-            }
-        }
-        public void UpdateDashes()
-        {
-            if (Dashes.Count > 0)
-                for (int i = 0; i < Dashes.Count; i++)
-                {
-                    MainGrid.Children.Add(Dashes[i]);
-                }
-        }
-
-
-
-        //  int N_el = 5;
-        public double W_full = 1000;
-
         public TimeSpan T_el = TimeSpan.FromSeconds(60);
         public TimeSpan T_full = TimeSpan.FromSeconds(450);
 
-
-        public double W_el
-        {
-            get
-            {
-                double tmp = W_full * T_el.TotalMilliseconds / T_full.TotalMilliseconds;
-                if (tmp < 0) tmp = 0;
-                return (tmp);
-            }
-        }
-
-
-        public double N_el
-        {
-            get
-            {
-                double tmp = T_full.TotalMilliseconds / T_el.TotalMilliseconds;
-                if (tmp < 0) tmp = 0;
-                return (tmp);
-            }
-        }
-
-
-        //две извращенческие функции.... 
         public void ChangeDashesWidth(double width)
         {
-            foreach (var item in MainGrid.Children)
-            {
-                if (!(item is Dash)) continue;
-                Dash dash = (item as Dash);
-
+            foreach (var dash in Dashes)
                 dash.LineWidth = width;
-            }
         }
 
         public void ChangeDashesHeight(double height)
         {
-            foreach (var item in MainGrid.Children)
-            {
-                if (!(item is Dash)) continue;
-                Dash dash = (item as Dash);
-
+            foreach (var dash in Dashes)
                 dash.LineHeight = height;
-            }
         }
 
         public void HideRepeatedDashes(IEnumerable<Dash> AlreadyCreatedDashes)
@@ -174,49 +108,71 @@ namespace TimeLineControlLibrary
                         d.Opacity = 0;
         }
 
-        
-        public void AddDash(TimeSpan time)
+        public void PaintDash(TimeSpan time)
         {
-            if (Dashes.Where(d => d.Time == time).Count() > 0) return;
+            if (Dashes.Where(dash => dash.Time == time).Count() > 0) return;
             Dash d = new Dash();
             d.Time = time;
             RefreshBinding(d);
-            Dashes.Add(d);
+
             d.Margin = CalculateDashMargin(d);
-            MainGrid.Children.Add(d);
+            AddDash(d);
         }
 
-        private Thickness CalculateDashMargin(Dash d)
+        private void AddDash(Dash dash)
         {
-            throw new NotImplementedException();
+            Dashes.Add(dash);
+            MainGrid.Children.Add(dash);
         }
 
-        public void PaintDashes(TimeSpan timeBegin, TimeSpan timeEnd)
+        private void RemoveDash(Dash dash)
         {
-            throw new NotImplementedException();
+            Dashes.Remove(dash);
+            MainGrid.Children.Remove(dash);
         }
 
-        public void EraseDashes(TimeSpan timeBegin, TimeSpan timeEnd)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ClearDashes()
+        public void ClearAllDashes()
         {
             Dashes.Clear();
             MainGrid.Children.Clear();
         }
 
-        public void FillDashes(int num)
+        private Thickness CalculateDashMargin(Dash dash)
         {
-            if (MainGrid.Children.Count < num)
+            double horisontal_offset = this.ActualWidth * dash.Time.TotalSeconds / T_full.TotalSeconds;
+            return new Thickness(horisontal_offset, 0, 0, 0);
+        }
+
+        public void PaintAllDashesInInterval(TimeSpan timeBegin, TimeSpan timeEnd)
+        {
+            TimeSpan timeFirst = timeBegin - TimeSpan.FromSeconds(timeBegin.TotalSeconds % T_el.TotalSeconds) + T_el; //время первого видимого dash в интервале
+            TimeSpan timeLast = timeEnd - TimeSpan.FromSeconds(timeEnd.TotalSeconds % T_el.TotalSeconds); //время последнего видимого dash в интервале
+            TimeSpan timeDuration = timeLast - timeFirst;//Длительность от первого до последнего dash
+            int NDashes = (int)Math.Round(timeDuration.TotalSeconds / T_el.TotalSeconds)+1; //это кол-во dash'ей (на всякий случай округлил все)
+            for (int i = 0; i < NDashes; i++)
             {
-                int N = MainGrid.Children.Count - num;
-                for (int i = 1; i < num; i++)
-                {
-                    addDash(i);
-                }
+                TimeSpan timeCurDash = TimeSpan.FromSeconds(i * T_el.TotalSeconds + timeFirst.TotalSeconds);
+                PaintDash(timeCurDash);
             }
+        }
+
+        public void EraseDashesInInterval(TimeSpan timeBegin, TimeSpan timeEnd)
+        {
+            List<Dash> dashes = FindDashesInTimeInterval(timeBegin, timeEnd);
+            foreach (var dash in dashes)
+            {
+                RemoveDash(dash);
+            }
+        }
+
+        public List<Dash> FindDashesInInterval(TimeSpan timeBegin, TimeSpan timeEnd)
+        {
+            List<Dash> FindedDashes = new List<Dash>();
+            foreach (var d in Dashes)
+               if (d.Time >= timeBegin && d.Time <= timeEnd)
+                        FindedDashes.Add(d);
+
+            return FindedDashes;
         }
 
 
@@ -233,11 +189,8 @@ namespace TimeLineControlLibrary
             {
                 if (value <= 0.001) return;
                 scale = value;
-                foreach (var item in MainGrid.Children)
+                foreach (Dash dash in Dashes)
                 {
-                    if (!(item is Dash)) continue;
-                    Dash dash = (item as Dash);
-
                     double nextwidth = scale * this.ActualWidth / N_el;
                     ScaleAnimation(dash, dash.ActualWidth, nextwidth, (s, ee) =>
                     {
@@ -308,7 +261,7 @@ namespace TimeLineControlLibrary
         {
             get
             {
-                return TimeLine.N_el;
+                return TimeLine.Dashes.Count;
             }
         }
         public double Scale
