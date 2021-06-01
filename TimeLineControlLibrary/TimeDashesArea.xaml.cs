@@ -174,14 +174,31 @@ namespace TimeLineControlLibrary
                         d.Opacity = 0;
         }
 
-        public void addDash(int i)
+        
+        public void AddDash(TimeSpan time)
         {
+            if (Dashes.Where(d => d.Time == time).Count() > 0) return;
             Dash d = new Dash();
-            d.Time = TimeSpan.FromSeconds(T_el.TotalSeconds * ((double)(i - 1)));
+            d.Time = time;
             RefreshBinding(d);
             Dashes.Add(d);
+            d.Margin = CalculateDashMargin(d);
             MainGrid.Children.Add(d);
+        }
 
+        private Thickness CalculateDashMargin(Dash d)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void PaintDashes(TimeSpan timeBegin, TimeSpan timeEnd)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EraseDashes(TimeSpan timeBegin, TimeSpan timeEnd)
+        {
+            throw new NotImplementedException();
         }
 
         public void ClearDashes()
