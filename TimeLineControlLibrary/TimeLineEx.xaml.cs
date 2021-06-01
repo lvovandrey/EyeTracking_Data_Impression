@@ -27,11 +27,6 @@ namespace TimeLineControlLibrary
         {
             InitializeComponent();
 
-
-            T_Sec.T_full = FullTime;
-            T_Sec.T_el = TimeSpan.FromSeconds(1);
-            T_Sec.ChangeDashesHeight(10);
-
             OnFullTimeChanged += TimeLineEx_OnFullTimeChanged;
             OnBarsChanged += TimeLineEx_OnBarsChanged;
 
@@ -205,11 +200,11 @@ namespace TimeLineControlLibrary
         {
             HideAllDashes();
             var Sc = ViewportScalePxInSecond;
-            if (Sc > 5)
+            if (Sc > 50)
             {
                 T_Sec.TimeLabelVisibility = Visibility.Visible;
             }
-            if (Sc > 0.5)
+            if (Sc > 5)
             {
                 T_Sec.Visibility = Visibility.Visible;
             }
