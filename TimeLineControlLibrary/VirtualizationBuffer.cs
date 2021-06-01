@@ -15,7 +15,7 @@ namespace TimeLineControlLibrary
             TimeLine = timeLine;
             BufferStockRatio = bufferStockRatio;
             OldBuffer = oldBuffer;
-            Interval = new TimeInterval() { Begin = TimeLine.TimeBeginViewport, End = TimeLine.TimeEndViewport };
+            //Interval = new TimeInterval() { Begin = TimeLine.TimeBeginViewport, End = TimeLine.TimeEndViewport };
         }
 
         public TimeInterval Interval;
@@ -23,7 +23,7 @@ namespace TimeLineControlLibrary
         public List<TimeInterval> NewIntervals = new List<TimeInterval>();
         public double BufferStockRatio;
 
-        private void ChangeSizeVirtualizerBuffer()
+        public void ChangeSizeVirtualizerBuffer()
         {
             Interval.Begin = TimeLine.TimeBeginViewport - TimeSpan.FromSeconds(TimeLine.TimeIntervalViewport.TotalSeconds * BufferStockRatio);
             if (Interval.Begin < TimeSpan.Zero) Interval.Begin = TimeSpan.Zero;
@@ -65,7 +65,7 @@ namespace TimeLineControlLibrary
                     Begin = Interval.Begin,
                     End = OldBuffer.Interval.Begin
                 };
-                UnusedIntervals.Add(ti);
+                NewIntervals.Add(ti);
             }
             if (OldBuffer.Interval.End <= Interval.End)
             {
@@ -74,7 +74,7 @@ namespace TimeLineControlLibrary
                     Begin = OldBuffer.Interval.End,
                     End = Interval.End
                 };
-                UnusedIntervals.Add(ti);
+                NewIntervals.Add(ti);
             }
         }
 

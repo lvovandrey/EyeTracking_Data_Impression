@@ -208,6 +208,7 @@ namespace TimeLineControlLibrary
         {
             VirtualizationBuffer = new VirtualizationBuffer(this, 1, OldVirtualizationBuffer);
 
+            VirtualizationBuffer.ChangeSizeVirtualizerBuffer();
             VirtualizationBuffer.FindUnusedIntervals();
             VirtualizationBuffer.FindNewIntervals();
             foreach (var interval in VirtualizationBuffer.UnusedIntervals)
