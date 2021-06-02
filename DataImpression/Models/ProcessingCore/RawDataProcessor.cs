@@ -1,4 +1,5 @@
 ﻿using DataImpression.Models.ProcessingCore;
+using DataImpression.Models.ResultTypes;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -69,6 +70,11 @@ namespace DataImpression.Models
 
             progress = 95; stage = "Конвертирование результатов анализа";
             Results.FAOIHitsOnTimeIntervalList = RawDataProcessorMethods.ConvertFAOIsOnTimeRecord_to_FAOIHitsOnTimeInterval(fAOIsOnTimeRecords, ref progress, 5);
+
+            progress = 96; stage = "Считывание данных о диаметре зрачка";
+            Results.PupilDiameterLeft = RawDataProcessorMethods.ReadPupilDiameterLeft();
+
+
             progress = 100; stage = "Анализ данных завершен";
         }
         #endregion
@@ -345,6 +351,65 @@ namespace DataImpression.Models
             return true;
         }
 
+
+        /// <summary>
+        /// Считывает данные о диаметре левого зрачка
+        /// </summary>
+        /// <returns></returns>
+        internal static OnTimeDistributedParameter<double> ReadPupilDiameterLeft(ProcessingTaskSourceData SourceData,
+                                                        ref double progress,
+                                                        double progress_koef,
+                                                        long countStringsForReading = 1,
+                                                        char separator = '\n',
+                                                        char delimiter = '\t',
+                                                        long bufferStringsSize = 10000)
+        {
+            long i = 0;
+            List<TobiiCSVRecord> tobiiList = new List<TobiiCSVRecord>();
+            using (StreamReader rd = new StreamReader(new FileStream(SourceData.CSVFileName, FileMode.Open)))
+            {
+                bool EndOfFile = false;
+                long CountReadedStrings = 0;
+
+                //double initialProgress = progress;
+
+                string[] first_string_arr = rd.ReadLine().Split(delimiter); //читаем первую строку - по сути нам просто надо курсор на вторую переместить.
+
+                if (bufferStringsSize > countStringsForReading) bufferStringsSize = countStringsForReading;
+                while ((!EndOfFile) && (!(CountReadedStrings >= countStringsForReading)))
+                {
+                    //progress = initialProgress + progress_koef * ((double)CountReadedStrings / (double)countStringsForReading);
+                    if (bufferStringsSize > (countStringsForReading - CountReadedStrings)) bufferStringsSize = (countStringsForReading - CountReadedStrings);//TODO:ПРоверить - тут может быть на 1 больше или меньше надо
+                    string[] str_arr_tmp = { "" };
+                    string big_str = "";
+                    EndOfFile = CSVReader.ReadPartOfFile(rd, out big_str, bufferStringsSize);
+                    str_arr_tmp = big_str.Split(separator);
+
+                    foreach (string s in str_arr_tmp)
+                    {
+                        string[] tmp = { "" };
+                        i++;
+                        tmp = s.Split(delimiter);
+                        if (tmp.Count() < 3) continue;
+                        TobiiCSVRecord TR = new TobiiCSVRecord();
+                        if (!long.TryParse(tmp[SourceData.CSVTimeColumn.OrderedNumber], out TR.time_ms))
+                            throw new Exception("Не могу преобразовать в timestamp строку  " + tmp[SourceData.CSVTimeColumn.OrderedNumber]);
+
+                        string[] Hits = new string[SourceData.OptionalDataCSVColumns["Pupil diameter right"].Count()];
+                        int HitsIndex = 0;
+                        foreach (var HitColumn in SourceData.CSVAOIHitsColumns)
+                            if (tmp[HitColumn.OrderedNumber] == "1")
+                                TR.AOIHitsColumnsInCSVFile.Add(HitColumn);
+
+                        tobiiList.Add(TR);
+                    }
+
+                    //strings.AddRange(str_arr_tmp);
+                    CountReadedStrings += bufferStringsSize;
+                }
+            }
+            return tobiiList;
+        }
     }
 
 }

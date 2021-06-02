@@ -182,6 +182,9 @@ namespace DataImpression.ViewModel
             _model.SourceData.OptionalDataCSVColumns.Add("Имя записи", RecordingNameColumn);
             _model.SourceData.OptionalDataCSVColumns.Add("Дата записи", RecordingDateColumn);
             _model.SourceData.OptionalDataCSVColumns.Add("Время записи", RecordingStartTimeColumn);
+            _model.SourceData.OptionalDataCSVColumns.Add("Pupil diameter right", PupilDiameterRightColumn);
+            _model.SourceData.OptionalDataCSVColumns.Add("Pupil diameter left", PupilDiameterLeftColumn);
+
             return true;
         }
         #endregion
