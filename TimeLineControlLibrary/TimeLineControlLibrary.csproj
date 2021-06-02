@@ -77,16 +77,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ScaleTime.xaml.cs">
-      <DependentUpon>ScaleTime.xaml</DependentUpon>
-    </Compile>
     <Compile Include="TimeDashesArea.xaml.cs">
       <DependentUpon>TimeDashesArea.xaml</DependentUpon>
     </Compile>
     <Compile Include="TimeInterval.cs" />
-    <Compile Include="TimeLine.xaml.cs">
-      <DependentUpon>TimeLine.xaml</DependentUpon>
-    </Compile>
     <Compile Include="TimeLineEx.xaml.cs">
       <DependentUpon>TimeLineEx.xaml</DependentUpon>
     </Compile>
@@ -122,15 +116,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ScaleTime.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="TimeDashesArea.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="TimeLine.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

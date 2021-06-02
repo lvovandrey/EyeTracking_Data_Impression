@@ -18,6 +18,8 @@ using System.Windows.Shapes;
 
 namespace TimeLineControlLibrary
 {
+    public delegate void PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e);
+
     /// <summary>
     /// Логика взаимодействия для TimeLineEx.xaml
     /// </summary>
@@ -41,6 +43,12 @@ namespace TimeLineControlLibrary
             GridMain.Width = DefaultGridMainWidth;
             VirtualizationBuffer = new VirtualizationBuffer(this, 3, null);
             alreadyLoaded = true;
+            ToolsTimer.Delay(() => //TODO:Костыль
+            {
+                VirtualizationDrawRun(true);
+                RefreshVisibleBars();
+                ScaleDashes();
+            }, TimeSpan.FromSeconds(1));
         }
 
 
@@ -215,20 +223,20 @@ namespace TimeLineControlLibrary
             T_1Min.T_el = TimeSpan.FromMinutes(1);
             T_1Min.DashWidth = 2;
             T_1Min.DashHeight = 16;
-            T_1Min.VisibilityResolution = 10 / 6;
-            T_1Min.TimeLabelVisibilityResolution = 50 / 6;
+            T_1Min.VisibilityResolution = 0.5;
+            T_1Min.TimeLabelVisibilityResolution = 1;
 
             T_10Min.T_el = TimeSpan.FromMinutes(10);
             T_10Min.DashWidth = 2;
             T_10Min.DashHeight = 20;
-            T_10Min.VisibilityResolution = 1 / 6;
-            T_10Min.TimeLabelVisibilityResolution = 5 / 6;
+            T_10Min.VisibilityResolution = 0.05;
+            T_10Min.TimeLabelVisibilityResolution = 0.25;
 
             T_1Hour.T_el = TimeSpan.FromHours(1);
             T_1Hour.DashWidth = 3;
             T_1Hour.DashHeight = 25;
-            T_1Hour.VisibilityResolution = 10 / 60;
-            T_1Hour.TimeLabelVisibilityResolution = 50 / 60;
+            T_1Hour.VisibilityResolution = 0.01;
+            T_1Hour.TimeLabelVisibilityResolution = 0.05;
 
             TimeDashesAreas.Add(T_100msec.Name, T_100msec);
             TimeDashesAreas.Add(T_1Sec.Name, T_1Sec);
@@ -311,6 +319,8 @@ namespace TimeLineControlLibrary
             ClearAllDashes();
             VirtualizationDrawRun(true);
             zoomflag = true;
+
+            Console.WriteLine(ViewportScalePxInSecond);
         }
 
         public double RealCurrentWidth;
