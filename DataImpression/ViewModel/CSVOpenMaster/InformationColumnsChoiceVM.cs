@@ -93,7 +93,27 @@ namespace DataImpression.ViewModel
             }
         }
 
+        private Column pupilDiameterRightColumn;
+        public Column PupilDiameterRightColumn
+        {
+            get { return pupilDiameterRightColumn; }
+            set
+            {
+                pupilDiameterRightColumn = value;
+                OnPropertyChanged("PupilDiameterRightColumn");
+            }
+        }
 
+        private Column pupilDiameterLeftColumn;
+        public Column PupilDiameterLeftColumn
+        {
+            get { return pupilDiameterLeftColumn; }
+            set
+            {
+                pupilDiameterLeftColumn = value;
+                OnPropertyChanged("PupilDiameterLeftColumn");
+            }
+        }
 
         Visibility visibility;
         public Visibility Visibility
@@ -123,6 +143,8 @@ namespace DataImpression.ViewModel
             OnPropertyChanged("RecordingNameColumn");
             OnPropertyChanged("RecordingDateColumn");
             OnPropertyChanged("RecordingStartTimeColumn");
+            OnPropertyChanged("PupilDiameterRightColumn");
+            OnPropertyChanged("PupilDiameterLeftColumn");
         }
 
         public bool CanExecuteNextInputStage()
@@ -145,6 +167,8 @@ namespace DataImpression.ViewModel
                     case "Recording name": RecordingNameColumn = col; break;
                     case "Recording date": RecordingDateColumn = col; break;
                     case "Recording start time": RecordingStartTimeColumn = col; break;
+                    case "Pupil diameter right": PupilDiameterRightColumn = col; break;
+                    case "Pupil diameter left": PupilDiameterLeftColumn = col; break;
 
                     default: break;
                 }

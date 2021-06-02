@@ -13,6 +13,8 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
         <StackPanel>
@@ -74,8 +76,38 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </StackPanel>
-
+        
         <StackPanel Grid.Row="4">
+            <TextBlock Text="Диаметр правого зрачка"/>
+            <ComboBox ItemsSource="{Binding ColumnsVM}" 
+                      SelectedItem="{Binding PupilDiameterRightColumn}" >
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding OrderedNumber}" />
+                            <TextBlock Text="{Binding Name}" Margin="10 0 0 0"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel>
+
+        <StackPanel Grid.Row="5">
+            <TextBlock Text="Диаметр левого зрачка"/>
+            <ComboBox ItemsSource="{Binding ColumnsVM}" 
+                      SelectedItem="{Binding PupilDiameterLeftColumn}" >
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding OrderedNumber}" />
+                            <TextBlock Text="{Binding Name}" Margin="10 0 0 0"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel>
+
+        <StackPanel Grid.Row="6">
             <Button Content="По умолчанию" HorizontalAlignment="Right" Height="22" Width="100" Command="{Binding SetDefaultCommand}"/>
         </StackPanel>
 
