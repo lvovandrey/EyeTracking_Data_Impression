@@ -36,6 +36,7 @@ namespace TimeLineControlLibrary
         private void THIS_Loaded(object sender, RoutedEventArgs e)
         {
             GridMain.Width = DefaultGridMainWidth;
+            VirtualizationBuffer = new VirtualizationBuffer(this, 1, null);
         }
 
 
@@ -189,13 +190,13 @@ namespace TimeLineControlLibrary
 
         void ScaleDashes()
         {
-            HideAllDashes();
-            var Sc = ViewportScalePxInSecond;
-            if (Sc > 50)
+         //   HideAllDashes();
+          //  var Sc = ViewportScalePxInSecond;
+          //  if (Sc > 50)
             {
                 T_Sec.TimeLabelVisibility = Visibility.Visible;
             }
-            if (Sc > 5)
+           // if (Sc > 5)
             {
                 T_Sec.Visibility = Visibility.Visible;
             }
@@ -204,7 +205,7 @@ namespace TimeLineControlLibrary
         VirtualizationBuffer VirtualizationBuffer;
         VirtualizationBuffer OldVirtualizationBuffer;
 
-        void VirtualizationDrawRun()
+        void VirtualizationDrawRun(bool forceRedraw)
         {
             VirtualizationBuffer = new VirtualizationBuffer(this, 1, OldVirtualizationBuffer);
 
@@ -215,7 +216,7 @@ namespace TimeLineControlLibrary
                 T_Sec.EraseDashesInInterval(interval.Begin, interval.End);
             foreach (var interval in VirtualizationBuffer.NewIntervals)
                 T_Sec.DrawAllDashesInInterval(interval.Begin, interval.End);
-            if(OldVirtualizationBuffer==null)//если буфера нет - значит это первая прорисовка и нужно отрисовать вообще все
+            if(OldVirtualizationBuffer==null || forceRedraw)//если буфера нет - значит это первая прорисовка и нужно отрисовать вообще все
                 T_Sec.DrawAllDashesInInterval(VirtualizationBuffer.Interval.Begin, VirtualizationBuffer.Interval.End);
 
 
@@ -237,9 +238,7 @@ namespace TimeLineControlLibrary
             T_Sec.Visibility = Visibility.Visible;
             T_Sec.TimeLabelVisibility = Visibility.Visible;
 
-            VirtualizationDrawRun();
-
-
+            
 
             stopWatch.Stop();
             // Get the elapsed time as a TimeSpan value.
@@ -300,14 +299,21 @@ namespace TimeLineControlLibrary
             RefreshDashes();
             RefreshVisibleBars();
             ScaleDashes();
+
+            T_Sec.ClearAllDashes();
+            VirtualizationBuffer.ChangeSizeVirtualizerBuffer();
+            T_Sec.DrawAllDashesInInterval(VirtualizationBuffer.Interval.Begin, VirtualizationBuffer.Interval.End);
+            Console.WriteLine("zoom");
         }
 
 
         private void ScrollViewerMain_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            RefreshDashes();
-            RefreshVisibleBars();
-            ScaleDashes();
+            //RefreshDashes();
+            //VirtualizationDrawRun(false);
+            //RefreshVisibleBars();
+            //ScaleDashes();
+            Console.WriteLine("scroll");
         }
 
 
