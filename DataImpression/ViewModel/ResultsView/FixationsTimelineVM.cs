@@ -3,6 +3,7 @@ using DataImpression.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,13 +38,28 @@ namespace DataImpression.ViewModel
         {
             get
             {
-                if (bars != null) return bars; 
+                Stopwatch stopWatch = new Stopwatch();
+                stopWatch.Start();
+
+
+
+                if (bars != null) return bars;
                 bars = new ObservableCollection<Bar>();
                 foreach (var f in _model.Results.FAOIHitsOnTimeIntervalList)
                 {
-                    if (f.FAOIHits.Count>0)
+                    if (f.FAOIHits.Count > 0)
                         bars.Add(ConvertFAOIHitsOnTimeIntervalToBar(f));
                 }
+
+                stopWatch.Stop();
+                // Get the elapsed time as a TimeSpan value.
+                TimeSpan ts = stopWatch.Elapsed;
+
+                // Format and display the TimeSpan value.
+                string elapsedTime = String.Format("BarsCreate   time {0}ms   countBars {1}",
+                    ts.TotalMilliseconds, bars.Count());
+                Console.WriteLine("RunTime " + elapsedTime);
+                
 
                 return bars;
             }

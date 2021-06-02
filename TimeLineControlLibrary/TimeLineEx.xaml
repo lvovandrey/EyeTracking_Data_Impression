@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="TimeLineControlLibrary.TimeLineEx"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TimeLineControlLibrary"
+             mc:Ignorable="d" 
+              d:DesignWidth="820" Name="THIS" 
+             Loaded="THIS_Loaded"
+             PreviewMouseWheel="THIS_PreviewMouseWheel">
+
+    <Grid >
+        <Grid Margin="0,0,0,0" x:Name="GridViewport">
+            <ScrollViewer x:Name="ScrollViewerMain" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" ScrollChanged="ScrollViewerMain_ScrollChanged"  >
+
+                <Grid x:Name="GridMain" Width="800"  VerticalAlignment="Bottom" >
+                    <Grid  Margin="0,0,0,0" VerticalAlignment="Bottom" >
+                        <Grid Height="35"  VerticalAlignment="Bottom" Panel.ZIndex="11" >
+                            <local:TimeDashesArea x:Name="T_100msec" Panel.ZIndex="11"/>
+                            <local:TimeDashesArea x:Name="T_1Sec" Panel.ZIndex="11"/>
+                            <local:TimeDashesArea x:Name="T_10Sec" Panel.ZIndex="11"/>
+                            <local:TimeDashesArea x:Name="T_1Min" Panel.ZIndex="11"/>
+                            <local:TimeDashesArea x:Name="T_10Min" Panel.ZIndex="11"/>
+                            <local:TimeDashesArea x:Name="T_1Hour" Panel.ZIndex="11"/>
+                        </Grid>
+                        <local:BarsArea x:Name="BarsArea"  FullTime="{Binding FullTime}" Panel.ZIndex="9" Margin="0 0 0 26"></local:BarsArea>
+                    </Grid>
+
+                    <Rectangle HorizontalAlignment="Stretch" Height="1"  VerticalAlignment="Bottom" Margin="0 0 20 10" Fill="Black" />
+                    <Rectangle HorizontalAlignment="Stretch"   VerticalAlignment="Stretch" Margin="0 0 20 0" Stroke="#FF323232" />
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+
+    </Grid>
+</UserControl>

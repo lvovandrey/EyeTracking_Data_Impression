@@ -77,13 +77,15 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ScaleTime.xaml.cs">
-      <DependentUpon>ScaleTime.xaml</DependentUpon>
+    <Compile Include="TimeDashesArea.xaml.cs">
+      <DependentUpon>TimeDashesArea.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TimeLine.xaml.cs">
-      <DependentUpon>TimeLine.xaml</DependentUpon>
+    <Compile Include="TimeInterval.cs" />
+    <Compile Include="TimeLineEx.xaml.cs">
+      <DependentUpon>TimeLineEx.xaml</DependentUpon>
     </Compile>
     <Compile Include="ToolsTimer.cs" />
+    <Compile Include="VirtualizationBuffer.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -114,11 +116,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ScaleTime.xaml">
+    <Page Include="TimeDashesArea.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TimeLine.xaml">
+    <Page Include="TimeLineEx.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
