@@ -72,7 +72,7 @@ namespace DataImpression.Models
             Results.FAOIHitsOnTimeIntervalList = RawDataProcessorMethods.ConvertFAOIsOnTimeRecord_to_FAOIHitsOnTimeInterval(fAOIsOnTimeRecords, ref progress, 5);
 
             progress = 96; stage = "Считывание данных о диаметре зрачка";
-            Results.PupilDiameterLeft = RawDataProcessorMethods.ReadPupilDiameterLeft();
+            var PupilDiameterLeft = RawDataProcessorMethods.ReadPupilDiameterLeft(SourceData, ref progress, 65, countStringsForReading + 100);
 
 
             progress = 100; stage = "Анализ данных завершен";
@@ -365,7 +365,7 @@ namespace DataImpression.Models
                                                         long bufferStringsSize = 10000)
         {
             long i = 0;
-            List<TobiiCSVRecord> tobiiList = new List<TobiiCSVRecord>();
+            OnTimeDistributedParameter<double> parameterList = new OnTimeDistributedParameter<double>("Pupil Diameter Left");
             using (StreamReader rd = new StreamReader(new FileStream(SourceData.CSVFileName, FileMode.Open)))
             {
                 bool EndOfFile = false;
@@ -387,28 +387,31 @@ namespace DataImpression.Models
 
                     foreach (string s in str_arr_tmp)
                     {
+                        var result = new TimeSpan_Value_Pair<double>();
+                        long tmp_time;
                         string[] tmp = { "" };
                         i++;
                         tmp = s.Split(delimiter);
                         if (tmp.Count() < 3) continue;
-                        TobiiCSVRecord TR = new TobiiCSVRecord();
-                        if (!long.TryParse(tmp[SourceData.CSVTimeColumn.OrderedNumber], out TR.time_ms))
+                        if (!long.TryParse(tmp[SourceData.CSVTimeColumn.OrderedNumber], out tmp_time))
                             throw new Exception("Не могу преобразовать в timestamp строку  " + tmp[SourceData.CSVTimeColumn.OrderedNumber]);
-
-                        string[] Hits = new string[SourceData.OptionalDataCSVColumns["Pupil diameter right"].Count()];
-                        int HitsIndex = 0;
-                        foreach (var HitColumn in SourceData.CSVAOIHitsColumns)
-                            if (tmp[HitColumn.OrderedNumber] == "1")
-                                TR.AOIHitsColumnsInCSVFile.Add(HitColumn);
-
-                        tobiiList.Add(TR);
+                        result.Time = TimeSpan.FromMilliseconds(tmp_time);
+                        if (tmp[SourceData.OptionalDataCSVColumns["Pupil diameter left"].OrderedNumber] != "")
+                        {
+                            double diameter;
+                            if (!double.TryParse(tmp[SourceData.OptionalDataCSVColumns["Pupil diameter left"].OrderedNumber], out diameter))
+                                throw new Exception("Не могу преобразовать в double строку диаметра  " + tmp[SourceData.OptionalDataCSVColumns["Pupil diameter left"].OrderedNumber]);
+                            result.Value = diameter;
+                        }
+                        if (result.Value != 0)
+                            parameterList.Results.Add(result);
                     }
 
                     //strings.AddRange(str_arr_tmp);
                     CountReadedStrings += bufferStringsSize;
                 }
             }
-            return tobiiList;
+            return parameterList;
         }
     }
 
