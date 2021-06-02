@@ -265,10 +265,10 @@ namespace TimeLineControlLibrary
             binding.Path = new PropertyPath("ActualWidth"); // свойство элемента-источника
             dash.SetBinding(Dash.WidthProperty, binding); // установка привязки для элемента-приемника
 
-            Binding bindingTimeLabelVis = new Binding();
-            bindingTimeLabelVis.Source = this;  // элемент-источник
-            bindingTimeLabelVis.Path = new PropertyPath("TimeLabelVisibility"); // свойство элемента-источника
-            dash.SetBinding(Dash.TimeLabelVisibilityProperty, bindingTimeLabelVis); // установка привязки для элемента-приемника
+            //Binding bindingTimeLabelVis = new Binding();
+            //bindingTimeLabelVis.Source = this;  // элемент-источник
+            //bindingTimeLabelVis.Path = new PropertyPath("TimeLabelVisibility"); // свойство элемента-источника
+            //dash.SetBinding(Dash.TimeLabelVisibilityProperty, bindingTimeLabelVis); // установка привязки для элемента-приемника
 
         }
 

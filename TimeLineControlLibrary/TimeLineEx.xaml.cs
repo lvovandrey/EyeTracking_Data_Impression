@@ -37,6 +37,7 @@ namespace TimeLineControlLibrary
         {
             GridMain.Width = DefaultGridMainWidth;
             VirtualizationBuffer = new VirtualizationBuffer(this, 1, null);
+            RefreshDashes();
         }
 
 
@@ -207,7 +208,7 @@ namespace TimeLineControlLibrary
 
         void VirtualizationDrawRun(bool forceRedraw)
         {
-            VirtualizationBuffer = new VirtualizationBuffer(this, 1, OldVirtualizationBuffer);
+            VirtualizationBuffer = new VirtualizationBuffer(this, 3, OldVirtualizationBuffer);
 
             VirtualizationBuffer.ChangeSizeVirtualizerBuffer();
             VirtualizationBuffer.FindUnusedIntervals();
@@ -216,8 +217,8 @@ namespace TimeLineControlLibrary
                 T_Sec.EraseDashesInInterval(interval.Begin, interval.End);
             foreach (var interval in VirtualizationBuffer.NewIntervals)
                 T_Sec.DrawAllDashesInInterval(interval.Begin, interval.End);
-            if(OldVirtualizationBuffer==null || forceRedraw)//если буфера нет - значит это первая прорисовка и нужно отрисовать вообще все
-                T_Sec.DrawAllDashesInInterval(VirtualizationBuffer.Interval.Begin, VirtualizationBuffer.Interval.End);
+            //if(OldVirtualizationBuffer==null || forceRedraw)//если буфера нет - значит это первая прорисовка и нужно отрисовать вообще все
+            T_Sec.DrawAllDashesInInterval(VirtualizationBuffer.Interval.Begin, VirtualizationBuffer.Interval.End);
 
 
             OldVirtualizationBuffer = VirtualizationBuffer;
@@ -226,30 +227,15 @@ namespace TimeLineControlLibrary
         void RefreshDashes()
         {
             if (T_Sec.Visibility != Visibility.Visible) return;
-
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-
-            
+           
             T_Sec.T_full = FullTime;
             T_Sec.T_el = TimeSpan.FromSeconds(1);
-            T_Sec.ChangeDashesHeight(14);
-            T_Sec.ChangeDashesWidth(1.5);
+            T_Sec.DashWidth = 2;
+            T_Sec.DashHeight = 22;
+            //T_Sec.ChangeDashesHeight(14);
+            //T_Sec.ChangeDashesWidth(1.5);
             T_Sec.Visibility = Visibility.Visible;
             T_Sec.TimeLabelVisibility = Visibility.Visible;
-
-            
-
-            stopWatch.Stop();
-            // Get the elapsed time as a TimeSpan value.
-            TimeSpan ts = stopWatch.Elapsed;
-
-            // Format and display the TimeSpan value.
-            string elapsedTime = String.Format("time {0}ms    fulltime {1} sec",
-                ts.TotalMilliseconds, TimeIntervalViewport.TotalSeconds);
-            Console.WriteLine("RunTime " + elapsedTime);
-
-
         }
 
 
@@ -279,7 +265,6 @@ namespace TimeLineControlLibrary
 
         private void THIS_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-
             // Console.WriteLine("offset={0} x={1} horOffset={2}", offset, Mouse.GetPosition(GridMain).X, ScrollViewerMain.HorizontalOffset);
             if (e.Delta > 0)
             {
@@ -296,14 +281,18 @@ namespace TimeLineControlLibrary
                 ScrollViewerMain.ScrollToHorizontalOffset(ScrollViewerMain.HorizontalOffset - offset);
             }
 
-            RefreshDashes();
+            //RefreshDashes();
             RefreshVisibleBars();
-            ScaleDashes();
+            // ScaleDashes();
+                       
 
             T_Sec.ClearAllDashes();
+            VirtualizationBuffer = new VirtualizationBuffer(this, 3, OldVirtualizationBuffer);
+
             VirtualizationBuffer.ChangeSizeVirtualizerBuffer();
             T_Sec.DrawAllDashesInInterval(VirtualizationBuffer.Interval.Begin, VirtualizationBuffer.Interval.End);
 
+            OldVirtualizationBuffer = VirtualizationBuffer;
             Console.WriteLine("zoom");
             zoomflag = true;
         }
@@ -313,10 +302,10 @@ namespace TimeLineControlLibrary
         private void ScrollViewerMain_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             if (zoomflag) { zoomflag = false; return; }
-            RefreshDashes();
+          //  RefreshDashes();
             VirtualizationDrawRun(false);
             RefreshVisibleBars();
-            ScaleDashes();
+      //      ScaleDashes();
             Console.WriteLine("scroll");
         }
 
