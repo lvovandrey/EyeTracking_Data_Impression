@@ -303,16 +303,20 @@ namespace TimeLineControlLibrary
             T_Sec.ClearAllDashes();
             VirtualizationBuffer.ChangeSizeVirtualizerBuffer();
             T_Sec.DrawAllDashesInInterval(VirtualizationBuffer.Interval.Begin, VirtualizationBuffer.Interval.End);
+
             Console.WriteLine("zoom");
+            zoomflag = true;
         }
 
+        private bool zoomflag = false;//ебаное говнище!!!!! fuuck
 
         private void ScrollViewerMain_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            //RefreshDashes();
-            //VirtualizationDrawRun(false);
-            //RefreshVisibleBars();
-            //ScaleDashes();
+            if (zoomflag) { zoomflag = false; return; }
+            RefreshDashes();
+            VirtualizationDrawRun(false);
+            RefreshVisibleBars();
+            ScaleDashes();
             Console.WriteLine("scroll");
         }
 
