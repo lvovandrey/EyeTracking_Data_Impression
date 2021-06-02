@@ -35,8 +35,9 @@ namespace TimeLineControlLibrary
 
         private void THIS_Loaded(object sender, RoutedEventArgs e)
         {
+            SetupTimeDashesAreas();
             GridMain.Width = DefaultGridMainWidth;
-            VirtualizationBuffer = new VirtualizationBuffer(this, 1, null);
+            VirtualizationBuffer = new VirtualizationBuffer(this, 3, null);
             RefreshDashes();
         }
 
@@ -185,29 +186,90 @@ namespace TimeLineControlLibrary
 
         void HideAllDashes()
         {
-            T_Sec.TimeLabelVisibility = Visibility.Hidden;
-            T_Sec.Visibility = Visibility.Hidden;
+            foreach (var area in TimeDashesAreas)
+            {
+                area.Value.TimeLabelVisibility = Visibility.Hidden;
+                area.Value.Visibility = Visibility.Hidden;
+            }
         }
 
         void ScaleDashes()
         {
-         //   HideAllDashes();
-          //  var Sc = ViewportScalePxInSecond;
-          //  if (Sc > 50)
+            HideAllDashes();
+            var Sc = ViewportScalePxInSecond;
+            foreach (var area in TimeDashesAreas)
             {
-                T_Sec.TimeLabelVisibility = Visibility.Visible;
+                if (Sc > area.Value.TimeLabelVisibilityResolution)
+                    area.Value.TimeLabelVisibility = Visibility.Visible;
+                if (Sc > area.Value.VisibilityResolution)
+                    area.Value.Visibility = Visibility.Visible;
             }
-           // if (Sc > 5)
-            {
-                T_Sec.Visibility = Visibility.Visible;
-            }
+            
         }
+
+        internal Dictionary<string, TimeDashesArea> TimeDashesAreas = new Dictionary<string, TimeDashesArea>();
+        void SetupTimeDashesAreas()
+        {
+
+            T_100msec.T_el = TimeSpan.FromMilliseconds(100);
+            T_100msec.DashWidth = 1;
+            T_100msec.DashHeight = 5;
+            T_100msec.VisibilityResolution = 100;
+            T_100msec.TimeLabelVisibilityResolution = 500;
+
+            T_1Sec.T_el = TimeSpan.FromSeconds(1);
+            T_1Sec.DashWidth = 1;
+            T_1Sec.DashHeight = 10;
+            T_1Sec.VisibilityResolution = 10;
+            T_1Sec.TimeLabelVisibilityResolution = 50;
+
+            T_10Sec.T_el = TimeSpan.FromSeconds(10);
+            T_10Sec.DashWidth = 1.5;
+            T_10Sec.DashHeight = 13;
+            T_10Sec.VisibilityResolution = 1;
+            T_10Sec.TimeLabelVisibilityResolution = 5;
+
+            T_1Min.T_el = TimeSpan.FromMinutes(1);
+            T_1Min.DashWidth = 2;
+            T_1Min.DashHeight = 16;
+            T_1Min.VisibilityResolution = 10/6;
+            T_1Min.TimeLabelVisibilityResolution = 50/6;
+
+            T_10Min.T_el = TimeSpan.FromMinutes(10);
+            T_10Min.DashWidth = 2;
+            T_10Min.DashHeight = 20;
+            T_10Min.VisibilityResolution = 1/6;
+            T_10Min.TimeLabelVisibilityResolution = 5/6;
+
+            T_1Hour.T_el = TimeSpan.FromHours(1);
+            T_1Hour.DashWidth = 3;
+            T_1Hour.DashHeight = 25;
+            T_1Hour.VisibilityResolution = 10/60;
+            T_1Hour.TimeLabelVisibilityResolution = 50/60;
+
+            TimeDashesAreas.Add(T_100msec.Name, T_100msec);
+            TimeDashesAreas.Add(T_1Sec.Name, T_1Sec);
+            TimeDashesAreas.Add(T_10Sec.Name, T_10Sec);
+            TimeDashesAreas.Add(T_1Min.Name, T_1Min);
+            TimeDashesAreas.Add(T_10Min.Name, T_10Min);
+            TimeDashesAreas.Add(T_1Hour.Name, T_1Hour);
+
+            foreach (var area in TimeDashesAreas)
+            {
+                area.Value.T_full = FullTime;
+                area.Value.TimeLineEx = this;
+            }
+            
+        }
+
 
         VirtualizationBuffer VirtualizationBuffer;
         VirtualizationBuffer OldVirtualizationBuffer;
 
         void VirtualizationDrawRun(bool forceRedraw)
         {
+            if (T_Sec.Visibility != Visibility.Visible) return;
+
             VirtualizationBuffer = new VirtualizationBuffer(this, 3, OldVirtualizationBuffer);
 
             VirtualizationBuffer.ChangeSizeVirtualizerBuffer();
@@ -217,8 +279,8 @@ namespace TimeLineControlLibrary
                 T_Sec.EraseDashesInInterval(interval.Begin, interval.End);
             foreach (var interval in VirtualizationBuffer.NewIntervals)
                 T_Sec.DrawAllDashesInInterval(interval.Begin, interval.End);
-            //if(OldVirtualizationBuffer==null || forceRedraw)//если буфера нет - значит это первая прорисовка и нужно отрисовать вообще все
-            T_Sec.DrawAllDashesInInterval(VirtualizationBuffer.Interval.Begin, VirtualizationBuffer.Interval.End);
+            if(OldVirtualizationBuffer==null || forceRedraw)//если буфера нет - значит это первая прорисовка и нужно отрисовать вообще все
+                T_Sec.DrawAllDashesInInterval(VirtualizationBuffer.Interval.Begin, VirtualizationBuffer.Interval.End);
 
 
             OldVirtualizationBuffer = VirtualizationBuffer;
@@ -226,14 +288,10 @@ namespace TimeLineControlLibrary
 
         void RefreshDashes()
         {
-            if (T_Sec.Visibility != Visibility.Visible) return;
-           
             T_Sec.T_full = FullTime;
             T_Sec.T_el = TimeSpan.FromSeconds(1);
             T_Sec.DashWidth = 2;
             T_Sec.DashHeight = 22;
-            //T_Sec.ChangeDashesHeight(14);
-            //T_Sec.ChangeDashesWidth(1.5);
             T_Sec.Visibility = Visibility.Visible;
             T_Sec.TimeLabelVisibility = Visibility.Visible;
         }
@@ -265,9 +323,9 @@ namespace TimeLineControlLibrary
 
         private void THIS_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            // Console.WriteLine("offset={0} x={1} horOffset={2}", offset, Mouse.GetPosition(GridMain).X, ScrollViewerMain.HorizontalOffset);
             if (e.Delta > 0)
             {
+                RealCurrentWidth= GridMain.ActualWidth * ZoomKoef;
                 GridMain.Width = GridMain.ActualWidth * ZoomKoef;
 
                 double offset = Mouse.GetPosition(GridMain).X * (ZoomKoef - 1);
@@ -275,38 +333,39 @@ namespace TimeLineControlLibrary
             }
             else
             {
+                RealCurrentWidth = GridMain.ActualWidth / ZoomKoef;
                 GridMain.Width = GridMain.ActualWidth / ZoomKoef;
 
                 double offset = Mouse.GetPosition(GridMain).X * (1 - (1 / ZoomKoef));
                 ScrollViewerMain.ScrollToHorizontalOffset(ScrollViewerMain.HorizontalOffset - offset);
             }
 
-            //RefreshDashes();
             RefreshVisibleBars();
-            // ScaleDashes();
-                       
-
+            ScaleDashes();
             T_Sec.ClearAllDashes();
-            VirtualizationBuffer = new VirtualizationBuffer(this, 3, OldVirtualizationBuffer);
+            //VirtualizationBuffer = new VirtualizationBuffer(this, 3, OldVirtualizationBuffer);
 
-            VirtualizationBuffer.ChangeSizeVirtualizerBuffer();
-            T_Sec.DrawAllDashesInInterval(VirtualizationBuffer.Interval.Begin, VirtualizationBuffer.Interval.End);
+            //VirtualizationBuffer.ChangeSizeVirtualizerBuffer();
+            //T_Sec.DrawAllDashesInInterval(VirtualizationBuffer.Interval.Begin, VirtualizationBuffer.Interval.End);
 
-            OldVirtualizationBuffer = VirtualizationBuffer;
-            Console.WriteLine("zoom");
+            //OldVirtualizationBuffer = VirtualizationBuffer;
+
+            VirtualizationDrawRun(true);
             zoomflag = true;
         }
+
+        public double RealCurrentWidth;
 
         private bool zoomflag = false;//ебаное говнище!!!!! fuuck
 
         private void ScrollViewerMain_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
+            RealCurrentWidth = GridMain.ActualWidth;
             if (zoomflag) { zoomflag = false; return; }
-          //  RefreshDashes();
             VirtualizationDrawRun(false);
             RefreshVisibleBars();
-      //      ScaleDashes();
-            Console.WriteLine("scroll");
+            ScaleDashes();
+                        
         }
 
 

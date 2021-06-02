@@ -15,7 +15,7 @@
         <Rectangle Fill="#00FAEBD7"  Name="DashInterval" Grid.Column="1"/>
         <TextBlock x:Name="TimeLabel"  Text="{Binding Time, UpdateSourceTrigger=PropertyChanged, StringFormat=mm\\:ss}" FontSize="8" Margin="-10,0,0,0" 
                    VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Grid.ColumnSpan="2" 
-                   Foreground="Black" /> <!--Visibility="{Binding TimeLabelVisibility, UpdateSourceTrigger=PropertyChanged}"-->
-
+                   Visibility="{Binding TimeLabelVisibility, UpdateSourceTrigger=PropertyChanged}" 
+                   Foreground="Black" />
     </Grid>
 </UserControl>

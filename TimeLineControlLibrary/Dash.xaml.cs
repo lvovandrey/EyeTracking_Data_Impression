@@ -23,30 +23,30 @@ namespace TimeLineControlLibrary
 
 
 
-        //public static readonly DependencyProperty TimeLabelVisibilityProperty = DependencyProperty.Register("TimeLabelVisibility",
-        //typeof(Visibility), typeof(Dash),
-        //new FrameworkPropertyMetadata(new PropertyChangedCallback(TimeLabelVisibilityPropertyChangedCallback)));
+        public static readonly DependencyProperty TimeLabelVisibilityProperty = DependencyProperty.Register("TimeLabelVisibility",
+        typeof(Visibility), typeof(Dash),
+        new FrameworkPropertyMetadata(new PropertyChangedCallback(TimeLabelVisibilityPropertyChangedCallback)));
 
-        //public Visibility TimeLabelVisibility
-        //{
-        //    get
-        //    {
-        //        return (Visibility)GetValue(TimeLabelVisibilityProperty);
-        //    }
-        //    set
-        //    {
-        //        SetValue(TimeLabelVisibilityProperty, value);
-        //        OnPropertyChanged("TimeLabelVisibility");
-        //    }
-        //}
+        public Visibility TimeLabelVisibility
+        {
+            get
+            {
+                return (Visibility)GetValue(TimeLabelVisibilityProperty);
+            }
+            set
+            {
+                SetValue(TimeLabelVisibilityProperty, value);
+                OnPropertyChanged("TimeLabelVisibility");
+            }
+        }
 
-        //public event PropertyChanged OnTimeLabelVisibilityChanged;
+        public event PropertyChanged OnTimeLabelVisibilityChanged;
 
-        //static void TimeLabelVisibilityPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        //{
-        //    if (((Dash)d).OnTimeLabelVisibilityChanged != null)
-        //        ((Dash)d).OnTimeLabelVisibilityChanged(d, e);
-        //}
+        static void TimeLabelVisibilityPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (((Dash)d).OnTimeLabelVisibilityChanged != null)
+                ((Dash)d).OnTimeLabelVisibilityChanged(d, e);
+        }
 
 
         public static readonly DependencyProperty TimeProperty = DependencyProperty.Register("Time",

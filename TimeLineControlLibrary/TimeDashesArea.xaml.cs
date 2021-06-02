@@ -29,6 +29,7 @@ namespace TimeLineControlLibrary
             Dashes = new List<Dash>();
         }
 
+        public TimeLineEx TimeLineEx;
 
         public TimeSpan Interval { get; set; }
 
@@ -110,13 +111,15 @@ namespace TimeLineControlLibrary
 
 
         public double DashHeight, DashWidth;
+        public double TimeLabelVisibilityResolution, VisibilityResolution;
+
 
         public void DrawDash(TimeSpan time)
         {
             if (Dashes.Where(dash => dash.Time == time).Count() > 0) return;
             Dash d = new Dash();
             d.Time = time;
-            // RefreshBinding(d);
+            RefreshBinding(d);
             d.LineHeight = DashHeight;
             d.LineWidth = DashWidth;
             d.Margin = CalculateDashMargin(d);
@@ -143,7 +146,7 @@ namespace TimeLineControlLibrary
 
         private Thickness CalculateDashMargin(Dash dash)
         {
-            double horisontal_offset = this.ActualWidth * dash.Time.TotalSeconds / T_full.TotalSeconds;
+            double horisontal_offset = TimeLineEx.RealCurrentWidth * dash.Time.TotalSeconds / T_full.TotalSeconds;
             return new Thickness(horisontal_offset, 0, 0, 0);
         }
 
@@ -184,10 +187,10 @@ namespace TimeLineControlLibrary
         void RefreshBinding(Dash dash)
         {
 
-            //Binding bindingTimeLabelVis = new Binding();
-            //bindingTimeLabelVis.Source = this;  // элемент-источник
-            //bindingTimeLabelVis.Path = new PropertyPath("TimeLabelVisibility"); // свойство элемента-источника
-            //dash.SetBinding(Dash.TimeLabelVisibilityProperty, bindingTimeLabelVis); // установка привязки для элемента-приемника
+            Binding bindingTimeLabelVis = new Binding();
+            bindingTimeLabelVis.Source = this;  // элемент-источник
+            bindingTimeLabelVis.Path = new PropertyPath("TimeLabelVisibility"); // свойство элемента-источника
+            dash.SetBinding(Dash.TimeLabelVisibilityProperty, bindingTimeLabelVis); // установка привязки для элемента-приемника
 
         }
     }

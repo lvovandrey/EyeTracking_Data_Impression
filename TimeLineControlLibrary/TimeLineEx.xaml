@@ -16,7 +16,12 @@
                 <Grid x:Name="GridMain" Width="800"  VerticalAlignment="Bottom" >
                     <Grid  Margin="0,0,0,0" VerticalAlignment="Bottom" >
                         <Grid Height="35"  VerticalAlignment="Bottom" Panel.ZIndex="11" >
-                            <local:TimeDashesArea x:Name="T_Sec" Panel.ZIndex="11"/>
+                            <local:TimeDashesArea x:Name="T_100msec" Panel.ZIndex="11"/>
+                            <local:TimeDashesArea x:Name="T_1Sec" Panel.ZIndex="11"/>
+                            <local:TimeDashesArea x:Name="T_10Sec" Panel.ZIndex="11"/>
+                            <local:TimeDashesArea x:Name="T_1Min" Panel.ZIndex="11"/>
+                            <local:TimeDashesArea x:Name="T_10Min" Panel.ZIndex="11"/>
+                            <local:TimeDashesArea x:Name="T_1Hour" Panel.ZIndex="11"/>
                         </Grid>
                         <local:BarsArea x:Name="BarsArea"  FullTime="{Binding FullTime}" Panel.ZIndex="9" Margin="0 0 0 26"></local:BarsArea>
                     </Grid>
