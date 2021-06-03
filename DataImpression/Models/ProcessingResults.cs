@@ -35,6 +35,17 @@ namespace DataImpression.Models
         /// </summary>
         public ProcessingTaskSourceData SourceData { get; set; }
 
+
+        /// <summary>
+        /// Значение диаметра правого зрачка в мм в зависимости от времени
+        /// </summary>
+        public OnTimeDistributedParameter<double> PupilDiameterRight { get; set; }
+
+        /// <summary>
+        /// Значение диаметра левого зрачка в мм в зависимости от времени
+        /// </summary>
+        public OnTimeDistributedParameter<double> PupilDiameterLeft { get; set; }
+
         /// <summary>
         /// Распределение суммарного относительног времени фиксаций (в виде доли от полного времени) по функциональным зонам
         /// т.е. если value = 0.5 для данной faoi, значит туда смотрели половину от всего времени

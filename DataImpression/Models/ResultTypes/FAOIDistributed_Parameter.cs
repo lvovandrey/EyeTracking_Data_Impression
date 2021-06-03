@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataImpression.Models.ResultTypes
 {
+
     /// <summary>
     /// Класс содержит коллекцию результатов для какого-либо параметра, имещюего распределение по функциональным зонам.
     /// </summary>

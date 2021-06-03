@@ -1,4 +1,5 @@
 ﻿using DataImpression.Models.ProcessingCore;
+using DataImpression.Models.ResultTypes;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -57,18 +58,23 @@ namespace DataImpression.Models
             progress = 0; stage = "Оценка размера файла";
             long countStringsForReading = RawDataProcessorMethods.TobiiCSVCalculateCountOfStrings(SourceData);
             progress = 5; stage = "Считывание файла " + SourceData.CSVFileName;
-            List<TobiiCSVRecord> tobiiCSVRecords = RawDataProcessorMethods.TobiiCSVRead(SourceData, ref progress, 65, countStringsForReading + 100);
-            progress = 70; stage = "Сортировка фиксаций по функциональным зонам";
+            List<TobiiCSVRecord> tobiiCSVRecords = RawDataProcessorMethods.TobiiCSVRead(SourceData, ref progress, 20, countStringsForReading + 100);
+            progress = 25; stage = "Сортировка фиксаций по функциональным зонам";
             List<FAOIsOnTimeRecord> fAOIsOnTimeRecords = RawDataProcessorMethods.ConvertTobiiCSVRecord_To_FAOIsOnTimeRecord(tobiiCSVRecords,
-                                                                                                                            SourceData, ref progress, 15);
-            progress = 85; stage = "Сжатие сырых данных";
+                                                                                                                            SourceData, ref progress, 10);
+            progress = 35; stage = "Сжатие сырых данных";
             Results.TobiiCSVRecordsList = RawDataProcessorMethods.CompactTobiiCSVRecords(tobiiCSVRecords, ref progress, 5);
 
-            progress = 90; stage = "Сжатие проанализированных данных";
+            progress = 40; stage = "Сжатие проанализированных данных";
             fAOIsOnTimeRecords = RawDataProcessorMethods.CompactFAOIsOnTimeRecord(fAOIsOnTimeRecords, ref progress, 5);
 
-            progress = 95; stage = "Конвертирование результатов анализа";
-            Results.FAOIHitsOnTimeIntervalList = RawDataProcessorMethods.ConvertFAOIsOnTimeRecord_to_FAOIHitsOnTimeInterval(fAOIsOnTimeRecords, ref progress, 5);
+            progress = 45; stage = "Конвертирование результатов анализа";
+            Results.FAOIHitsOnTimeIntervalList = RawDataProcessorMethods.ConvertFAOIsOnTimeRecord_to_FAOIHitsOnTimeInterval(fAOIsOnTimeRecords, ref progress, 3);
+
+            progress = 48; stage = "Считывание данных о диаметре зрачка";
+            var PupilDiameterLeft = RawDataProcessorMethods.ReadOnTimeDistributedParameter(SourceData,
+                SourceData.OptionalDataCSVColumns["Pupil diameter left"], "Pupil diameter left", ref progress, 52, countStringsForReading + 100);
+            Results.PupilDiameterLeft =  RawDataProcessorMethods.CompressOnTimeDistributedParameter(PupilDiameterLeft, 2);
             progress = 100; stage = "Анализ данных завершен";
         }
         #endregion
@@ -345,6 +351,102 @@ namespace DataImpression.Models
             return true;
         }
 
+
+        /// <summary>
+        /// Считывает данные о диаметре левого зрачка
+        /// </summary>
+        /// <returns></returns>
+        internal static OnTimeDistributedParameter<double> ReadOnTimeDistributedParameter(ProcessingTaskSourceData SourceData,
+                                                        Column csvcolumn,
+                                                        string parameterName,
+                                                        ref double progress,
+                                                        double progress_koef,
+                                                        long countStringsForReading = 1,
+                                                        char separator = '\n',
+                                                        char delimiter = '\t',
+                                                        long bufferStringsSize = 10000)
+        {
+            long i = 0;
+            OnTimeDistributedParameter<double> parameterList = new OnTimeDistributedParameter<double>(parameterName);
+            using (StreamReader rd = new StreamReader(new FileStream(SourceData.CSVFileName, FileMode.Open)))
+            {
+                bool EndOfFile = false;
+                long CountReadedStrings = 0;
+
+                double initialProgress = progress;
+
+                string[] first_string_arr = rd.ReadLine().Split(delimiter); //читаем первую строку - по сути нам просто надо курсор на вторую переместить.
+
+                if (bufferStringsSize > countStringsForReading) bufferStringsSize = countStringsForReading;
+                while ((!EndOfFile) && (!(CountReadedStrings >= countStringsForReading)))
+                {
+                    progress = initialProgress + progress_koef * ((double)CountReadedStrings / (double)countStringsForReading);
+                    if (bufferStringsSize > (countStringsForReading - CountReadedStrings)) bufferStringsSize = (countStringsForReading - CountReadedStrings);//TODO:ПРоверить - тут может быть на 1 больше или меньше надо
+                    string[] str_arr_tmp = { "" };
+                    string big_str = "";
+                    EndOfFile = CSVReader.ReadPartOfFile(rd, out big_str, bufferStringsSize);
+                    str_arr_tmp = big_str.Split(separator);
+
+                    foreach (string s in str_arr_tmp)
+                    {
+                        var result = new TimeSpan_Value_Pair<double>();
+                        long tmp_time;
+                        string[] tmp = { "" };
+                        i++;
+                        tmp = s.Split(delimiter);
+                        if (tmp.Count() < 3) continue;
+                        if (!long.TryParse(tmp[SourceData.CSVTimeColumn.OrderedNumber], out tmp_time))
+                            throw new Exception("Не могу преобразовать в timestamp строку  " + tmp[SourceData.CSVTimeColumn.OrderedNumber]);
+                        result.Time = TimeSpan.FromMilliseconds(tmp_time);
+                        if (tmp[csvcolumn.OrderedNumber] != "") //SourceData.OptionalDataCSVColumns["Pupil diameter left"]
+                        {
+                            double diameter;
+                            if (!double.TryParse(tmp[csvcolumn.OrderedNumber], out diameter))
+                                throw new Exception("Не могу преобразовать в double строку параметра  " + tmp[csvcolumn.OrderedNumber]);
+                            result.Value = diameter;
+                        }
+                        if (result.Value != 0)
+                            parameterList.Results.Add(result);
+                    }
+
+                    //strings.AddRange(str_arr_tmp);
+                    CountReadedStrings += bufferStringsSize;
+                }
+            }
+            return parameterList;
+        }
+
+        /// <summary>
+        /// Сжимает переданную коллекцию распределения по времени по частоте оцифровки (Гц)
+        /// </summary>
+        internal static OnTimeDistributedParameter<double> CompressOnTimeDistributedParameter(OnTimeDistributedParameter<double> sourceCollection, 
+            double frequencyHz)
+        {
+            OnTimeDistributedParameter<double> filtredCollection = new OnTimeDistributedParameter<double>(sourceCollection.ParameterName);
+            TimeSpan period = TimeSpan.FromSeconds(1 / frequencyHz);
+            TimeSpan sourceBegin = sourceCollection.Results[0].Time;
+            TimeSpan sourceEnd = sourceCollection.Results.Last().Time;
+            TimeSpan curtime = sourceBegin;
+            int i = 0;
+            while (curtime<sourceEnd)
+            {
+                var IntervalBegin = curtime;
+                var IntervalEnd = curtime + period;
+                double summ = 0;
+                int count=0;
+                while (sourceCollection.Results[i].Time<IntervalEnd)
+                {
+                    summ += sourceCollection.Results[i].Value;
+                    count++;
+                    i++;
+                    if (i >= sourceCollection.Results.Count()) break;
+                }
+                double avg = summ / (double)count;//по моему тут явное приведение не нужно
+                filtredCollection.Results.Add(new TimeSpan_Value_Pair<double>() { Time = IntervalBegin, Value = avg });
+                curtime = IntervalEnd;
+            }
+            return filtredCollection;
+        }
     }
 
 }

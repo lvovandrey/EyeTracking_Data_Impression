@@ -85,7 +85,7 @@ namespace DataImpression.Models
         /// Таблица соответствия колонки c csv-файле функциональной зоне
         /// </summary>
         public XmlSerializableDictionary<Column, FAOI> CSVColumnsToFAOIsConversionTable { get; set; } //TODO: мне не очень нравится то, что эта коллекция и FAOIs независимы друг от друга... надо их как-то жестко связать
-        
+
         #endregion
 
         #region Methods
