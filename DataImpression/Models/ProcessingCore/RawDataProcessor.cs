@@ -58,23 +58,23 @@ namespace DataImpression.Models
             progress = 0; stage = "Оценка размера файла";
             long countStringsForReading = RawDataProcessorMethods.TobiiCSVCalculateCountOfStrings(SourceData);
             progress = 5; stage = "Считывание файла " + SourceData.CSVFileName;
-            List<TobiiCSVRecord> tobiiCSVRecords = RawDataProcessorMethods.TobiiCSVRead(SourceData, ref progress, 65, countStringsForReading + 100);
-            progress = 70; stage = "Сортировка фиксаций по функциональным зонам";
+            List<TobiiCSVRecord> tobiiCSVRecords = RawDataProcessorMethods.TobiiCSVRead(SourceData, ref progress, 20, countStringsForReading + 100);
+            progress = 25; stage = "Сортировка фиксаций по функциональным зонам";
             List<FAOIsOnTimeRecord> fAOIsOnTimeRecords = RawDataProcessorMethods.ConvertTobiiCSVRecord_To_FAOIsOnTimeRecord(tobiiCSVRecords,
-                                                                                                                            SourceData, ref progress, 15);
-            progress = 85; stage = "Сжатие сырых данных";
+                                                                                                                            SourceData, ref progress, 10);
+            progress = 35; stage = "Сжатие сырых данных";
             Results.TobiiCSVRecordsList = RawDataProcessorMethods.CompactTobiiCSVRecords(tobiiCSVRecords, ref progress, 5);
 
-            progress = 90; stage = "Сжатие проанализированных данных";
+            progress = 40; stage = "Сжатие проанализированных данных";
             fAOIsOnTimeRecords = RawDataProcessorMethods.CompactFAOIsOnTimeRecord(fAOIsOnTimeRecords, ref progress, 5);
 
-            progress = 95; stage = "Конвертирование результатов анализа";
-            Results.FAOIHitsOnTimeIntervalList = RawDataProcessorMethods.ConvertFAOIsOnTimeRecord_to_FAOIHitsOnTimeInterval(fAOIsOnTimeRecords, ref progress, 5);
+            progress = 45; stage = "Конвертирование результатов анализа";
+            Results.FAOIHitsOnTimeIntervalList = RawDataProcessorMethods.ConvertFAOIsOnTimeRecord_to_FAOIHitsOnTimeInterval(fAOIsOnTimeRecords, ref progress, 3);
 
-            progress = 96; stage = "Считывание данных о диаметре зрачка";
-            var PupilDiameterLeft = RawDataProcessorMethods.ReadPupilDiameterLeft(SourceData, ref progress, 65, countStringsForReading + 100);
-
-
+            progress = 48; stage = "Считывание данных о диаметре зрачка";
+            var PupilDiameterLeft = RawDataProcessorMethods.ReadOnTimeDistributedParameter(SourceData,
+                SourceData.OptionalDataCSVColumns["Pupil diameter left"], "Pupil diameter left", ref progress, 52, countStringsForReading + 100);
+            Results.PupilDiameterLeft =  RawDataProcessorMethods.CompressOnTimeDistributedParameter(PupilDiameterLeft, 2);
             progress = 100; stage = "Анализ данных завершен";
         }
         #endregion

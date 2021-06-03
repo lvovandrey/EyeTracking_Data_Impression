@@ -39,42 +39,12 @@ namespace DataImpression.Models
         /// <summary>
         /// Значение диаметра правого зрачка в мм в зависимости от времени
         /// </summary>
-        public OnTimeDistributedParameter<double> PupilDiameterRight
-        {
-            get
-            {
-                var pupilDiameterRight = new OnTimeDistributedParameter<double>("Нет данных");
-                try
-                {
-                    pupilDiameterRight = PupilDiameterRightCalculate();
-                }
-                catch (Exception e)
-                {
-                    Logger.Write(e.Message);
-                }
-                return pupilDiameterRight;
-            }
-        }
+        public OnTimeDistributedParameter<double> PupilDiameterRight { get; set; }
 
         /// <summary>
         /// Значение диаметра левого зрачка в мм в зависимости от времени
         /// </summary>
-        public OnTimeDistributedParameter<double> PupilDiameterLeft
-        {
-            get
-            {
-                var pupilDiameterLeft = new OnTimeDistributedParameter<double>("Нет данных");
-                try
-                {
-                    pupilDiameterLeft = PupilDiameterLeftCalculate();
-                }
-                catch (Exception e)
-                {
-                    Logger.Write(e.Message);
-                }
-                return pupilDiameterLeft;
-            }
-        }
+        public OnTimeDistributedParameter<double> PupilDiameterLeft { get; set; }
 
         /// <summary>
         /// Распределение суммарного относительног времени фиксаций (в виде доли от полного времени) по функциональным зонам
@@ -238,24 +208,6 @@ namespace DataImpression.Models
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Функция вычисления диаметра правого зрачка
-        /// </summary>
-        /// <returns></returns>
-        private OnTimeDistributedParameter<double> PupilDiameterRightCalculate()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Функция вычисления диаметра левого зрачка
-        /// </summary>
-        /// <returns></returns>
-        private OnTimeDistributedParameter<double> PupilDiameterLeftCalculate()
-        {
-            throw new NotImplementedException();
-        }
 
         /// <summary>
         /// Функция расчета параметра "Доля времени в функциональной зоне"

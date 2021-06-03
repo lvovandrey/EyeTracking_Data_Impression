@@ -28,6 +28,10 @@ namespace DataImpression.Models.ResultTypes
         {
             ParameterName = parameterName;
         }
+        public OnTimeDistributedParameter()
+        {
+            ParameterName = "No name";
+        }
 
     }
 
@@ -36,6 +40,10 @@ namespace DataImpression.Models.ResultTypes
     /// </summary>
     public class TimeSpan_Value_Pair<T>
     {
+        public TimeSpan_Value_Pair()
+        {
+
+        }
         public T Value { get; set; }
         public TimeSpan Time { get; set; }
     }
