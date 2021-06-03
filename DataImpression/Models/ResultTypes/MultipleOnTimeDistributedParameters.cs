@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace DataImpression.Models.ResultTypes
 {
+
     /// <summary>
-    /// Класс содержит коллекцию результатов для какого-либо параметра, имещюего распределение по времени. (например зависимость диаметра одного зрачка от времени)
+    /// Класс содержит коллекцию результатов для нескольких связанных параметров, имещих распределение по времени. (например зависимость диаметров двух зрачков от времени)
+    /// При этом параметры должны быть связанными (т.е. одному времени должны соответствовать два или более параметра всегда)
     /// </summary>
     /// <typeparam name="T">Тип параметра, то есть буквально - экземпляр этого класса содержит распределение параметра по времени. 
     /// Тип этого параметра и есть этот закрывающий тип. 
     /// В основном конечно будут параметры числовые с плавающей точкой, но возможны разные извращения.</typeparam>
-    public class OnTimeDistributedParameter<T>
+    public class MultipleOnTimeDistributedParameters<T>
     {
         /// <summary>
         /// Имя параметра (например, "Диаметр зрачка")
@@ -22,13 +24,13 @@ namespace DataImpression.Models.ResultTypes
         /// <summary>
         /// Коллекция результатов, содержащая как раз это самое распределение по времени.
         /// </summary>
-        public List<TimeSpan_Value_Pair<T>> Results = new List<TimeSpan_Value_Pair<T>>();
+        public List<TimeSpan_MultipleValue_Pair<T>> Results = new List<TimeSpan_MultipleValue_Pair<T>>();
 
-        public OnTimeDistributedParameter(string parameterName)
+        public MultipleOnTimeDistributedParameters(string parameterName)
         {
             ParameterName = parameterName;
         }
-        public OnTimeDistributedParameter()
+        public MultipleOnTimeDistributedParameters()
         {
             ParameterName = "No name";
         }
@@ -36,15 +38,16 @@ namespace DataImpression.Models.ResultTypes
     }
 
     /// <summary>
-    /// Пара "время-значение параметра"
+    /// Пара "время- Набор значений параметра"
     /// </summary>
-    public class TimeSpan_Value_Pair<T>
+    public class TimeSpan_MultipleValue_Pair<T>
     {
-        public TimeSpan_Value_Pair()
+        public TimeSpan_MultipleValue_Pair()
         {
-
+            Values = new List<T>();
         }
-        public T Value { get; set; }
+        public List<T> Values { get; set; }
         public TimeSpan Time { get; set; }
+
     }
 }

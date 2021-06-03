@@ -30,6 +30,7 @@ namespace PupilDiameterControlLibrary
         public PupilDiameterUI()
         {
             InitializeComponent();
+            DataContext = this;
         }
 
         #region mvvm
@@ -42,7 +43,7 @@ namespace PupilDiameterControlLibrary
         }
         #endregion
 
-        #region DependencyProperty PupilDiameterLeft
+        #region DependencyProperty PupilDiameter
         //DependencyProperty PupilDiameterLeft  - чтобы можно было подписаться на него
         public ObservableCollection<double> PupilDiameterLeft
         {
@@ -65,14 +66,60 @@ namespace PupilDiameterControlLibrary
             if (((PupilDiameterUI)d).OnPupilDiameterLeftChanged != null)
                 ((PupilDiameterUI)d).OnPupilDiameterLeftChanged(d, e);
         }
+
+        //DependencyProperty PupilDiameterRight  - чтобы можно было подписаться на него
+        public ObservableCollection<double> PupilDiameterRight
+        {
+            get { return (ObservableCollection<double>)GetValue(PupilDiameterRightProperty); }
+            set
+            {
+                SetValue(PupilDiameterRightProperty, value);
+                OnPropertyChanged("PupilDiameterRight");
+            }
+        }
+
+        public static readonly DependencyProperty PupilDiameterRightProperty =
+            DependencyProperty.Register("PupilDiameterRight", typeof(ObservableCollection<double>), typeof(PupilDiameterUI),
+                new PropertyMetadata(new ObservableCollection<double>(), new PropertyChangedCallback(PupilDiameterRightPropertyChangedCallback)));
+
+        public event PropertyChanged OnPupilDiameterRightChanged;
+
+        private static void PupilDiameterRightPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (((PupilDiameterUI)d).OnPupilDiameterRightChanged != null)
+                ((PupilDiameterUI)d).OnPupilDiameterRightChanged(d, e);
+        }
+
+        //DependencyProperty Times  - чтобы можно было подписаться на него
+        public ObservableCollection<double> Times
+        {
+            get { return (ObservableCollection<double>)GetValue(TimesProperty); }
+            set
+            {
+                SetValue(TimesProperty, value);
+                OnPropertyChanged("Times");
+            }
+        }
+
+        public static readonly DependencyProperty TimesProperty =
+            DependencyProperty.Register("Times", typeof(ObservableCollection<double>), typeof(PupilDiameterUI),
+                new PropertyMetadata(new ObservableCollection<double>(), new PropertyChangedCallback(TimesPropertyChangedCallback)));
+
+        public event PropertyChanged OnTimesChanged;
+
+        private static void TimesPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (((PupilDiameterUI)d).OnTimesChanged != null)
+                ((PupilDiameterUI)d).OnTimesChanged(d, e);
+        }
+
+
         #endregion
 
 
 
 
-        List<double> Times = new List<double>();
-        List<double> LeftEye = new List<double>();
-        List<double> RightEye = new List<double>();
+       // List<double> Times = new List<double>();
         int RowsCount => Times.Count;
 
         public SeriesCollection SeriesBase { get; set; }
@@ -85,7 +132,7 @@ namespace PupilDiameterControlLibrary
         public Func<double, string> YFormatter { get; set; }
 
 
-        public PrintGraphic()
+        public void PrintGraphic()
         {
 
 
@@ -94,69 +141,69 @@ namespace PupilDiameterControlLibrary
                 new LineSeries
                 {
                     Title = "Right Eye",
-                    Values = new ChartValues<double> (RightEye)
+                    Values = new ChartValues<double> (PupilDiameterRight)
                 },
                 new LineSeries
                 {
                     Title = "Left Eye",
-                    Values = new ChartValues<double> (LeftEye),
+                    Values = new ChartValues<double> (PupilDiameterLeft),
                     PointGeometry = null
                 }
             };
 
-            List<double> Delta = new List<double>();
-            for (int i = 0; i < RowsCount; i++)
-            {
-                Delta.Add(LeftEye[i] - RightEye[i]);
-            }
+            //List<double> Delta = new List<double>();
+            //for (int i = 0; i < RowsCount; i++)
+            //{
+            //    Delta.Add(LeftEye[i] - RightEye[i]);
+            //}
 
-            SeriesEyesDelta = new SeriesCollection
-            {
-                new LineSeries
-                {
-                    Title = "Delta",
-                    Values = new ChartValues<double> (Delta)
-                }
-            };
+            //SeriesEyesDelta = new SeriesCollection
+            //{
+            //    new LineSeries
+            //    {
+            //        Title = "Delta",
+            //        Values = new ChartValues<double> (Delta)
+            //    }
+            //};
 
-            var tmp = GetOhlcPointFrom(LeftEye);
-            var tmp2 = GetOhlcPointFrom(RightEye);
-            XLable = Times.ConvertAll<string>(delegate (double d) { return d.ToString(); }).ToArray();
-            YFormatter = value => value.ToString();
-            SeriesBoxPlot = new SeriesCollection
-            {
-                new CandleSeries
-                {
-                    Values = new ChartValues<OhlcPoint>
-                    {
-                        GetOhlcPointFrom(LeftEye),
-                        GetOhlcPointFrom(RightEye),
-                    }
-                }
-            };
+            //var tmp = GetOhlcPointFrom(LeftEye);
+            //var tmp2 = GetOhlcPointFrom(RightEye);
+            //XLable = Times.ConvertAll<string>(delegate (double d) { return d.ToString(); }).ToArray();
+            //YFormatter = value => value.ToString();
+            //SeriesBoxPlot = new SeriesCollection
+            //{
+            //    new CandleSeries
+            //    {
+            //        Values = new ChartValues<OhlcPoint>
+            //        {
+            //            GetOhlcPointFrom(LeftEye),
+            //            GetOhlcPointFrom(RightEye),
+            //        }
+            //    }
+            //};
 
 
-            DataContext = this;
+            
         }
 
 
 
 
-        void UpdateBoxPlot(double min, double max)
-        {
-            var minIndex = Math.Max(Times.FindIndex(x => x >= min), 0);
-            var maxIndex = Times.FindLastIndex(x => x <= max);
-            maxIndex = maxIndex >= 0 ? Math.Max(maxIndex, minIndex) : Times.Count - 1;
+        //void UpdateBoxPlot(double min, double max)
+        //{
+        //    var minIndex = Math.Max(Times.FindIndex(x => x >= min), 0);
+        //    var maxIndex = Times.FindLastIndex(x => x <= max);
+        //    maxIndex = maxIndex >= 0 ? Math.Max(maxIndex, minIndex) : Times.Count - 1;
 
-            List<double> newLeftEye = LeftEye.GetRange(minIndex, maxIndex - minIndex + 1);
-            List<double> newRightEye = RightEye.GetRange(minIndex, maxIndex - minIndex + 1);
+        //    List<double> newLeftEye = LeftEye.GetRange(minIndex, maxIndex - minIndex + 1);
+        //    List<double> newRightEye = RightEye.GetRange(minIndex, maxIndex - minIndex + 1);
 
-            SeriesBoxPlot.First().Values = new ChartValues<OhlcPoint>
-            {
-            GetOhlcPointFrom(newLeftEye),
-            GetOhlcPointFrom(newRightEye),
-            };
-        }
+        //    SeriesBoxPlot.First().Values = new ChartValues<OhlcPoint>
+        //    {
+        //    GetOhlcPointFrom(newLeftEye),
+        //    GetOhlcPointFrom(newRightEye),
+        //    };
+        //}
 
         static OhlcPoint GetOhlcPointFrom(List<double> list)
         {
@@ -221,35 +268,35 @@ namespace PupilDiameterControlLibrary
                 return leftNumber + part * (rightNumber - leftNumber);
             }
         }
-        private void Min_TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            //TODO улучшить обработчик исключений приведения типа
-            try
-            {
-                Min = double.Parse(Min_TextBox.Text, CultureInfo.InvariantCulture);
-            }
-            catch
-            {
-                Min_TextBox.Clear();
-                Min = 0;
-            }
+        //private void Min_TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    //TODO улучшить обработчик исключений приведения типа
+        //    try
+        //    {
+        //        Min = double.Parse(Min_TextBox.Text, CultureInfo.InvariantCulture);
+        //    }
+        //    catch
+        //    {
+        //        Min_TextBox.Clear();
+        //        Min = 0;
+        //    }
 
-            UpdateBoxPlot(Min, Max);
-        }
+        //    UpdateBoxPlot(Min, Max);
+        //}
 
-        private void Max_TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            try
-            {
-                Max = Convert.ToDouble(Max_TextBox.Text);
-            }
-            catch
-            {
-                Max_TextBox.Clear();
-                Max = Times.Last();
-            }
-            UpdateBoxPlot(Min, Max);
-        }
+        //private void Max_TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        Max = Convert.ToDouble(Max_TextBox.Text);
+        //    }
+        //    catch
+        //    {
+        //        Max_TextBox.Clear();
+        //        Max = Times.Last();
+        //    }
+        //    UpdateBoxPlot(Min, Max);
+        //}
 
 
 
