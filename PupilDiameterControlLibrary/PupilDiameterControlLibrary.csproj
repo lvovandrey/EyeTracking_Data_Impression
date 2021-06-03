@@ -55,6 +55,9 @@
     <Compile Include="PupilDiameterUI.xaml.cs">
       <DependentUpon>PupilDiameterUI.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TimeSpan_PupilDiameters_Pair.cs" />
+    <Compile Include="TimeSpan_Value_Pair.cs" />
+    <Compile Include="VM.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="PupilDiameterUI.xaml">

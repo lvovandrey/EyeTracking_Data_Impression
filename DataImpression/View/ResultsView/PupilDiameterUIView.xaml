@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:DataImpression.View.ResultsView"
              xmlns:PupilDLib="clr-namespace:PupilDiameterControlLibrary;assembly=PupilDiameterControlLibrary"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" >
     <Grid>
-        <PupilDLib:PupilDiameterUI PupilDiameterLeft="{Binding PupilDiameterLeft}" PupilDiameterRight="{Binding PupilDiameterRight}"/>
+        <PupilDLib:PupilDiameterUI PupilDiameter="{Binding PupilDiameter}"/>
     </Grid>
 </UserControl>

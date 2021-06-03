@@ -18,6 +18,7 @@
                 <sys:String x:Key="TimePercentDistribution">TimePercentDistribution</sys:String>
                 <sys:String x:Key="ComplexParameters">TimePercentDistribution+AverageFixationTimeDistribution+FrequencyRequestsFAOIDistributionPerMinute</sys:String>
                 <sys:String x:Key="FixationsTimeline">FixationsTimeline</sys:String>
+                <sys:String x:Key="PupilDiameter">PupilDiameter</sys:String>
                 <sys:String x:Key="FrequencyRequestsFAOIDistributionPerMinute">FrequencyRequestsFAOIDistributionPerMinute</sys:String>
                 
             </ToolBar.Resources>
@@ -39,7 +40,13 @@
             <Button  Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource FixationsTimeline}" >
                 <Image Source="/DataImpression;component/Images/Timeline-Marker.png"  />
             </Button>
+            
+            
             <Separator/>
+
+            <Button  Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource PupilDiameter}" >
+                <Image Source="/DataImpression;component/Images/Timeline-Marker.png"  />
+            </Button>
         </ToolBar>
         <local:ProjectExplorerTreeView Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" DataContext="{Binding ProjectExplorerTreeViewVM}"/>
     </Grid>

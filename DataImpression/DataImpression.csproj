@@ -112,6 +112,7 @@
     <Compile Include="ViewModel\CSVOpenMaster\ProcessingTaskVM.cs" />
     <Compile Include="ViewModel\ProjectExplorerTreeViewVM.cs" />
     <Compile Include="ViewModel\ProjectExplorerVM.cs" />
+    <Compile Include="ViewModel\ResultsView\PupilDiameterUIVM.cs" />
     <Compile Include="ViewModel\ResultsView\ResultsViewAreaVM.cs" />
     <Compile Include="ViewModel\StatisticsPanelVM.cs" />
     <Compile Include="ViewModel\CSVOpenMaster\TimeColumnChoiceVM.cs" />

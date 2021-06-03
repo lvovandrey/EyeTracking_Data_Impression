@@ -30,7 +30,19 @@ namespace PupilDiameterControlLibrary
         public PupilDiameterUI()
         {
             InitializeComponent();
-            DataContext = this;
+            graphics.DataContext = this;
+            OnPropertyChanged("PupilDiameter");
+            OnPropertyChanged("PupilDiameterRight");
+            OnPropertyChanged("PupilDiameterLeft");
+            OnPropertyChanged("SeriesBase");
+            PrintGraphic();
+
+            OnPupilDiameterChanged += PupilDiameterUI_OnPupilDiameterChanged;
+        }
+
+        private void PupilDiameterUI_OnPupilDiameterChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            PrintGraphic();
         }
 
         #region mvvm
@@ -44,82 +56,75 @@ namespace PupilDiameterControlLibrary
         #endregion
 
         #region DependencyProperty PupilDiameter
-        //DependencyProperty PupilDiameterLeft  - чтобы можно было подписаться на него
-        public ObservableCollection<double> PupilDiameterLeft
+        //DependencyProperty PupilDiameter - чтобы можно было подписаться на него
+        public ObservableCollection<TimeSpan_PupilDiameters_Pair> PupilDiameter
         {
-            get { return (ObservableCollection<double>)GetValue(PupilDiameterLeftProperty); }
+            get { return (ObservableCollection<TimeSpan_PupilDiameters_Pair>)GetValue(PupilDiameterProperty); }
             set
             {
-                SetValue(PupilDiameterLeftProperty, value);
-                OnPropertyChanged("PupilDiameterLeft");
-            }
-        }
-
-        public static readonly DependencyProperty PupilDiameterLeftProperty =
-            DependencyProperty.Register("PupilDiameterLeft", typeof(ObservableCollection<double>), typeof(PupilDiameterUI), 
-                new PropertyMetadata(new ObservableCollection<double>(), new PropertyChangedCallback(PupilDiameterLeftPropertyChangedCallback)));
-
-        public event PropertyChanged OnPupilDiameterLeftChanged;
-
-        private static void PupilDiameterLeftPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (((PupilDiameterUI)d).OnPupilDiameterLeftChanged != null)
-                ((PupilDiameterUI)d).OnPupilDiameterLeftChanged(d, e);
-        }
-
-        //DependencyProperty PupilDiameterRight  - чтобы можно было подписаться на него
-        public ObservableCollection<double> PupilDiameterRight
-        {
-            get { return (ObservableCollection<double>)GetValue(PupilDiameterRightProperty); }
-            set
-            {
-                SetValue(PupilDiameterRightProperty, value);
+                SetValue(PupilDiameterProperty, value);
+                OnPropertyChanged("PupilDiameter");
                 OnPropertyChanged("PupilDiameterRight");
+                OnPropertyChanged("PupilDiameterLeft");
+                OnPropertyChanged("SeriesBase");
+                PrintGraphic();
             }
         }
 
-        public static readonly DependencyProperty PupilDiameterRightProperty =
-            DependencyProperty.Register("PupilDiameterRight", typeof(ObservableCollection<double>), typeof(PupilDiameterUI),
-                new PropertyMetadata(new ObservableCollection<double>(), new PropertyChangedCallback(PupilDiameterRightPropertyChangedCallback)));
+        public static readonly DependencyProperty PupilDiameterProperty =
+            DependencyProperty.Register("PupilDiameter", typeof(ObservableCollection<TimeSpan_PupilDiameters_Pair>), typeof(PupilDiameterUI), 
+                new PropertyMetadata(new ObservableCollection<TimeSpan_PupilDiameters_Pair>(), new PropertyChangedCallback(PupilDiameterPropertyChangedCallback)));
 
-        public event PropertyChanged OnPupilDiameterRightChanged;
+        public event PropertyChanged OnPupilDiameterChanged;
 
-        private static void PupilDiameterRightPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void PupilDiameterPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (((PupilDiameterUI)d).OnPupilDiameterRightChanged != null)
-                ((PupilDiameterUI)d).OnPupilDiameterRightChanged(d, e);
+            if (((PupilDiameterUI)d).OnPupilDiameterChanged != null)
+                ((PupilDiameterUI)d).OnPupilDiameterChanged(d, e);
         }
-
-        //DependencyProperty Times  - чтобы можно было подписаться на него
-        public ObservableCollection<double> Times
-        {
-            get { return (ObservableCollection<double>)GetValue(TimesProperty); }
-            set
-            {
-                SetValue(TimesProperty, value);
-                OnPropertyChanged("Times");
-            }
-        }
-
-        public static readonly DependencyProperty TimesProperty =
-            DependencyProperty.Register("Times", typeof(ObservableCollection<double>), typeof(PupilDiameterUI),
-                new PropertyMetadata(new ObservableCollection<double>(), new PropertyChangedCallback(TimesPropertyChangedCallback)));
-
-        public event PropertyChanged OnTimesChanged;
-
-        private static void TimesPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (((PupilDiameterUI)d).OnTimesChanged != null)
-                ((PupilDiameterUI)d).OnTimesChanged(d, e);
-        }
-
-
         #endregion
 
 
+        List<double> PupilDiameterLeft 
+        {
+            get
+            {
+                var list = new List<double>();
+                foreach (var item in PupilDiameter)
+                {
+                    list.Add(item.PupilDiameterLeft);
+                }
+                return list;
+            }
+        }
+
+        List<double> PupilDiameterRight
+        {
+            get
+            {
+                var list = new List<double>();
+                foreach (var item in PupilDiameter)
+                {
+                    list.Add(item.PupilDiameterRight);
+                }
+                return list;
+            }
+        }
+
+        List<TimeSpan> Times
+        {
+            get
+            {
+                var list = new List<TimeSpan>();
+                foreach (var item in PupilDiameter)
+                {
+                    list.Add(item.Time);
+                }
+                return list;
+            }
+        }
 
 
-       // List<double> Times = new List<double>();
         int RowsCount => Times.Count;
 
         public SeriesCollection SeriesBase { get; set; }
@@ -267,6 +272,11 @@ namespace PupilDiameterControlLibrary
                 double part = n - System.Math.Floor(n);
                 return leftNumber + part * (rightNumber - leftNumber);
             }
+        }
+
+        private void UserControl_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (DataContext != null) return;
         }
         //private void Min_TextBox_TextChanged(object sender, TextChangedEventArgs e)
         //{

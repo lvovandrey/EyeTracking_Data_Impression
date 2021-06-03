@@ -25,5 +25,7 @@ namespace DataImpression.View.ResultsView
         {
             InitializeComponent();
         }
+
+
     }
 }
