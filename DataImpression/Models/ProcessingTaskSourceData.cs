@@ -86,18 +86,6 @@ namespace DataImpression.Models
         /// </summary>
         public XmlSerializableDictionary<Column, FAOI> CSVColumnsToFAOIsConversionTable { get; set; } //TODO: мне не очень нравится то, что эта коллекция и FAOIs независимы друг от друга... надо их как-то жестко связать
 
-
-        /// <summary>
-        /// Колонка в файле csv в которой размещается диаметр левого зрачка
-        /// </summary>
-        public Column CSVPupilDiameterLeftColumn { get; set; }
-
-
-        /// <summary>
-        /// Колонка в файле csv в которой размещается диаметр правого зрачка
-        /// </summary>
-        public Column CSVPupilDiameterRightColumn { get; set; }
-
         #endregion
 
         #region Methods
