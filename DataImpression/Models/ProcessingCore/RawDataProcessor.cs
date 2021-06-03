@@ -356,7 +356,9 @@ namespace DataImpression.Models
         /// Считывает данные о диаметре левого зрачка
         /// </summary>
         /// <returns></returns>
-        internal static OnTimeDistributedParameter<double> ReadPupilDiameterLeft(ProcessingTaskSourceData SourceData,
+        internal static OnTimeDistributedParameter<double> ReadOnTimeDistributedParameter(ProcessingTaskSourceData SourceData,
+                                                        Column csvcolumn,
+                                                        string parameterName,
                                                         ref double progress,
                                                         double progress_koef,
                                                         long countStringsForReading = 1,
@@ -365,20 +367,20 @@ namespace DataImpression.Models
                                                         long bufferStringsSize = 10000)
         {
             long i = 0;
-            OnTimeDistributedParameter<double> parameterList = new OnTimeDistributedParameter<double>("Pupil Diameter Left");
+            OnTimeDistributedParameter<double> parameterList = new OnTimeDistributedParameter<double>(parameterName);
             using (StreamReader rd = new StreamReader(new FileStream(SourceData.CSVFileName, FileMode.Open)))
             {
                 bool EndOfFile = false;
                 long CountReadedStrings = 0;
 
-                //double initialProgress = progress;
+                double initialProgress = progress;
 
                 string[] first_string_arr = rd.ReadLine().Split(delimiter); //читаем первую строку - по сути нам просто надо курсор на вторую переместить.
 
                 if (bufferStringsSize > countStringsForReading) bufferStringsSize = countStringsForReading;
                 while ((!EndOfFile) && (!(CountReadedStrings >= countStringsForReading)))
                 {
-                    //progress = initialProgress + progress_koef * ((double)CountReadedStrings / (double)countStringsForReading);
+                    progress = initialProgress + progress_koef * ((double)CountReadedStrings / (double)countStringsForReading);
                     if (bufferStringsSize > (countStringsForReading - CountReadedStrings)) bufferStringsSize = (countStringsForReading - CountReadedStrings);//TODO:ПРоверить - тут может быть на 1 больше или меньше надо
                     string[] str_arr_tmp = { "" };
                     string big_str = "";
@@ -396,11 +398,11 @@ namespace DataImpression.Models
                         if (!long.TryParse(tmp[SourceData.CSVTimeColumn.OrderedNumber], out tmp_time))
                             throw new Exception("Не могу преобразовать в timestamp строку  " + tmp[SourceData.CSVTimeColumn.OrderedNumber]);
                         result.Time = TimeSpan.FromMilliseconds(tmp_time);
-                        if (tmp[SourceData.OptionalDataCSVColumns["Pupil diameter left"].OrderedNumber] != "")
+                        if (tmp[csvcolumn.OrderedNumber] != "") //SourceData.OptionalDataCSVColumns["Pupil diameter left"]
                         {
                             double diameter;
-                            if (!double.TryParse(tmp[SourceData.OptionalDataCSVColumns["Pupil diameter left"].OrderedNumber], out diameter))
-                                throw new Exception("Не могу преобразовать в double строку диаметра  " + tmp[SourceData.OptionalDataCSVColumns["Pupil diameter left"].OrderedNumber]);
+                            if (!double.TryParse(tmp[csvcolumn.OrderedNumber], out diameter))
+                                throw new Exception("Не могу преобразовать в double строку параметра  " + tmp[csvcolumn.OrderedNumber]);
                             result.Value = diameter;
                         }
                         if (result.Value != 0)
@@ -412,6 +414,38 @@ namespace DataImpression.Models
                 }
             }
             return parameterList;
+        }
+
+        /// <summary>
+        /// Сжимает переданную коллекцию распределения по времени по частоте оцифровки (Гц)
+        /// </summary>
+        internal static OnTimeDistributedParameter<double> CompressOnTimeDistributedParameter(OnTimeDistributedParameter<double> sourceCollection, 
+            double frequencyHz)
+        {
+            OnTimeDistributedParameter<double> filtredCollection = new OnTimeDistributedParameter<double>(sourceCollection.ParameterName);
+            TimeSpan period = TimeSpan.FromSeconds(1 / frequencyHz);
+            TimeSpan sourceBegin = sourceCollection.Results[0].Time;
+            TimeSpan sourceEnd = sourceCollection.Results.Last().Time;
+            TimeSpan curtime = sourceBegin;
+            int i = 0;
+            while (curtime<sourceEnd)
+            {
+                var IntervalBegin = curtime;
+                var IntervalEnd = curtime + period;
+                double summ = 0;
+                int count=0;
+                while (sourceCollection.Results[i].Time<IntervalEnd)
+                {
+                    summ += sourceCollection.Results[i].Value;
+                    count++;
+                    i++;
+                    if (i >= sourceCollection.Results.Count()) break;
+                }
+                double avg = summ / (double)count;//по моему тут явное приведение не нужно
+                filtredCollection.Results.Add(new TimeSpan_Value_Pair<double>() { Time = IntervalBegin, Value = avg });
+                curtime = IntervalEnd;
+            }
+            return filtredCollection;
         }
     }
 
