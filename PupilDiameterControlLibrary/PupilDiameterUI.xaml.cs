@@ -30,30 +30,17 @@ namespace PupilDiameterControlLibrary
         public PupilDiameterUI()
         {
             InitializeComponent();
-            graphics.DataContext = this;
-            OnPropertyChanged("PupilDiameter");
-            OnPropertyChanged("PupilDiameterRight");
-            OnPropertyChanged("PupilDiameterLeft");
-            OnPropertyChanged("SeriesBase");
-            PrintGraphic();
-
-            OnPupilDiameterChanged += PupilDiameterUI_OnPupilDiameterChanged;
+            VM = new VM(this);
         }
+
+        public VM VM;
 
         private void PupilDiameterUI_OnPupilDiameterChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            PrintGraphic();
+            
         }
 
-        #region mvvm
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
-        }
-        #endregion
+     
 
         #region DependencyProperty PupilDiameter
         //DependencyProperty PupilDiameter - чтобы можно было подписаться на него
@@ -63,11 +50,6 @@ namespace PupilDiameterControlLibrary
             set
             {
                 SetValue(PupilDiameterProperty, value);
-                OnPropertyChanged("PupilDiameter");
-                OnPropertyChanged("PupilDiameterRight");
-                OnPropertyChanged("PupilDiameterLeft");
-                OnPropertyChanged("SeriesBase");
-                PrintGraphic();
             }
         }
 
@@ -85,111 +67,20 @@ namespace PupilDiameterControlLibrary
         #endregion
 
 
-        List<double> PupilDiameterLeft 
-        {
-            get
-            {
-                var list = new List<double>();
-                foreach (var item in PupilDiameter)
-                {
-                    list.Add(item.PupilDiameterLeft);
-                }
-                return list;
-            }
-        }
-
-        List<double> PupilDiameterRight
-        {
-            get
-            {
-                var list = new List<double>();
-                foreach (var item in PupilDiameter)
-                {
-                    list.Add(item.PupilDiameterRight);
-                }
-                return list;
-            }
-        }
-
-        List<TimeSpan> Times
-        {
-            get
-            {
-                var list = new List<TimeSpan>();
-                foreach (var item in PupilDiameter)
-                {
-                    list.Add(item.Time);
-                }
-                return list;
-            }
-        }
 
 
-        int RowsCount => Times.Count;
 
-        public SeriesCollection SeriesBase { get; set; }
-        public SeriesCollection SeriesEyesDelta { get; set; }
+        //public SeriesCollection SeriesBase { get; set; }
+        //public SeriesCollection SeriesEyesDelta { get; set; }
 
-        private double Min = 0;
-        private double Max = 0;
-        public SeriesCollection SeriesBoxPlot { get; set; }
-        public string[] XLable { get; private set; }
-        public Func<double, string> YFormatter { get; set; }
-
-
-        public void PrintGraphic()
-        {
+        //private double Min = 0;
+        //private double Max = 0;
+        //public SeriesCollection SeriesBoxPlot { get; set; }
+        //public string[] XLable { get; private set; }
+        //public Func<double, string> YFormatter { get; set; }
 
 
-            SeriesBase = new SeriesCollection
-            {
-                new LineSeries
-                {
-                    Title = "Right Eye",
-                    Values = new ChartValues<double> (PupilDiameterRight)
-                },
-                new LineSeries
-                {
-                    Title = "Left Eye",
-                    Values = new ChartValues<double> (PupilDiameterLeft),
-                    PointGeometry = null
-                }
-            };
-
-            //List<double> Delta = new List<double>();
-            //for (int i = 0; i < RowsCount; i++)
-            //{
-            //    Delta.Add(LeftEye[i] - RightEye[i]);
-            //}
-
-            //SeriesEyesDelta = new SeriesCollection
-            //{
-            //    new LineSeries
-            //    {
-            //        Title = "Delta",
-            //        Values = new ChartValues<double> (Delta)
-            //    }
-            //};
-
-            //var tmp = GetOhlcPointFrom(LeftEye);
-            //var tmp2 = GetOhlcPointFrom(RightEye);
-            //XLable = Times.ConvertAll<string>(delegate (double d) { return d.ToString(); }).ToArray();
-            //YFormatter = value => value.ToString();
-            //SeriesBoxPlot = new SeriesCollection
-            //{
-            //    new CandleSeries
-            //    {
-            //        Values = new ChartValues<OhlcPoint>
-            //        {
-            //            GetOhlcPointFrom(LeftEye),
-            //            GetOhlcPointFrom(RightEye),
-            //        }
-            //    }
-            //};
-
-
-            
-        }
+      
 
 
 
@@ -210,74 +101,74 @@ namespace PupilDiameterControlLibrary
         //    };
         //}
 
-        static OhlcPoint GetOhlcPointFrom(List<double> list)
-        {
-            return new OhlcPoint(Quartile(list.ToArray(), 1), list.Max(), list.Min(), Quartile(list.ToArray(), 3));
-        }
+        //static OhlcPoint GetOhlcPointFrom(List<double> list)
+        //{
+        //    return new OhlcPoint(Quartile(list.ToArray(), 1), list.Max(), list.Min(), Quartile(list.ToArray(), 3));
+        //}
 
-        internal static double Quartile(double[] array, int nth_quartile)
-        {
-            if (array.Length == 0) return 0;
-            if (array.Length == 1) return 1;
-            Array.Sort(array);
-            double dblPercentage = 0;
+        //internal static double Quartile(double[] array, int nth_quartile)
+        //{
+        //    if (array.Length == 0) return 0;
+        //    if (array.Length == 1) return 1;
+        //    Array.Sort(array);
+        //    double dblPercentage = 0;
 
-            switch (nth_quartile)
-            {
-                case 0:
-                    dblPercentage = 0; //Smallest value in the data set
-                    break;
-                case 1:
-                    dblPercentage = 25; //First quartile (25th percentile)
-                    break;
-                case 2:
-                    dblPercentage = 50; //Second quartile (50th percentile)
-                    break;
+        //    switch (nth_quartile)
+        //    {
+        //        case 0:
+        //            dblPercentage = 0; //Smallest value in the data set
+        //            break;
+        //        case 1:
+        //            dblPercentage = 25; //First quartile (25th percentile)
+        //            break;
+        //        case 2:
+        //            dblPercentage = 50; //Second quartile (50th percentile)
+        //            break;
 
-                case 3:
-                    dblPercentage = 75; //Third quartile (75th percentile)
-                    break;
+        //        case 3:
+        //            dblPercentage = 75; //Third quartile (75th percentile)
+        //            break;
 
-                case 4:
-                    dblPercentage = 100; //Largest value in the data set
-                    break;
-                default:
-                    dblPercentage = 0;
-                    break;
-            }
+        //        case 4:
+        //            dblPercentage = 100; //Largest value in the data set
+        //            break;
+        //        default:
+        //            dblPercentage = 0;
+        //            break;
+        //    }
 
 
-            if (dblPercentage >= 100.0d) return array[array.Length - 1];
+        //    if (dblPercentage >= 100.0d) return array[array.Length - 1];
 
-            double position = (double)(array.Length + 1) * dblPercentage / 100.0;
-            double leftNumber = 0.0d, rightNumber = 0.0d;
+        //    double position = (double)(array.Length + 1) * dblPercentage / 100.0;
+        //    double leftNumber = 0.0d, rightNumber = 0.0d;
 
-            double n = dblPercentage / 100.0d * (array.Length - 1) + 1.0d;
+        //    double n = dblPercentage / 100.0d * (array.Length - 1) + 1.0d;
 
-            if (position >= 1)
-            {
-                leftNumber = array[(int)System.Math.Floor(n) - 1];
-                rightNumber = array[(int)System.Math.Floor(n)];
-            }
-            else
-            {
-                leftNumber = array[0]; // first data
-                rightNumber = array[1]; // first data
-            }
+        //    if (position >= 1)
+        //    {
+        //        leftNumber = array[(int)System.Math.Floor(n) - 1];
+        //        rightNumber = array[(int)System.Math.Floor(n)];
+        //    }
+        //    else
+        //    {
+        //        leftNumber = array[0]; // first data
+        //        rightNumber = array[1]; // first data
+        //    }
 
-            if (leftNumber == rightNumber)
-                return leftNumber;
-            else
-            {
-                double part = n - System.Math.Floor(n);
-                return leftNumber + part * (rightNumber - leftNumber);
-            }
-        }
+        //    if (leftNumber == rightNumber)
+        //        return leftNumber;
+        //    else
+        //    {
+        //        double part = n - System.Math.Floor(n);
+        //        return leftNumber + part * (rightNumber - leftNumber);
+        //    }
+        //}
 
-        private void UserControl_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (DataContext != null) return;
-        }
+        //private void UserControl_MouseDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    if (DataContext != null) return;
+        //}
         //private void Min_TextBox_TextChanged(object sender, TextChangedEventArgs e)
         //{
         //    //TODO улучшить обработчик исключений приведения типа
@@ -309,7 +200,15 @@ namespace PupilDiameterControlLibrary
         //}
 
 
+        #region mvvm
+        public event PropertyChangedEventHandler PropertyChanged;
 
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+        #endregion
 
 
     }
