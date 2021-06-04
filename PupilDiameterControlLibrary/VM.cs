@@ -22,9 +22,14 @@ namespace PupilDiameterControlLibrary
 
         private void PupilDiameterUI_OnPupilDiameterChanged(System.Windows.DependencyObject d, System.Windows.DependencyPropertyChangedEventArgs e)
         {
+            Max = Times.Last();
+            Min = Times.First();
+
             OnPropertyChanged("SeriesBase");
             OnPropertyChanged("SeriesEyesDelta");
             OnPropertyChanged("SeriesBoxPlot");
+            OnPropertyChanged("BoxChartIntervalBegin");
+            OnPropertyChanged("BoxChartIntervalEnd");
         }
 
         public PupilDiameterUI PupilDiameterUI;
@@ -142,19 +147,51 @@ namespace PupilDiameterControlLibrary
             }
         }
 
-        void UpdateBoxPlot(double min, double max)
+        
+        private double Min { get; set; }
+        public string BoxChartIntervalBegin 
         {
-
+            get 
+            { 
+                return Min.ToString(); 
+            }
+            set 
+            { 
+                double val; 
+                if(!double.TryParse(value, out val)) val = 0;
+                if (val < 0) val = 0;
+                if (val > Times.Last()) val = Times.Last();
+                Min = val; 
+                OnPropertyChanged("BoxChartIntervalBegin");
+                OnPropertyChanged("SeriesBoxPlot");
+            }
         }
 
-        private double Min = 0;
-        private double Max = 300000;
-       
+        private double Max { get; set; }
+        public string BoxChartIntervalEnd
+        {
+            get
+            {
+                return Max.ToString();
+            }
+            set
+            {
+                double val;
+                if (!double.TryParse(value, out val)) val = 0;
+                if (val < 0) val = 0;
+                if (val > Times.Last()) val = Times.Last();
+                Max = val;
+                OnPropertyChanged("BoxChartIntervalEnd");
+                OnPropertyChanged("SeriesBoxPlot");
+            }
+        }
+
+        
         public SeriesCollection SeriesBoxPlot
         {
             get
             {
-
+                if (Times.Count == 0) return null;
                 var minIndex = Math.Max(Times.FindIndex(x => x >= Min), 0);
                 var maxIndex = Times.FindLastIndex(x => x <= Max);
                 maxIndex = maxIndex >= 0 ? Math.Max(maxIndex, minIndex) : Times.Count - 1;
@@ -162,12 +199,12 @@ namespace PupilDiameterControlLibrary
                 List<double> newLeftEye = LeftEye.GetRange(minIndex, maxIndex - minIndex + 1);
                 List<double> newRightEye = RightEye.GetRange(minIndex, maxIndex - minIndex + 1);
 
-
+                XLable =new string[]{"Левый", "Правый" };
                 return new SeriesCollection
                 {
                     new OhlcSeries()
                     {
-                        Title= "Box plot", Stroke = new SolidColorBrush(Colors.PeachPuff),
+                        Title= "Box plot", 
                         Values = new ChartValues<OhlcPoint>
                         {
                             GetOhlcPointFrom(newLeftEye),
