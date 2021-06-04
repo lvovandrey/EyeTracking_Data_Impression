@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace DataImpression.Models.ResultTypes
 {
@@ -37,6 +38,7 @@ namespace DataImpression.Models.ResultTypes
 
     }
 
+    [Serializable]
     /// <summary>
     /// Пара "время- Набор значений параметра"
     /// </summary>
@@ -47,7 +49,11 @@ namespace DataImpression.Models.ResultTypes
             Values = new List<T>();
         }
         public List<T> Values { get; set; }
-        public TimeSpan Time { get; set; }
+
+       // public double time_ms;
+        public double Time_ms { get; set; }
+        [XmlIgnore]
+        public TimeSpan Time { get { return TimeSpan.FromMilliseconds(Time_ms); } set { Time_ms = value.TotalMilliseconds; } }
 
     }
 }

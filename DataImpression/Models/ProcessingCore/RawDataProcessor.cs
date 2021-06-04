@@ -77,7 +77,7 @@ namespace DataImpression.Models
                 new Column[] { SourceData.OptionalDataCSVColumns["Pupil diameter left"], SourceData.OptionalDataCSVColumns["Pupil diameter right"] }
                 , "Pupil diameter", ref progress, 52, countStringsForReading + 100);
             RawDataProcessorMethods.ClearFromZeroesMultipleOnTimeDistributedParameter(PupilDiameter, 2);
-            Results.PupilDiameter = RawDataProcessorMethods.CompressMultipleOnTimeDistributedParameter(PupilDiameter, 2, 2);
+            Results.PupilDiameter = RawDataProcessorMethods.CompressMultipleOnTimeDistributedParameter(PupilDiameter, 0.2, 2);
             progress = 100; stage = "Анализ данных завершен";
         }
         #endregion

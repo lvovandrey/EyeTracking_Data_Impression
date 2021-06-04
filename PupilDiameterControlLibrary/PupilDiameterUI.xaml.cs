@@ -80,7 +80,7 @@ namespace PupilDiameterControlLibrary
         //public Func<double, string> YFormatter { get; set; }
 
 
-      
+
 
 
 
@@ -208,9 +208,13 @@ namespace PupilDiameterControlLibrary
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
+
         #endregion
 
+        private void Min_TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
 
+        }
     }
 
 }

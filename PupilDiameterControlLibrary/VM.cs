@@ -1,4 +1,5 @@
 ﻿using LiveCharts;
+using LiveCharts.Defaults;
 using LiveCharts.Wpf;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace PupilDiameterControlLibrary
 {
@@ -21,15 +23,103 @@ namespace PupilDiameterControlLibrary
         private void PupilDiameterUI_OnPupilDiameterChanged(System.Windows.DependencyObject d, System.Windows.DependencyPropertyChangedEventArgs e)
         {
             OnPropertyChanged("SeriesBase");
+            OnPropertyChanged("SeriesEyesDelta");
+            OnPropertyChanged("SeriesBoxPlot");
         }
 
         public PupilDiameterUI PupilDiameterUI;
 
 
-        List<double> PupilDiameterLeft
+
+        public Func<double, string> XFormatter { get; set; }
+        public Func<double, string> YFormatter { get; set; }
+        public Func<double, string> XFormatter2 { get; set; }
+        public Func<double, string> YFormatter2 { get; set; }
+
+        public SeriesCollection SeriesBase
         {
             get
             {
+                YFormatter = val => val.ToString("0.00");
+                XFormatter = val => TimeSpan.FromSeconds(val).ToString(@"mm\:ss");
+
+                List<ObservablePoint> xy_LeftPupil = new List<ObservablePoint>();
+                foreach (var item in PupilDiameterUI.PupilDiameter)
+                {
+                    xy_LeftPupil.Add(new ObservablePoint(item.Time.TotalSeconds, item.PupilDiameterLeft));
+                }
+                List<ObservablePoint> xy_RightPupil = new List<ObservablePoint>();
+                foreach (var item in PupilDiameterUI.PupilDiameter)
+                {
+                    xy_RightPupil.Add(new ObservablePoint(item.Time.TotalSeconds, item.PupilDiameterRight));
+                }
+
+                return new SeriesCollection
+                {
+                    new LineSeries
+                    {
+                    Title= "Левый",
+                    Values = new ChartValues<ObservablePoint>(xy_LeftPupil),
+                    LineSmoothness = 0 ,  PointGeometry = null
+                    },
+                    new LineSeries
+                    {
+                    Title= "Правый",
+                    Values = new ChartValues<ObservablePoint>(xy_RightPupil),
+                    LineSmoothness = 0 ,  PointGeometry = null
+                    }
+
+                };
+            }
+
+        }
+
+
+        public SeriesCollection SeriesEyesDelta
+        {
+            get
+            {
+                YFormatter2 = val => val.ToString("0.00");
+                XFormatter2 = val => TimeSpan.FromSeconds(val).ToString(@"mm\:ss");
+
+                List<ObservablePoint> xy_DeltaPupil = new List<ObservablePoint>();
+                foreach (var item in PupilDiameterUI.PupilDiameter)
+                {
+                    xy_DeltaPupil.Add(new ObservablePoint(item.Time.TotalSeconds, (item.PupilDiameterLeft - item.PupilDiameterRight)));
+                }
+
+
+                return new SeriesCollection
+                {
+                    new LineSeries
+                    {
+                    Title= "Delta Diameters",
+                    Values = new ChartValues<ObservablePoint>(xy_DeltaPupil),
+                    LineSmoothness = 0 ,  PointGeometry = null, Stroke = new SolidColorBrush(Colors.Gold)
+                    }
+                };
+            }
+        }
+
+
+       
+        public string[] XLable { get; private set; }
+
+        List<double> Times 
+        { 
+            get {
+                var times = new List<double>();
+                foreach (var item in PupilDiameterUI.PupilDiameter)
+                {
+                    times.Add(item.Time.TotalMilliseconds);
+                }
+                return times;
+            } 
+        }
+
+        List<double> LeftEye
+        {
+            get {
                 var list = new List<double>();
                 foreach (var item in PupilDiameterUI.PupilDiameter)
                 {
@@ -39,7 +129,7 @@ namespace PupilDiameterControlLibrary
             }
         }
 
-        List<double> PupilDiameterRight
+        List<double> RightEye
         {
             get
             {
@@ -52,49 +142,106 @@ namespace PupilDiameterControlLibrary
             }
         }
 
-        List<TimeSpan> Times
+        void UpdateBoxPlot(double min, double max)
         {
-            get
-            {
-                var list = new List<TimeSpan>();
-                foreach (var item in PupilDiameterUI.PupilDiameter)
-                {
-                    list.Add(item.Time);
-                }
-                return list;
-            }
-        }
-
-        public SeriesCollection SeriesBase
-        {
-            get
-            {
-                return new SeriesCollection
-            {
-                new LineSeries
-                {
-                    Title = "Right Eye",
-                    Values = new ChartValues<double> (PupilDiameterRight),
-                    PointGeometry = null
-                },
-                new LineSeries
-                {
-                    Title = "Left Eye",
-                    Values = new ChartValues<double> (PupilDiameterLeft),
-                    PointGeometry = null
-                }
-            };
-            }
 
         }
-        public SeriesCollection SeriesEyesDelta { get; set; }
 
         private double Min = 0;
-        private double Max = 0;
-        public SeriesCollection SeriesBoxPlot { get; set; }
-        public string[] XLable { get; private set; }
-        public Func<double, string> YFormatter { get; set; }
+        private double Max = 300000;
+       
+        public SeriesCollection SeriesBoxPlot
+        {
+            get
+            {
 
+                var minIndex = Math.Max(Times.FindIndex(x => x >= Min), 0);
+                var maxIndex = Times.FindLastIndex(x => x <= Max);
+                maxIndex = maxIndex >= 0 ? Math.Max(maxIndex, minIndex) : Times.Count - 1;
+
+                List<double> newLeftEye = LeftEye.GetRange(minIndex, maxIndex - minIndex + 1);
+                List<double> newRightEye = RightEye.GetRange(minIndex, maxIndex - minIndex + 1);
+
+
+                return new SeriesCollection
+                {
+                    new OhlcSeries()
+                    {
+                        Title= "Box plot", Stroke = new SolidColorBrush(Colors.PeachPuff),
+                        Values = new ChartValues<OhlcPoint>
+                        {
+                            GetOhlcPointFrom(newLeftEye),
+                            GetOhlcPointFrom(newRightEye)
+                        }
+                    }
+                };
+            }
+        }
+
+
+        static OhlcPoint GetOhlcPointFrom(List<double> list)
+        {
+            return new OhlcPoint(Quartile(list.ToArray(), 1), list.Max(), list.Min(), Quartile(list.ToArray(), 3));
+        }
+
+        internal static double Quartile(double[] array, int nth_quartile)
+        {
+            if (array.Length == 0) return 0;
+            if (array.Length == 1) return 1;
+            Array.Sort(array);
+            double dblPercentage = 0;
+
+            switch (nth_quartile)
+            {
+                case 0:
+                    dblPercentage = 0; //Smallest value in the data set
+                    break;
+                case 1:
+                    dblPercentage = 25; //First quartile (25th percentile)
+                    break;
+                case 2:
+                    dblPercentage = 50; //Second quartile (50th percentile)
+                    break;
+
+                case 3:
+                    dblPercentage = 75; //Third quartile (75th percentile)
+                    break;
+
+                case 4:
+                    dblPercentage = 100; //Largest value in the data set
+                    break;
+                default:
+                    dblPercentage = 0;
+                    break;
+            }
+
+
+            if (dblPercentage >= 100.0d) return array[array.Length - 1];
+
+            double position = (double)(array.Length + 1) * dblPercentage / 100.0;
+            double leftNumber = 0.0d, rightNumber = 0.0d;
+
+            double n = dblPercentage / 100.0d * (array.Length - 1) + 1.0d;
+
+            if (position >= 1)
+            {
+                leftNumber = array[(int)System.Math.Floor(n) - 1];
+                rightNumber = array[(int)System.Math.Floor(n)];
+            }
+            else
+            {
+                leftNumber = array[0]; // first data
+                rightNumber = array[1]; // first data
+            }
+
+            if (leftNumber == rightNumber)
+                return leftNumber;
+            else
+            {
+                double part = n - System.Math.Floor(n);
+                return leftNumber + part * (rightNumber - leftNumber);
+            }
+        }
 
 
         #region mvvm
