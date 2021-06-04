@@ -72,9 +72,12 @@ namespace DataImpression.Models
             Results.FAOIHitsOnTimeIntervalList = RawDataProcessorMethods.ConvertFAOIsOnTimeRecord_to_FAOIHitsOnTimeInterval(fAOIsOnTimeRecords, ref progress, 3);
 
             progress = 48; stage = "Считывание данных о диаметре зрачка";
-            var PupilDiameterLeft = RawDataProcessorMethods.ReadOnTimeDistributedParameter(SourceData,
-                SourceData.OptionalDataCSVColumns["Pupil diameter left"], "Pupil diameter left", ref progress, 52, countStringsForReading + 100);
-            Results.PupilDiameterLeft =  RawDataProcessorMethods.CompressOnTimeDistributedParameter(PupilDiameterLeft, 2);
+
+            var PupilDiameter = RawDataProcessorMethods.ReadMultipleOnTimeDistributedParameter(SourceData,
+                new Column[] { SourceData.OptionalDataCSVColumns["Pupil diameter left"], SourceData.OptionalDataCSVColumns["Pupil diameter right"] }
+                , "Pupil diameter", ref progress, 52, countStringsForReading + 100);
+            RawDataProcessorMethods.ClearFromZeroesMultipleOnTimeDistributedParameter(PupilDiameter, 2);
+            Results.PupilDiameter = RawDataProcessorMethods.CompressMultipleOnTimeDistributedParameter(PupilDiameter, 0.2, 2);
             progress = 100; stage = "Анализ данных завершен";
         }
         #endregion
@@ -356,8 +359,8 @@ namespace DataImpression.Models
         /// Считывает данные о диаметре левого зрачка
         /// </summary>
         /// <returns></returns>
-        internal static OnTimeDistributedParameter<double> ReadOnTimeDistributedParameter(ProcessingTaskSourceData SourceData,
-                                                        Column csvcolumn,
+        internal static MultipleOnTimeDistributedParameters<double> ReadMultipleOnTimeDistributedParameter(ProcessingTaskSourceData SourceData,
+                                                        Column[] csvcolumns,
                                                         string parameterName,
                                                         ref double progress,
                                                         double progress_koef,
@@ -367,7 +370,7 @@ namespace DataImpression.Models
                                                         long bufferStringsSize = 10000)
         {
             long i = 0;
-            OnTimeDistributedParameter<double> parameterList = new OnTimeDistributedParameter<double>(parameterName);
+            MultipleOnTimeDistributedParameters<double> parameterList = new MultipleOnTimeDistributedParameters<double>(parameterName);
             using (StreamReader rd = new StreamReader(new FileStream(SourceData.CSVFileName, FileMode.Open)))
             {
                 bool EndOfFile = false;
@@ -389,7 +392,7 @@ namespace DataImpression.Models
 
                     foreach (string s in str_arr_tmp)
                     {
-                        var result = new TimeSpan_Value_Pair<double>();
+                        var result = new TimeSpan_MultipleValue_Pair<double>();
                         long tmp_time;
                         string[] tmp = { "" };
                         i++;
@@ -398,18 +401,17 @@ namespace DataImpression.Models
                         if (!long.TryParse(tmp[SourceData.CSVTimeColumn.OrderedNumber], out tmp_time))
                             throw new Exception("Не могу преобразовать в timestamp строку  " + tmp[SourceData.CSVTimeColumn.OrderedNumber]);
                         result.Time = TimeSpan.FromMilliseconds(tmp_time);
-                        if (tmp[csvcolumn.OrderedNumber] != "") //SourceData.OptionalDataCSVColumns["Pupil diameter left"]
-                        {
-                            double diameter;
-                            if (!double.TryParse(tmp[csvcolumn.OrderedNumber], out diameter))
-                                throw new Exception("Не могу преобразовать в double строку параметра  " + tmp[csvcolumn.OrderedNumber]);
-                            result.Value = diameter;
-                        }
-                        if (result.Value != 0)
-                            parameterList.Results.Add(result);
-                    }
 
-                    //strings.AddRange(str_arr_tmp);
+                        foreach (var column in csvcolumns)
+                        {
+                            double value;
+                            if (!double.TryParse(tmp[column.OrderedNumber], out value))
+                                value = 0;
+                            result.Values.Add(value);
+
+                        }
+                        parameterList.Results.Add(result);
+                    }
                     CountReadedStrings += bufferStringsSize;
                 }
             }
@@ -417,34 +419,80 @@ namespace DataImpression.Models
         }
 
         /// <summary>
-        /// Сжимает переданную коллекцию распределения по времени по частоте оцифровки (Гц)
+        /// Очищает коллекцию results внутри source от нулевых параметров (если параметр = 0, то берется его предыдущее значение)
+        /// При этом надо указать точную гарантированную размерность внутреннего "кортежа" Values
         /// </summary>
-        internal static OnTimeDistributedParameter<double> CompressOnTimeDistributedParameter(OnTimeDistributedParameter<double> sourceCollection, 
-            double frequencyHz)
+        /// <param name="source"></param>
+        /// <param name="garantedLenghtOfResultValues"></param>
+        /// <returns></returns>
+        internal static void ClearFromZeroesMultipleOnTimeDistributedParameter(MultipleOnTimeDistributedParameters<double> source,
+            int garantedLenghtOfResultValues)
         {
-            OnTimeDistributedParameter<double> filtredCollection = new OnTimeDistributedParameter<double>(sourceCollection.ParameterName);
+            if (source.Results.Count() < 1) return;
+            var prevResult = source.Results[0];
+            foreach (var result in source.Results)
+            {
+                for (int i = 0; i < garantedLenghtOfResultValues; i++)
+                {
+                    try
+                    {
+                        if (result.Values[i] == 0)
+                        {
+                            result.Values[i] = prevResult.Values[i];
+                        }
+                    }
+                    catch
+                    {
+                        continue;
+                    }
+                }
+                prevResult = result;
+            }
+        }
+
+        /// <summary>
+        /// Сжимает переданную коллекцию множества параметров распределения по времени по частоте оцифровки (Гц)
+        /// </summary>
+        internal static MultipleOnTimeDistributedParameters<double> CompressMultipleOnTimeDistributedParameter(MultipleOnTimeDistributedParameters<double> sourceCollection,
+            double frequencyHz, int garantedLenghtOfResultValues)
+        {
+            MultipleOnTimeDistributedParameters<double> filtredCollection = new MultipleOnTimeDistributedParameters<double>(sourceCollection.ParameterName);
             TimeSpan period = TimeSpan.FromSeconds(1 / frequencyHz);
             TimeSpan sourceBegin = sourceCollection.Results[0].Time;
             TimeSpan sourceEnd = sourceCollection.Results.Last().Time;
             TimeSpan curtime = sourceBegin;
             int i = 0;
-            while (curtime<sourceEnd)
+            while (curtime < sourceEnd)
             {
+                List<double> newValues = new List<double>();
                 var IntervalBegin = curtime;
                 var IntervalEnd = curtime + period;
-                double summ = 0;
-                int count=0;
-                while (sourceCollection.Results[i].Time<IntervalEnd)
+
+                List<double> summs = new List<double>();
+                for (int valIndex = 0; valIndex < garantedLenghtOfResultValues; valIndex++)
                 {
-                    summ += sourceCollection.Results[i].Value;
+                    summs.Add(0);
+                }
+                int count = 0;
+
+                while (sourceCollection.Results[i].Time < IntervalEnd)
+                {
+                    for (int valIndex = 0; valIndex < garantedLenghtOfResultValues; valIndex++)
+                    {
+                        summs[valIndex] += sourceCollection.Results[i].Values[valIndex];
+                    }
                     count++;
                     i++;
                     if (i >= sourceCollection.Results.Count()) break;
                 }
-                double avg = summ / (double)count;//по моему тут явное приведение не нужно
-                filtredCollection.Results.Add(new TimeSpan_Value_Pair<double>() { Time = IntervalBegin, Value = avg });
+                for (int valIndex = 0; valIndex < garantedLenghtOfResultValues; valIndex++)
+                {
+                    newValues.Add(summs[valIndex] / (double)count);//по моему тут явное приведение не нужно
+                }
+                filtredCollection.Results.Add(new TimeSpan_MultipleValue_Pair<double>() { Time = IntervalBegin, Values = newValues });
                 curtime = IntervalEnd;
             }
+
             return filtredCollection;
         }
     }

@@ -84,6 +84,7 @@
     <Compile Include="Models\ProcessingResults.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\ResultTypes\FAOIDistributed_Parameter.cs" />
+    <Compile Include="Models\ResultTypes\MultipleOnTimeDistributedParameters.cs" />
     <Compile Include="Models\ResultTypes\OnTimeDistributedParameter.cs" />
     <Compile Include="Models\ResultTypes\ScalarParameter.cs" />
     <Compile Include="Tests\FixationsTimeLine.xaml.cs">
@@ -111,6 +112,7 @@
     <Compile Include="ViewModel\CSVOpenMaster\ProcessingTaskVM.cs" />
     <Compile Include="ViewModel\ProjectExplorerTreeViewVM.cs" />
     <Compile Include="ViewModel\ProjectExplorerVM.cs" />
+    <Compile Include="ViewModel\ResultsView\PupilDiameterUIVM.cs" />
     <Compile Include="ViewModel\ResultsView\ResultsViewAreaVM.cs" />
     <Compile Include="ViewModel\StatisticsPanelVM.cs" />
     <Compile Include="ViewModel\CSVOpenMaster\TimeColumnChoiceVM.cs" />
@@ -165,6 +167,9 @@
     </Compile>
     <Compile Include="View\ProjectExplorerView.xaml.cs">
       <DependentUpon>ProjectExplorerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ResultsView\PupilDiameterUIView.xaml.cs">
+      <DependentUpon>PupilDiameterUIView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ResultsView\ResultsViewAreaView.xaml.cs">
       <DependentUpon>ResultsViewAreaView.xaml</DependentUpon>
@@ -259,6 +264,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\ResultsView\PupilDiameterUIView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\ResultsView\ResultsViewAreaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -317,6 +326,10 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PupilDiameterControlLibrary\PupilDiameterControlLibrary.csproj">
+      <Project>{3367a10d-bbf4-45d3-8e94-b0fc6d313753}</Project>
+      <Name>PupilDiameterControlLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TimeLineControlLibrary\TimeLineControlLibrary.csproj">
       <Project>{2532b3da-e4b4-45a9-9ffa-76d8a7a73c37}</Project>
       <Name>TimeLineControlLibrary</Name>
@@ -361,6 +374,11 @@
   <ItemGroup>
     <Resource Include="Images\Add.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\Eye-black-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Statistics-48.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

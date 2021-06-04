@@ -1,6 +1,8 @@
 ﻿using DataImpression.Models;
 using DataImpression.View;
+using DataImpression.View.ResultsView;
 using DataImpression.ViewModel.AvalonDockHelpers;
+using DataImpression.ViewModel.ResultsView;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -73,6 +75,14 @@ namespace DataImpression.ViewModel
                 {
                     DocumentBodyVM = new FixationsTimelineVM();
                     var diagram = new FixationsTimelineView();
+                    diagram.DataContext = DocumentBodyVM;
+                    Body.Container.Children.Add(diagram);
+                }
+
+                if (documentType == "PupilDiameter")
+                {
+                    DocumentBodyVM = new PupilDiameterUIVM();
+                    var diagram = new PupilDiameterUIView();
                     diagram.DataContext = DocumentBodyVM;
                     Body.Container.Children.Add(diagram);
                 }
