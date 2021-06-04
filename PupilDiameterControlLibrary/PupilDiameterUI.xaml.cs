@@ -65,142 +65,9 @@ namespace PupilDiameterControlLibrary
                 ((PupilDiameterUI)d).OnPupilDiameterChanged(d, e);
         }
         #endregion
+        
 
-
-
-
-
-        //public SeriesCollection SeriesBase { get; set; }
-        //public SeriesCollection SeriesEyesDelta { get; set; }
-
-        //private double Min = 0;
-        //private double Max = 0;
-        //public SeriesCollection SeriesBoxPlot { get; set; }
-        //public string[] XLable { get; private set; }
-        //public Func<double, string> YFormatter { get; set; }
-
-
-
-
-
-
-
-        //void UpdateBoxPlot(double min, double max)
-        //{
-        //    var minIndex = Math.Max(Times.FindIndex(x => x >= min), 0);
-        //    var maxIndex = Times.FindLastIndex(x => x <= max);
-        //    maxIndex = maxIndex >= 0 ? Math.Max(maxIndex, minIndex) : Times.Count - 1;
-
-        //    List<double> newLeftEye = LeftEye.GetRange(minIndex, maxIndex - minIndex + 1);
-        //    List<double> newRightEye = RightEye.GetRange(minIndex, maxIndex - minIndex + 1);
-
-        //    SeriesBoxPlot.First().Values = new ChartValues<OhlcPoint>
-        //    {
-        //    GetOhlcPointFrom(newLeftEye),
-        //    GetOhlcPointFrom(newRightEye),
-        //    };
-        //}
-
-        //static OhlcPoint GetOhlcPointFrom(List<double> list)
-        //{
-        //    return new OhlcPoint(Quartile(list.ToArray(), 1), list.Max(), list.Min(), Quartile(list.ToArray(), 3));
-        //}
-
-        //internal static double Quartile(double[] array, int nth_quartile)
-        //{
-        //    if (array.Length == 0) return 0;
-        //    if (array.Length == 1) return 1;
-        //    Array.Sort(array);
-        //    double dblPercentage = 0;
-
-        //    switch (nth_quartile)
-        //    {
-        //        case 0:
-        //            dblPercentage = 0; //Smallest value in the data set
-        //            break;
-        //        case 1:
-        //            dblPercentage = 25; //First quartile (25th percentile)
-        //            break;
-        //        case 2:
-        //            dblPercentage = 50; //Second quartile (50th percentile)
-        //            break;
-
-        //        case 3:
-        //            dblPercentage = 75; //Third quartile (75th percentile)
-        //            break;
-
-        //        case 4:
-        //            dblPercentage = 100; //Largest value in the data set
-        //            break;
-        //        default:
-        //            dblPercentage = 0;
-        //            break;
-        //    }
-
-
-        //    if (dblPercentage >= 100.0d) return array[array.Length - 1];
-
-        //    double position = (double)(array.Length + 1) * dblPercentage / 100.0;
-        //    double leftNumber = 0.0d, rightNumber = 0.0d;
-
-        //    double n = dblPercentage / 100.0d * (array.Length - 1) + 1.0d;
-
-        //    if (position >= 1)
-        //    {
-        //        leftNumber = array[(int)System.Math.Floor(n) - 1];
-        //        rightNumber = array[(int)System.Math.Floor(n)];
-        //    }
-        //    else
-        //    {
-        //        leftNumber = array[0]; // first data
-        //        rightNumber = array[1]; // first data
-        //    }
-
-        //    if (leftNumber == rightNumber)
-        //        return leftNumber;
-        //    else
-        //    {
-        //        double part = n - System.Math.Floor(n);
-        //        return leftNumber + part * (rightNumber - leftNumber);
-        //    }
-        //}
-
-        //private void UserControl_MouseDown(object sender, MouseButtonEventArgs e)
-        //{
-        //    if (DataContext != null) return;
-        //}
-        //private void Min_TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        //{
-        //    //TODO улучшить обработчик исключений приведения типа
-        //    try
-        //    {
-        //        Min = double.Parse(Min_TextBox.Text, CultureInfo.InvariantCulture);
-        //    }
-        //    catch
-        //    {
-        //        Min_TextBox.Clear();
-        //        Min = 0;
-        //    }
-
-        //    UpdateBoxPlot(Min, Max);
-        //}
-
-        //private void Max_TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        Max = Convert.ToDouble(Max_TextBox.Text);
-        //    }
-        //    catch
-        //    {
-        //        Max_TextBox.Clear();
-        //        Max = Times.Last();
-        //    }
-        //    UpdateBoxPlot(Min, Max);
-        //}
-
-
-        #region mvvm
+        #region INPC
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
@@ -211,10 +78,7 @@ namespace PupilDiameterControlLibrary
 
         #endregion
 
-        private void Min_TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
 
-        }
     }
 
 }

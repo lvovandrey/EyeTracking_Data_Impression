@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Eye-In-A-Sky.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AvalonDock, Version=4.30.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
       <HintPath>..\packages\Dirkster.AvalonDock.4.30.0\lib\net40\AvalonDock.dll</HintPath>
@@ -379,6 +382,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Statistics-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Eye-In-A-Sky.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

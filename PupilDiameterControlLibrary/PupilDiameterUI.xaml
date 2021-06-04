@@ -58,10 +58,7 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="50"/>
                         </Grid.RowDefinitions>
-                        <!--<TextBox Name="Min_TextBox" Height="50" Margin="0,13,337,410" TextChanged="Min_TextBox_TextChanged"  BorderThickness="2" HorizontalAlignment="Right" Width="50"/>
-                        <TextBox Name="Max_TextBox" Height="50" Width="50" Margin="0,13,268,410" TextChanged="Max_TextBox_TextChanged" HorizontalAlignment="Right"/>-->
-
-                        <lvc:CartesianChart Grid.Row="0" Series="{Binding SeriesBoxPlot}" Margin="0,63,0,0">
+                          <lvc:CartesianChart Grid.Row="0" Series="{Binding SeriesBoxPlot}" Margin="0,63,0,0">
                             <lvc:CartesianChart.AxisX>
                                 <lvc:Axis Labels="{Binding XLable}"/>
                             </lvc:CartesianChart.AxisX>
