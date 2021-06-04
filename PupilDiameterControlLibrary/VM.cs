@@ -73,10 +73,8 @@ namespace PupilDiameterControlLibrary
                     Values = new ChartValues<ObservablePoint>(xy_RightPupil),
                     LineSmoothness = 0 ,  PointGeometry = null
                     }
-
                 };
             }
-
         }
 
 
@@ -281,7 +279,7 @@ namespace PupilDiameterControlLibrary
         }
 
 
-        #region mvvm
+        #region INPC
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
