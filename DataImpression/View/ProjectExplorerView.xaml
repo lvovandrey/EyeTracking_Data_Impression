@@ -7,9 +7,17 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="250">
+    <UserControl.Resources>
+        <Style TargetType="Button" x:Key="BtnStyle">
+            <Setter Property="Height" Value="36"/>
+        </Style>
+        <Style  TargetType="Image" x:Key="ImgBtnStyle">
+            <Setter Property="Height" Value="32"/>
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="44"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <ToolBar Grid.Row="0" >
@@ -22,11 +30,11 @@
                 <sys:String x:Key="FrequencyRequestsFAOIDistributionPerMinute">FrequencyRequestsFAOIDistributionPerMinute</sys:String>
 
             </ToolBar.Resources>
-            <Button Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource AverageFixationTimeDistribution}" >
-                <Image Source="/DataImpression;component/Images/Chart-Bar-Add.png"  />
+            <Button Style="{StaticResource BtnStyle}" Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource AverageFixationTimeDistribution}" >
+                <Image Source="/DataImpression;component/Images/Chart-Bar-Add.png" Style="{StaticResource ImgBtnStyle}" />
             </Button>
-            <Button x:Name="Button1" Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource TimePercentDistribution}" >
-                <Image Source="/DataImpression;component/Images/Table-Chart.png" RenderTransformOrigin="0.5,0.5"  >
+            <Button Style="{StaticResource BtnStyle}" Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource TimePercentDistribution}" >
+                <Image Source="/DataImpression;component/Images/Table-Chart.png" RenderTransformOrigin="0.5,0.5" Style="{StaticResource ImgBtnStyle}" >
                     <Image.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -37,23 +45,23 @@
                     </Image.RenderTransform>
                 </Image>
             </Button>
-            <Button Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource FrequencyRequestsFAOIDistributionPerMinute}" >
-                <Image Source="/DataImpression;component/Images/Statistics-48.png"  />
+            <Button Style="{StaticResource BtnStyle}" Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource FrequencyRequestsFAOIDistributionPerMinute}" >
+                <Image Source="/DataImpression;component/Images/Statistics-48.png" Style="{StaticResource ImgBtnStyle}" />
             </Button>
-            <Button Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource ComplexParameters}" Width="25">
-                <StackPanel Orientation="Vertical">
-                    <Image Source="/DataImpression;component/Images/Chart-Bar.png"/>
+            <Button Style="{StaticResource BtnStyle}" Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource ComplexParameters}" >
+                <StackPanel Orientation="Vertical" Margin="0">
+                    <Image Source="/DataImpression;component/Images/Chart-Bar.png" Style="{StaticResource ImgBtnStyle}"/>
                 </StackPanel>
             </Button>
-            <Button  Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource FixationsTimeline}" >
-                <Image Source="/DataImpression;component/Images/Timeline-Marker.png"  />
+            <Button Style="{StaticResource BtnStyle}" Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource FixationsTimeline}" >
+                <Image Source="/DataImpression;component/Images/Timeline-Marker.png" Style="{StaticResource ImgBtnStyle}" />
             </Button>
 
 
             <Separator/>
 
-            <Button  Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource PupilDiameter}" >
-                <Image Source="/DataImpression;component/Images/Eye-black-48.png"  />
+            <Button Style="{StaticResource BtnStyle}"  Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource PupilDiameter}" >
+                <Image Source="/DataImpression;component/Images/Eye-black-48.png" Style="{StaticResource ImgBtnStyle}" />
             </Button>
         </ToolBar>
         <local:ProjectExplorerTreeView Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" DataContext="{Binding ProjectExplorerTreeViewVM}"/>
