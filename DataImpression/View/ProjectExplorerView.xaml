@@ -9,10 +9,10 @@
              d:DesignHeight="450" d:DesignWidth="250">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="35"/>
+            <RowDefinition Height="50"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <ToolBar Height="35" Grid.Row="0" >
+        <ToolBar Grid.Row="0" >
             <ToolBar.Resources>
                 <sys:String x:Key="AverageFixationTimeDistribution">AverageFixationTimeDistribution</sys:String>
                 <sys:String x:Key="TimePercentDistribution">TimePercentDistribution</sys:String>
@@ -42,8 +42,7 @@
             </Button>
             <Button Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource ComplexParameters}" Width="25">
                 <StackPanel Orientation="Vertical">
-                    <Image Source="/DataImpression;component/Images/Chart-Bar.png"  Height="10"/>
-                    <Image Source="/DataImpression;component/Images/Chart-Bar.png"  Height="10" />
+                    <Image Source="/DataImpression;component/Images/Chart-Bar.png"/>
                 </StackPanel>
             </Button>
             <Button  Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource FixationsTimeline}" >

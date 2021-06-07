@@ -6,11 +6,13 @@
         xmlns:views="clr-namespace:DataImpression.View"
         xmlns:local="clr-namespace:DataImpression"
         mc:Ignorable="d"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Title="EyeTracking Data Impression" Height="450" Width="800" 
         Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
