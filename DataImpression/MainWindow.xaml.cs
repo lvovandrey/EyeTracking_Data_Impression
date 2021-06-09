@@ -2,13 +2,14 @@
 using System.Windows;
 using DataImpression.Models;
 using DataImpression.Tests;
+using MahApps.Metro.Controls;
 
 namespace DataImpression
 {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
         public MainWindow()
         {
