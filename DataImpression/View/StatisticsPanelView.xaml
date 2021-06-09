@@ -9,7 +9,7 @@
              d:DesignHeight="450" d:DesignWidth="800" x:Name="This">
     <Grid>
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-            <StackPanel Orientation="Vertical" >
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
                 <elements:PropertyViewerEx DataContext="{Binding FullTime}" Margin="3"/>
                 <elements:PropertyViewerEx DataContext="{Binding FixationsFullCount}" Margin="3"/>
                 <elements:PropertyViewerEx DataContext="{Binding FrequencyRequestsToAnyFAOIPerMinute}" Margin="3"/>

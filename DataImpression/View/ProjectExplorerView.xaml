@@ -89,34 +89,6 @@
             <Button ToolTip="Диаграммы параметра Диаметр зрачка"  Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource PupilDiameter}">
                 <iconPacks:FontAwesome Kind="EyeSolid"/>
             </Button>
-
-            <!--<Button
-                Style="{DynamicResource MahApps.Styles.Button.Circle}"
-                 Width="32" Height="32"
-                Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource AverageFixationTimeDistribution}" >
-                <iconPacks:ForkAwesome Kind="AddressBook"/>
-            </Button>
-            <Button x:Name="Button1" Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource TimePercentDistribution}" >
-                <Image Source="/DataImpression;component/Images/Table-Chart.png" RenderTransformOrigin="0.5,0.5"  Style="{StaticResource ImgInToolbarStyle}">
-                    <Image.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform/>
-                            <SkewTransform/>
-                            <RotateTransform Angle="-90"/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </Image.RenderTransform>
-                </Image>
-            </Button>
-            <Button Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource FrequencyRequestsFAOIDistributionPerMinute}" >
-                <Image Source="/DataImpression;component/Images/Statistics-48.png"  Style="{StaticResource ImgInToolbarStyle}"/>
-            </Button>
-            <Button Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource ComplexParameters}" Width="25">
-                <StackPanel Orientation="Vertical">
-                    <Image Source="/DataImpression;component/Images/Chart-Bar.png"  Height="10" Style="{StaticResource ImgInToolbarStyle}"/>
-                </StackPanel>
-            </Button>-->
-
         </ToolBar>
         <local:ProjectExplorerTreeView Grid.Row="1" HorizontalAlignment="Stretch" 
                                        VerticalAlignment="Stretch" 
