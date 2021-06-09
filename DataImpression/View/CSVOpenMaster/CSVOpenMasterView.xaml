@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DataImpression.View"
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+
         mc:Ignorable="d"
         Title="CSVOpenMasterView" Height="450" Width="800">
     <Grid>

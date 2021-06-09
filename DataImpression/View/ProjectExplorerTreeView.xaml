@@ -8,7 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Margin="3">
         <ScrollViewer Grid.Row="1" >
-            <TreeView ItemsSource="{Binding Items}" Margin="-1">
+            <TreeView ItemsSource="{Binding Items}" Margin="-1" >
 
                 <TreeView.Resources>
                     <HierarchicalDataTemplate DataType="{x:Type local:PEElement}" ItemsSource="{Binding PEElements, UpdateSourceTrigger=PropertyChanged}" >
