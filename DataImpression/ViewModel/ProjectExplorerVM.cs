@@ -11,7 +11,7 @@ namespace DataImpression.ViewModel
 {
     public class ProjectExplorerVM: ToolVM
     {
-        public ProjectExplorerVM(MainWindowViewModel mainWindowViewModel, ResultsViewAreaVM ResultsViewAreaVM, Project project) : base("Project Explorer")
+        public ProjectExplorerVM(MainWindowViewModel mainWindowViewModel, ResultsViewAreaVM ResultsViewAreaVM, Project project) : base("Обозреватель проекта")
         {
             Project = project;
             _mainWindowViewModel = mainWindowViewModel;

@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>DataImpression</RootNamespace>
     <AssemblyName>DataImpression</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -16,6 +16,7 @@
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -337,16 +338,6 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PupilDiameterControlLibrary\PupilDiameterControlLibrary.csproj">
-      <Project>{3367a10d-bbf4-45d3-8e94-b0fc6d313753}</Project>
-      <Name>PupilDiameterControlLibrary</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TimeLineControlLibrary\TimeLineControlLibrary.csproj">
-      <Project>{2532b3da-e4b4-45a9-9ffa-76d8a7a73c37}</Project>
-      <Name>TimeLineControlLibrary</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Chart-Bar-Add.png" />
   </ItemGroup>
   <ItemGroup>
@@ -393,6 +384,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Eye-In-A-Sky.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PupilDiameterControlLibrary\PupilDiameterControlLibrary.csproj">
+      <Project>{3367a10d-bbf4-45d3-8e94-b0fc6d313753}</Project>
+      <Name>PupilDiameterControlLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TimeLineControlLibrary\TimeLineControlLibrary.csproj">
+      <Project>{2532b3da-e4b4-45a9-9ffa-76d8a7a73c37}</Project>
+      <Name>TimeLineControlLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.4.1.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.1.0\build\MaterialDesignThemes.targets')" />
