@@ -6,6 +6,9 @@
              xmlns:local="clr-namespace:DataImpression.View.Elements"
              mc:Ignorable="d" 
              d:DesignHeight="25">
+    <UserControl.Resources>
+        <local:ValueToStringPropertyViewerConverter x:Key="ValConverter"/>
+    </UserControl.Resources>
     <Grid Margin=" 0 0 0 12" MaxWidth="200">
         <Grid x:Name="ThisGrid" Tag="Название">
             <Grid.RowDefinitions>
@@ -13,7 +16,9 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <TextBlock Text="{Binding Name}" ToolTip="{Binding Name}" TextWrapping="Wrap" VerticalAlignment="Center"/>
-            <TextBox Text="{Binding Val, Mode=OneWay}" Grid.Row="1" VerticalAlignment="Center"  />
+            <TextBox Text="{Binding Val, Mode=OneWay, Converter={StaticResource ValConverter}}"
+                     Grid.Row="1" VerticalAlignment="Center"  
+                     IsReadOnly="True" IsReadOnlyCaretVisible="True"/>
         </Grid>
     </Grid>
 </UserControl>

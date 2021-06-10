@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,25 @@ namespace DataImpression.View.Elements
         public PropertyViewerEx()
         {
             InitializeComponent();
+        }
+    }
+
+
+    public class ValueToStringPropertyViewerConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if(value is double)
+                return String.Format("{0:f4}", value);
+            if (value is TimeSpan)
+                return ((TimeSpan)value).ToString(@"hh\:mm\:ss\.ff");
+            return value.ToString();
+
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return DependencyProperty.UnsetValue;
         }
     }
 }
