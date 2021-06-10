@@ -5,58 +5,95 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DataImpression.View"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="250">
+    <UserControl.Resources>
+        <Style TargetType="Image" x:Key="ImgInToolbarStyle">
+            <Setter Property="Height" Value="24"/>
+            <Setter Property="Width" Value="24"/>                
+                  </Style>
+
+        <sys:String x:Key="TimePercentDistribution">TimePercentDistribution</sys:String>
+        <sys:String x:Key="AverageFixationTimeDistribution">AverageFixationTimeDistribution</sys:String>
+        <sys:String x:Key="FrequencyRequestsFAOIDistributionPerMinute">FrequencyRequestsFAOIDistributionPerMinute</sys:String>
+        <sys:String x:Key="ComplexParams">TimePercentDistribution+AverageFixationTimeDistribution+FrequencyRequestsFAOIDistributionPerMinute</sys:String>
+
+        <x:Array Type="{x:Type sys:String}" x:Key="array">
+            <sys:String>AverageFixationTimeDistribution</sys:String>
+            <sys:String>TimePercentDistribution</sys:String>
+            <sys:String>TimePercentDistribution+AverageFixationTimeDistribution+FrequencyRequestsFAOIDistributionPerMinute</sys:String>
+        </x:Array>
+
+        <x:Array Type="{x:Type MenuItem}" x:Key="MenuItems">
+            <MenuItem Header="Доля фиксаций по зонам"
+                      Command="{Binding AddDiagramViewCommand}"
+                      CommandParameter="{StaticResource TimePercentDistribution}">
+                <MenuItem.Icon>
+                    <Rectangle Width="10" Height="10" Fill="#FF284FB2" Stroke="#FF8A8A8A"/>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Среднее время фиксации"
+                      Command="{Binding AddDiagramViewCommand}"
+                      CommandParameter="{StaticResource AverageFixationTimeDistribution}">
+                <MenuItem.Icon>
+                    <Rectangle Width="10" Height="10" Fill="#FF458C40" Stroke="#FF8A8A8A"/>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Header="Частота фиксаций по зонам"
+                      Command="{Binding AddDiagramViewCommand}"
+                      CommandParameter="{StaticResource FrequencyRequestsFAOIDistributionPerMinute}">
+                <MenuItem.Icon>
+                    <Rectangle Width="10" Height="10" Fill="#FFAB922D" Stroke="#FF8A8A8A"/>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Все диаграммы"
+                      Command="{Binding AddDiagramViewCommand}"
+                      CommandParameter="{StaticResource ComplexParams}">
+                <MenuItem.Icon>
+                    <StackPanel>
+                        <Rectangle Width="10" Height="2" Margin="0 0 0 2" Fill="#FF284FB2"/>
+                        <Rectangle Width="10" Height="2" Margin="0 0 0 2" Fill="#FF458C40" />
+                        <Rectangle Width="10" Height="2" Fill="#FFAB922D" />
+                    </StackPanel>
+                </MenuItem.Icon>
+            </MenuItem>
+
+        </x:Array>
+        
+        <sys:String x:Key="FixationsTimeline">FixationsTimeline</sys:String>
+        <sys:String x:Key="PupilDiameter">PupilDiameter</sys:String>
+
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="35"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <ToolBar Height="35" Grid.Row="0" >
-            <ToolBar.Resources>
-                <sys:String x:Key="AverageFixationTimeDistribution">AverageFixationTimeDistribution</sys:String>
-                <sys:String x:Key="TimePercentDistribution">TimePercentDistribution</sys:String>
-                <sys:String x:Key="ComplexParameters">TimePercentDistribution+AverageFixationTimeDistribution+FrequencyRequestsFAOIDistributionPerMinute</sys:String>
-                <sys:String x:Key="FixationsTimeline">FixationsTimeline</sys:String>
-                <sys:String x:Key="PupilDiameter">PupilDiameter</sys:String>
-                <sys:String x:Key="FrequencyRequestsFAOIDistributionPerMinute">FrequencyRequestsFAOIDistributionPerMinute</sys:String>
+        <ToolBar  Grid.Row="0"  >
+            <mah:DropDownButton Margin="2" 
+                                ToolTip="Стандартные диаграммы" 
+                                BorderBrush="{x:Null}"
+                                ItemsSource="{Binding Source={StaticResource MenuItems}}">
+                <mah:DropDownButton.Icon>
+                    <iconPacks:FontAwesome   Kind="ChartPieSolid"/>
+                </mah:DropDownButton.Icon>
+            </mah:DropDownButton>
 
-            </ToolBar.Resources>
-            <Button Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource AverageFixationTimeDistribution}" >
-                <Image Source="/DataImpression;component/Images/Chart-Bar-Add.png"  />
-            </Button>
-            <Button x:Name="Button1" Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource TimePercentDistribution}" >
-                <Image Source="/DataImpression;component/Images/Table-Chart.png" RenderTransformOrigin="0.5,0.5"  >
-                    <Image.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform/>
-                            <SkewTransform/>
-                            <RotateTransform Angle="-90"/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </Image.RenderTransform>
-                </Image>
-            </Button>
-            <Button Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource FrequencyRequestsFAOIDistributionPerMinute}" >
-                <Image Source="/DataImpression;component/Images/Statistics-48.png"  />
-            </Button>
-            <Button Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource ComplexParameters}" Width="25">
-                <StackPanel Orientation="Vertical">
-                    <Image Source="/DataImpression;component/Images/Chart-Bar.png"  Height="10"/>
-                    <Image Source="/DataImpression;component/Images/Chart-Bar.png"  Height="10" />
-                </StackPanel>
-            </Button>
-            <Button  Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource FixationsTimeline}" >
-                <Image Source="/DataImpression;component/Images/Timeline-Marker.png"  />
+            <Button ToolTip="Диаграмма фиксаций - таймлайн" Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource FixationsTimeline}">
+                <iconPacks:FontAwesome Kind="BarcodeSolid"/>
             </Button>
 
-
-            <Separator/>
-
-            <Button  Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource PupilDiameter}" >
-                <Image Source="/DataImpression;component/Images/Eye-black-48.png"  />
+            <Button ToolTip="Диаграммы параметра Диаметр зрачка"  Command="{Binding AddDiagramViewCommand}" CommandParameter="{StaticResource PupilDiameter}">
+                <iconPacks:FontAwesome Kind="EyeSolid"/>
             </Button>
         </ToolBar>
-        <local:ProjectExplorerTreeView Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" DataContext="{Binding ProjectExplorerTreeViewVM}"/>
+        <local:ProjectExplorerTreeView Grid.Row="1" HorizontalAlignment="Stretch" 
+                                       VerticalAlignment="Stretch" 
+                                       DataContext="{Binding ProjectExplorerTreeViewVM}" 
+                                       BorderBrush="#FF434C65"
+                                       BorderThickness="1"/>
     </Grid>
 </UserControl>
