@@ -200,14 +200,15 @@ namespace PupilDiameterControlLibrary
                 XLable =new string[]{"Левый", "Правый" };
                 return new SeriesCollection
                 {
-                    new OhlcSeries()
+                    new CandleSeries()
                     {
                         Title= "Box plot", 
                         Values = new ChartValues<OhlcPoint>
                         {
                             GetOhlcPointFrom(newLeftEye),
                             GetOhlcPointFrom(newRightEye)
-                        }
+                        },
+                        StrokeThickness = 5
                     }
                 };
             }

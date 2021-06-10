@@ -56,6 +56,16 @@ namespace DataImpression.Models
         public Column CSVTimeColumn { get; set; }
 
         /// <summary>
+        /// Колонка в файле csv в которой размещается диаметр левого зрачка
+        /// </summary>
+        public Column CSVPupilDiameterLeftColumn { get; set; }
+
+        /// <summary>
+        /// Колонка в файле csv в которой размещается диаметр правого зрачка
+        /// </summary>
+        public Column CSVPupilDiameterRightColumn { get; set; }
+
+        /// <summary>
         /// Коллекция колонок в файле csv в которой размещаются разные дополнительные данные
         /// </summary>
         public XmlSerializableDictionary<string, Column> OptionalDataCSVColumns { get; set; }

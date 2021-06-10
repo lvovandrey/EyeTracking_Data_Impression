@@ -74,7 +74,7 @@ namespace DataImpression.Models
             progress = 48; stage = "Считывание данных о диаметре зрачка";
 
             var PupilDiameter = RawDataProcessorMethods.ReadMultipleOnTimeDistributedParameter(SourceData,
-                new Column[] { SourceData.OptionalDataCSVColumns["Pupil diameter left"], SourceData.OptionalDataCSVColumns["Pupil diameter right"] }
+                new Column[] { SourceData.CSVPupilDiameterLeftColumn, SourceData.CSVPupilDiameterRightColumn }
                 , "Pupil diameter", ref progress, 52, countStringsForReading + 100);
             RawDataProcessorMethods.ClearFromZeroesMultipleOnTimeDistributedParameter(PupilDiameter, 2);
             Results.PupilDiameter = RawDataProcessorMethods.CompressMultipleOnTimeDistributedParameter(PupilDiameter, 0.2, 2);
