@@ -45,7 +45,7 @@ namespace ExcelExporter
             var sheet = package.Workbook.Worksheets
                 .Add("Market Report");
 
-            sheet.Cells["B2"].Value = "Company:";
+            sheet.Cells["B2"].Value = Results.SourceData.CSVFileName;
 
             return package.GetAsByteArray();
         }

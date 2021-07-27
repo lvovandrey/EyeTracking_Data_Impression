@@ -493,6 +493,8 @@
   <ItemGroup>
     <Resource Include="Eye-In-A-Sky.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\Export-Excel.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -137,8 +137,19 @@ namespace DataImpression.ViewModel
                 }));
             }
         }
-
-
+        
+        private RelayCommand exportResultsToExcelCommand;
+        public RelayCommand ExportResultsToExcelCommand
+        {
+            get
+            {
+                return exportResultsToExcelCommand ?? (exportResultsToExcelCommand = new RelayCommand(obj =>
+                {
+                    
+                }, canExecute => Model.GetModel().HaveData
+                ));
+            }
+        }
 
 
         #endregion
