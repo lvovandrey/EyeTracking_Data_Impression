@@ -206,6 +206,7 @@
     <Compile Include="Tests\WindowForTests.xaml.cs">
       <DependentUpon>WindowForTests.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UseCases\ResultsReporter.cs" />
     <Compile Include="ViewModel\CSVOpenMaster\AOIHitColumnsChoiceVM.cs" />
     <Compile Include="ViewModel\CSVOpenMaster\CSVOpenMasterVM.cs" />
     <Compile Include="ViewModel\CSVOpenMaster\InformationColumnsChoiceVM.cs" />
@@ -492,5 +493,6 @@
   <ItemGroup>
     <Resource Include="Eye-In-A-Sky.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
