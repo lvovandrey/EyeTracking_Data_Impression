@@ -65,9 +65,54 @@
                         </lvc:CartesianChart>
                         <StackPanel Grid.Row="1" Orientation="Horizontal">
                             <Label Content="Введите интервал времени в секундах" VerticalAlignment="Center"/>
-                            <TextBox Text="{Binding BoxChartIntervalBegin}" VerticalAlignment="Center" Width="90"/>
+                            <TextBox Text="{Binding IntervalBegin}" VerticalAlignment="Center" Width="90"/>
                             <Label Content=" --- " VerticalAlignment="Center"/>
-                            <TextBox Text="{Binding BoxChartIntervalEnd}" VerticalAlignment="Center" Width="90"/>
+                            <TextBox Text="{Binding IntervalEnd}" VerticalAlignment="Center" Width="90"/>
+                        </StackPanel>
+                    </Grid>
+                </TabItem.Content>
+            </TabItem>
+            <TabItem x:Name="Spectre">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Rectangle Height="10" Width="10" Fill="Black" />
+                        <TextBlock Margin="3">Спектральное распределение</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+                        <Grid VerticalAlignment="Stretch">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <lvc:CartesianChart DisableAnimations="True" Hoverable="False" DataTooltip="{x:Null}" Series="{Binding SeriesSignalSpectre}" LegendLocation="Right" >
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis Title="Абсцисса, (угол в рад)" LabelFormatter="{Binding XFormatter2}"></lvc:Axis>
+                                </lvc:CartesianChart.AxisX>
+                                <lvc:CartesianChart.AxisY>
+                                    <lvc:Axis Title="Амплитуда, отн.ед."  LabelFormatter="{Binding YFormatter2}"></lvc:Axis>
+                                </lvc:CartesianChart.AxisY>
+                            </lvc:CartesianChart>
+                            <lvc:CartesianChart DisableAnimations="True" Hoverable="False" DataTooltip="{x:Null}" Grid.Row="1" Series="{Binding SeriesSpectre}" LegendLocation="Right" >
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis Title="Частота, Гц ??" LabelFormatter="{Binding XFormatter3}"></lvc:Axis>
+                                </lvc:CartesianChart.AxisX>
+                                <lvc:CartesianChart.AxisY>
+                                    <lvc:Axis Title="Мощность ??"  LabelFormatter="{Binding YFormatter3}"></lvc:Axis>
+                                </lvc:CartesianChart.AxisY>
+                            </lvc:CartesianChart>
+                        </Grid>
+
+                        <StackPanel Grid.Row="1" Orientation="Horizontal">
+                            <Label Content="Введите интервал времени в секундах" VerticalAlignment="Center"/>
+                            <TextBox Text="{Binding IntervalBegin}" VerticalAlignment="Center" Width="90"/>
+                            <Label Content=" --- " VerticalAlignment="Center"/>
+                            <TextBox Text="{Binding IntervalEnd}" VerticalAlignment="Center" Width="90"/>
                         </StackPanel>
                     </Grid>
                 </TabItem.Content>

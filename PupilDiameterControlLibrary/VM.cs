@@ -28,8 +28,10 @@ namespace PupilDiameterControlLibrary
             OnPropertyChanged("SeriesBase");
             OnPropertyChanged("SeriesEyesDelta");
             OnPropertyChanged("SeriesBoxPlot");
-            OnPropertyChanged("BoxChartIntervalBegin");
-            OnPropertyChanged("BoxChartIntervalEnd");
+            OnPropertyChanged("IntervalBegin");
+            OnPropertyChanged("IntervalEnd");
+            OnPropertyChanged("SeriesSpectre");
+            OnPropertyChanged("SeriesSignalSpectre");
         }
 
         public PupilDiameterUI PupilDiameterUI;
@@ -40,6 +42,9 @@ namespace PupilDiameterControlLibrary
         public Func<double, string> YFormatter { get; set; }
         public Func<double, string> XFormatter2 { get; set; }
         public Func<double, string> YFormatter2 { get; set; }
+        public Func<double, string> XFormatter3 { get; set; }
+        public Func<double, string> YFormatter3 { get; set; }
+
 
         public SeriesCollection SeriesBase
         {
@@ -105,24 +110,26 @@ namespace PupilDiameterControlLibrary
         }
 
 
-       
+
         public string[] XLable { get; private set; }
 
-        List<double> Times 
-        { 
-            get {
+        List<double> Times
+        {
+            get
+            {
                 var times = new List<double>();
                 foreach (var item in PupilDiameterUI.PupilDiameter)
                 {
                     times.Add(item.Time.TotalMilliseconds);
                 }
                 return times;
-            } 
+            }
         }
 
         List<double> LeftEye
         {
-            get {
+            get
+            {
                 var list = new List<double>();
                 foreach (var item in PupilDiameterUI.PupilDiameter)
                 {
@@ -145,28 +152,28 @@ namespace PupilDiameterControlLibrary
             }
         }
 
-        
+
         private double Min { get; set; }
-        public string BoxChartIntervalBegin 
+        public string IntervalBegin
         {
-            get 
-            { 
-                return Min.ToString(); 
+            get
+            {
+                return Min.ToString();
             }
-            set 
-            { 
-                double val; 
-                if(!double.TryParse(value, out val)) val = 0;
+            set
+            {
+                double val;
+                if (!double.TryParse(value, out val)) val = 0;
                 if (val < 0) val = 0;
                 if (val > Times.Last()) val = Times.Last();
-                Min = val; 
+                Min = val;
                 OnPropertyChanged("BoxChartIntervalBegin");
                 OnPropertyChanged("SeriesBoxPlot");
             }
         }
 
         private double Max { get; set; }
-        public string BoxChartIntervalEnd
+        public string IntervalEnd
         {
             get
             {
@@ -184,7 +191,8 @@ namespace PupilDiameterControlLibrary
             }
         }
 
-        
+
+
         public SeriesCollection SeriesBoxPlot
         {
             get
@@ -197,12 +205,12 @@ namespace PupilDiameterControlLibrary
                 List<double> newLeftEye = LeftEye.GetRange(minIndex, maxIndex - minIndex + 1);
                 List<double> newRightEye = RightEye.GetRange(minIndex, maxIndex - minIndex + 1);
 
-                XLable =new string[]{"Левый", "Правый" };
+                XLable = new string[] { "Левый", "Правый" };
                 return new SeriesCollection
                 {
                     new CandleSeries()
                     {
-                        Title= "Box plot", 
+                        Title= "Box plot",
                         Values = new ChartValues<OhlcPoint>
                         {
                             GetOhlcPointFrom(newLeftEye),
@@ -279,6 +287,111 @@ namespace PupilDiameterControlLibrary
             }
         }
 
+
+        private List<double> GenerateSignal()
+        {
+            List<double> x = new List<double>();
+
+            //foreach (var item in PupilDiameterUI.PupilDiameter)
+            //{
+            //    x.Add(item.PupilDiameterLeft);
+            //}
+            Random r = new Random();
+            for (int i = 0; i < 1256600; i++)
+            {
+                x.Add(r.NextDouble() + 0.33 * (2 * Math.Sin((double)i / 10000)
+                    + Math.Sin((double)i / 5000)
+                    + Math.Sin((double)i / 2500)
+                    + Math.Sin((double)i / 1250)
+                    + 3*Math.Sin((double)i / 4000)));
+            }
+            if (x.Count==0) x.Add(0);
+            return x;
+        }
+
+        public SeriesCollection SeriesSignalSpectre
+        {
+            get
+            {
+                YFormatter2 = val => val.ToString("0.00");
+                XFormatter2 = val => TimeSpan.FromSeconds(val).ToString(@"mm\:ss");
+
+                List<double> x = GenerateSignal();
+                List<ObservablePoint> signal_graph = new List<ObservablePoint>();
+
+                int ii = 0;
+                foreach (var _x in x)
+                {
+                    ii++; if (ii > 200000) break;
+                    if (ii % 100 == 0)
+                        signal_graph.Add(new ObservablePoint(ii, _x));
+                }
+
+
+                return new SeriesCollection
+                {
+                    new LineSeries
+                    {
+                    Title= "Signal",
+                    Values = new ChartValues<ObservablePoint>(signal_graph),
+                    LineSmoothness = 0 ,  PointGeometry = null, Stroke = new SolidColorBrush(Colors.White)
+                    }
+                };
+            }
+        }
+
+        public SeriesCollection SeriesSpectre
+        {
+            get
+            {
+                YFormatter3 = val => val.ToString("0.00");
+                XFormatter3 = val => val.ToString("0.00");
+
+
+                List<double> x = GenerateSignal();
+                var xx = x.ToArray();
+                alglib.complex[] f;
+                double[] x2;
+                alglib.fftr1d(xx, out f);
+                alglib.fftr1dinv(f, out x2);
+
+                List<ObservablePoint> xgraph = new List<ObservablePoint>();
+                List<ObservablePoint> ygraph = new List<ObservablePoint>();
+
+                int ii = 0;
+                double max = f.Max(item => item.x);
+                foreach (var _f in f)
+                {
+                    ii++; if (ii > 1000) break;
+                    xgraph.Add(new ObservablePoint(ii, _f.x / max));
+                }
+                ii = 0;
+                max = f.Max(item => item.y);
+                foreach (var _f in f)
+                {
+                    ii++; if (ii > 1000) break;
+                    ygraph.Add(new ObservablePoint(ii, _f.y / max));
+                }
+
+
+                return new SeriesCollection
+                {
+                    new LineSeries
+                    {
+                    Title= "x",
+                    Values = new ChartValues<ObservablePoint>(xgraph),
+                    LineSmoothness = 0 ,  PointGeometry = null, Stroke = new SolidColorBrush(Colors.Gold)
+                    }
+                    ,
+                    new LineSeries
+                    {
+                    Title= "y",
+                    Values = new ChartValues<ObservablePoint>(ygraph),
+                    LineSmoothness = 0 ,  PointGeometry = null, Stroke = new SolidColorBrush(Colors.Red)
+                    }
+                };
+            }
+        }
 
         #region INPC
         public event PropertyChangedEventHandler PropertyChanged;
