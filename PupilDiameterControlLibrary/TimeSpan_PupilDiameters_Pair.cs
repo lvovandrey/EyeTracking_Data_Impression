@@ -17,6 +17,9 @@ namespace PupilDiameterControlLibrary
         }
         public double PupilDiameterLeft { get; set; }
         public double PupilDiameterRight { get; set; }
+
+        public double DeltaLeftRight => (PupilDiameterLeft - PupilDiameterRight);
+
         public TimeSpan Time { get; set; }
     }
 }

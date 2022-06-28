@@ -1,121 +1,311 @@
 ﻿<UserControl x:Class="PupilDiameterControlLibrary.PupilDiameterUI"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:PupilDiameterControlLibrary"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             mc:Ignorable="d">
     <Grid x:Name="MainGrid">
-         <TabControl x:Name="graphics">
+        <TabControl x:Name="graphics">
             <TabItem x:Name="baseGraphic">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Rectangle Height="10" Width="10" Fill="Black" />
-                        <TextBlock Margin="3">Простой График</TextBlock>
+                        <Rectangle Width="10"
+                                   Height="10"
+                                   Fill="Black" />
+                        <TextBlock Margin="3">Диаметры зрачков</TextBlock>
                     </StackPanel>
                 </TabItem.Header>
                 <TabItem.Content>
-                    <lvc:CartesianChart Series="{Binding SeriesBase}" LegendLocation="Right" >
-                        <lvc:CartesianChart.AxisX>
-                            <lvc:Axis Title="Время, мм:сс" LabelFormatter="{Binding XFormatter}"></lvc:Axis>
-                        </lvc:CartesianChart.AxisX>
-                        <lvc:CartesianChart.AxisY>
-                            <lvc:Axis Title="Диаметр зрачка"  LabelFormatter="{Binding YFormatter}"></lvc:Axis>
-                        </lvc:CartesianChart.AxisY>
-                    </lvc:CartesianChart>
+                    <TabControl>
+                        <TabItem Header="Оба глаза">
+                            <lvc:CartesianChart LegendLocation="Right"
+                                                Series="{Binding SeriesBase}">
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis Title="Время, мм:сс"
+                                              LabelFormatter="{Binding FormatterTimeMMSS}" />
+                                </lvc:CartesianChart.AxisX>
+                                <lvc:CartesianChart.AxisY>
+                                    <lvc:Axis Title="Диаметр зрачка, мм"
+                                              LabelFormatter="{Binding FormatterDoubleC2}" />
+                                </lvc:CartesianChart.AxisY>
+                            </lvc:CartesianChart>
+                        </TabItem>
+                        <TabItem Header="Левый глаз">
+
+                                    <lvc:CartesianChart LegendLocation="Right"
+                                                        Series="{Binding SeriesLeftEye}">
+                                        <lvc:CartesianChart.AxisX>
+                                            <lvc:Axis Title="Время, мм:сс"
+                                                      LabelFormatter="{Binding FormatterTimeMMSS}" />
+                                        </lvc:CartesianChart.AxisX>
+                                        <lvc:CartesianChart.AxisY>
+                                            <lvc:Axis Title="Диаметр зрачка, мм"
+                                                      LabelFormatter="{Binding FormatterDoubleC2}">
+                                                <lvc:Axis.Sections>
+                                                    <lvc:AxisSection Label="Bad"
+                                                                     SectionWidth="{Binding LeftEyeSDx2}"
+                                                                     Value="{Binding LeftEyeAvgMinusSD}">
+                                                        <lvc:AxisSection.Fill>
+                                                            <SolidColorBrush Opacity=".1"
+                                                                             Color="White" />
+                                                        </lvc:AxisSection.Fill>
+                                                    </lvc:AxisSection>
+                                                    <lvc:AxisSection Label="Bad"
+                                                                     SectionWidth="{Binding LeftEyeSDx4}"
+                                                                     Value="{Binding LeftEyeAvgMinus2SD}">
+                                                        <lvc:AxisSection.Fill>
+                                                            <SolidColorBrush Opacity=".1"
+                                                                             Color="White" />
+                                                        </lvc:AxisSection.Fill>
+                                                    </lvc:AxisSection>
+                                                    <lvc:AxisSection Label="Bad"
+                                                                     SectionWidth="{Binding LeftEyeSDx6}"
+                                                                     Value="{Binding LeftEyeAvgMinus3SD}">
+                                                        <lvc:AxisSection.Fill>
+                                                            <SolidColorBrush Opacity=".1"
+                                                                             Color="White" />
+                                                        </lvc:AxisSection.Fill>
+                                                    </lvc:AxisSection>
+                                                </lvc:Axis.Sections>
+                                            </lvc:Axis>
+                                        </lvc:CartesianChart.AxisY>
+                                    </lvc:CartesianChart>
+
+                        </TabItem>
+                        <TabItem Header="Правый глаз">
+
+                                    <lvc:CartesianChart LegendLocation="Right"
+                                                        Series="{Binding SeriesRightEye}">
+                                        <lvc:CartesianChart.AxisX>
+                                            <lvc:Axis Title="Время, мм:сс"
+                                                      LabelFormatter="{Binding FormatterTimeMMSS}" />
+                                        </lvc:CartesianChart.AxisX>
+                                        <lvc:CartesianChart.AxisY>
+                                            <lvc:Axis Title="Диаметр зрачка, мм"
+                                                      LabelFormatter="{Binding FormatterDoubleC2}">
+                                                <lvc:Axis.Sections>
+                                                    <lvc:AxisSection Label="Bad"
+                                                                     SectionWidth="{Binding RightEyeSDx2}"
+                                                                     Value="{Binding RightEyeAvgMinusSD}">
+                                                        <lvc:AxisSection.Fill>
+                                                            <SolidColorBrush Opacity=".1"
+                                                                             Color="White" />
+                                                        </lvc:AxisSection.Fill>
+                                                    </lvc:AxisSection>
+                                                    <lvc:AxisSection Label="Bad"
+                                                                     SectionWidth="{Binding RightEyeSDx4}"
+                                                                     Value="{Binding RightEyeAvgMinus2SD}">
+                                                        <lvc:AxisSection.Fill>
+                                                            <SolidColorBrush Opacity=".1"
+                                                                             Color="White" />
+                                                        </lvc:AxisSection.Fill>
+                                                    </lvc:AxisSection>
+                                                    <lvc:AxisSection Label="Bad"
+                                                                     SectionWidth="{Binding RightEyeSDx6}"
+                                                                     Value="{Binding RightEyeAvgMinus3SD}">
+                                                        <lvc:AxisSection.Fill>
+                                                            <SolidColorBrush Opacity=".1"
+                                                                             Color="White" />
+                                                        </lvc:AxisSection.Fill>
+                                                    </lvc:AxisSection>
+                                                </lvc:Axis.Sections>
+                                            </lvc:Axis>
+                                        </lvc:CartesianChart.AxisY>
+                                    </lvc:CartesianChart>
+                                </TabItem>
+
+                    </TabControl>
+
                 </TabItem.Content>
             </TabItem>
+
+            <TabItem x:Name="statisticGraphics">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Rectangle Width="10"
+                                   Height="10"
+                                   Fill="Black" />
+                        <TextBlock Margin="3">Статистический анализ</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <TabControl>
+                        <TabItem Header="Гистограмма распределения - левый глаз">
+                            <lvc:CartesianChart LegendLocation="Right"
+                                                Series="{Binding SeriesLeftEyeHistogram}">
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis Title="Разница между диаметрами зрачков, мм"
+                                              LabelFormatter="{Binding FormatterDoubleC2}"
+                                              Labels="{Binding SeriesLeftEyeHistogramLabels}" />
+                                </lvc:CartesianChart.AxisX>
+                                <lvc:CartesianChart.AxisY>
+                                    <lvc:Axis Title="Кол-во, шт"
+                                              LabelFormatter="{Binding FormatterInt}" />
+                                </lvc:CartesianChart.AxisY>
+                            </lvc:CartesianChart>
+                        </TabItem>
+                        <TabItem Header="Гистограмма распределения - правый глаз">
+                            <lvc:CartesianChart LegendLocation="Right"
+                                                Series="{Binding SeriesRightEyeHistogram}">
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis Title="Разница между диаметрами зрачков, мм"
+                                              LabelFormatter="{Binding FormatterDoubleC2}"
+                                              Labels="{Binding SeriesRightEyeHistogramLabels}" />
+                                </lvc:CartesianChart.AxisX>
+                                <lvc:CartesianChart.AxisY>
+                                    <lvc:Axis Title="Кол-во, шт"
+                                              LabelFormatter="{Binding FormatterInt}" />
+                                </lvc:CartesianChart.AxisY>
+                            </lvc:CartesianChart>
+                        </TabItem>
+                        <TabItem x:Name="BoxPlot" Header="Ящик с усами">
+                            <TabItem.Content>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="50" />
+                                    </Grid.RowDefinitions>
+                                    <lvc:CartesianChart Grid.Row="0"
+                                            Margin="0,63,0,0"
+                                            Series="{Binding SeriesBoxPlot}">
+                                        <lvc:CartesianChart.AxisX>
+                                            <lvc:Axis Labels="{Binding XLable}" />
+                                        </lvc:CartesianChart.AxisX>
+                                    </lvc:CartesianChart>
+                                    <StackPanel Grid.Row="1"
+                                    Orientation="Horizontal">
+                                        <Label VerticalAlignment="Center"
+                                   Content="Введите интервал времени в секундах" />
+                                        <TextBox Width="90"
+                                     VerticalAlignment="Center"
+                                     Text="{Binding IntervalBegin}" />
+                                        <Label VerticalAlignment="Center"
+                                   Content=" --- " />
+                                        <TextBox Width="90"
+                                     VerticalAlignment="Center"
+                                     Text="{Binding IntervalEnd}" />
+                                    </StackPanel>
+                                </Grid>
+                            </TabItem.Content>
+                        </TabItem>
+                    </TabControl>
+                </TabItem.Content>
+            </TabItem>
+
+
             <TabItem x:Name="deltaGraphic">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Rectangle Height="10" Width="10" Fill="Black" />
-                        <TextBlock Margin="3">Разница между зрачками</TextBlock>
+                        <Rectangle Width="10"
+                                   Height="10"
+                                   Fill="Black" />
+                        <TextBlock Margin="3">Разница диаметров зрачков</TextBlock>
                     </StackPanel>
                 </TabItem.Header>
                 <TabItem.Content>
-                    <lvc:CartesianChart Series="{Binding SeriesEyesDelta}" LegendLocation="Right" >
+
+                    <lvc:CartesianChart LegendLocation="Right"
+                                                Series="{Binding SeriesEyesDelta}">
                         <lvc:CartesianChart.AxisX>
-                            <lvc:Axis Title="Время, мм:сс" LabelFormatter="{Binding XFormatter2}"></lvc:Axis>
+                            <lvc:Axis Title="Время, мм:сс"
+                                              LabelFormatter="{Binding FormatterTimeMMSS}" />
                         </lvc:CartesianChart.AxisX>
                         <lvc:CartesianChart.AxisY>
-                            <lvc:Axis Title="Разница между диаметрами зрачков"  LabelFormatter="{Binding YFormatter2}"></lvc:Axis>
+                            <lvc:Axis Title="Разница между диаметрами зрачков, мм"
+                                              LabelFormatter="{Binding FormatterDoubleC2}">
+                                <lvc:Axis.Sections>
+                                    <lvc:AxisSection Label="Bad"
+                                                             SectionWidth="{Binding EyesDeltaSDx2}"
+                                                             Value="{Binding EyesDeltaAvgMinusSD}">
+                                        <lvc:AxisSection.Fill>
+                                            <SolidColorBrush Opacity=".1"
+                                                                     Color="White" />
+                                        </lvc:AxisSection.Fill>
+                                    </lvc:AxisSection>
+                                    <lvc:AxisSection Label="Bad"
+                                                             SectionWidth="{Binding EyesDeltaSDx4}"
+                                                             Value="{Binding EyesDeltaAvgMinus2SD}">
+                                        <lvc:AxisSection.Fill>
+                                            <SolidColorBrush Opacity=".1"
+                                                                     Color="White" />
+                                        </lvc:AxisSection.Fill>
+                                    </lvc:AxisSection>
+                                    <lvc:AxisSection Label="Bad"
+                                                             SectionWidth="{Binding EyesDeltaSDx6}"
+                                                             Value="{Binding EyesDeltaAvgMinus3SD}">
+                                        <lvc:AxisSection.Fill>
+                                            <SolidColorBrush Opacity=".1"
+                                                                     Color="White" />
+                                        </lvc:AxisSection.Fill>
+                                    </lvc:AxisSection>
+                                </lvc:Axis.Sections>
+
+
+                            </lvc:Axis>
                         </lvc:CartesianChart.AxisY>
                     </lvc:CartesianChart>
+
+
+
+
                 </TabItem.Content>
             </TabItem>
-            <TabItem x:Name="BoxPlot">
-                <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <Rectangle Height="10" Width="10" Fill="Black" />
-                        <TextBlock Margin="3">Ящик с усами</TextBlock>
-                    </StackPanel>
-                </TabItem.Header>
-                <TabItem.Content>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="50"/>
-                        </Grid.RowDefinitions>
-                          <lvc:CartesianChart Grid.Row="0" Series="{Binding SeriesBoxPlot}" Margin="0,63,0,0">
-                            <lvc:CartesianChart.AxisX>
-                                <lvc:Axis Labels="{Binding XLable}"/>
-                            </lvc:CartesianChart.AxisX>
-                        </lvc:CartesianChart>
-                        <StackPanel Grid.Row="1" Orientation="Horizontal">
-                            <Label Content="Введите интервал времени в секундах" VerticalAlignment="Center"/>
-                            <TextBox Text="{Binding IntervalBegin}" VerticalAlignment="Center" Width="90"/>
-                            <Label Content=" --- " VerticalAlignment="Center"/>
-                            <TextBox Text="{Binding IntervalEnd}" VerticalAlignment="Center" Width="90"/>
-                        </StackPanel>
-                    </Grid>
-                </TabItem.Content>
-            </TabItem>
+           
             <TabItem x:Name="Spectre">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Rectangle Height="10" Width="10" Fill="Black" />
-                        <TextBlock Margin="3">Спектральное распределение</TextBlock>
+                        <Rectangle Width="10"
+                                   Height="10"
+                                   Fill="Black" />
+                        <TextBlock Margin="3">Анализ БПФ</TextBlock>
                     </StackPanel>
                 </TabItem.Header>
-                <TabItem.Content>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="50"/>
-                        </Grid.RowDefinitions>
-                        <Grid VerticalAlignment="Stretch">
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <lvc:CartesianChart DisableAnimations="True" Hoverable="False" DataTooltip="{x:Null}" Series="{Binding SeriesSignalSpectre}" LegendLocation="Right" >
-                                <lvc:CartesianChart.AxisX>
-                                    <lvc:Axis Title="Абсцисса, (угол в рад)" LabelFormatter="{Binding XFormatter2}"></lvc:Axis>
-                                </lvc:CartesianChart.AxisX>
-                                <lvc:CartesianChart.AxisY>
-                                    <lvc:Axis Title="Амплитуда, отн.ед."  LabelFormatter="{Binding YFormatter2}"></lvc:Axis>
-                                </lvc:CartesianChart.AxisY>
-                            </lvc:CartesianChart>
-                            <lvc:CartesianChart DisableAnimations="True" Hoverable="False" DataTooltip="{x:Null}" Grid.Row="1" Series="{Binding SeriesSpectre}" LegendLocation="Right" >
-                                <lvc:CartesianChart.AxisX>
-                                    <lvc:Axis Title="Частота, Гц ??" LabelFormatter="{Binding XFormatter3}"></lvc:Axis>
-                                </lvc:CartesianChart.AxisX>
-                                <lvc:CartesianChart.AxisY>
-                                    <lvc:Axis Title="Мощность ??"  LabelFormatter="{Binding YFormatter3}"></lvc:Axis>
-                                </lvc:CartesianChart.AxisY>
-                            </lvc:CartesianChart>
-                        </Grid>
+                <TabControl>
+                    <TabItem Header="Левый зрачок">
 
-                        <StackPanel Grid.Row="1" Orientation="Horizontal">
-                            <Label Content="Введите интервал времени в секундах" VerticalAlignment="Center"/>
-                            <TextBox Text="{Binding IntervalBegin}" VerticalAlignment="Center" Width="90"/>
-                            <Label Content=" --- " VerticalAlignment="Center"/>
-                            <TextBox Text="{Binding IntervalEnd}" VerticalAlignment="Center" Width="90"/>
-                        </StackPanel>
-                    </Grid>
-                </TabItem.Content>
+
+                            <lvc:CartesianChart Grid.Row="1"
+                                                DataTooltip="{x:Null}"
+                                                DisableAnimations="True"
+                                                Hoverable="False"
+                                                LegendLocation="Right"
+                                                Series="{Binding SeriesLeftEyeSpectre}">
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis Title="Частота, Гц"
+                                              LabelFormatter="{Binding FormatterDoubleC2}" />
+                                </lvc:CartesianChart.AxisX>
+                                <lvc:CartesianChart.AxisY>
+                                    <lvc:Axis Title="Амплитуда, дБ"
+                                              LabelFormatter="{Binding FormatterDoubleC2}" />
+                                </lvc:CartesianChart.AxisY>
+                            </lvc:CartesianChart>
+
+                    </TabItem>
+                    <TabItem Header="Правый зрачок">
+
+                            <lvc:CartesianChart Grid.Row="1"
+                                                DataTooltip="{x:Null}"
+                                                DisableAnimations="True"
+                                                Hoverable="False"
+                                                LegendLocation="Right"
+                                                Series="{Binding SeriesRightEyeSpectre}">
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis Title="Частота, Гц"
+                                              LabelFormatter="{Binding FormatterDoubleC2}" />
+                                </lvc:CartesianChart.AxisX>
+                                <lvc:CartesianChart.AxisY>
+                                <lvc:Axis Title="Амплитуда, дБ"
+                                              LabelFormatter="{Binding FormatterDoubleC2}" />
+                                </lvc:CartesianChart.AxisY>
+                            </lvc:CartesianChart>
+
+                    </TabItem>
+
+                </TabControl>
             </TabItem>
         </TabControl>
     </Grid>
